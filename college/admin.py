@@ -1,10 +1,7 @@
 from django.contrib import admin
-from . import models
+from .models import *
+from django.contrib.auth.admin import UserAdmin
 # Register your models here.
-admin.site.register(models.College)
-admin.site.register(models.Cource)
-admin.site.register(models.Semester)
-admin.site.register(models.Subject_Type)
-admin.site.register(models.Subject)
-admin.site.register(models.Exam)
-admin.site.register(models.Paper)
+class UserModel(UserAdmin):
+    list_display = ['username','userType']
+admin.site.register(CustomUser, UserModel)
