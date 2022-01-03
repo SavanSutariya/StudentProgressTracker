@@ -5,10 +5,17 @@ from django.contrib.auth import authenticate,logout,login
 # Create your views here.
 
 def home(request):
-    return redirect('login')
+    if request.user.is_authenticated:
+        if request.user.userType == '1':
+            return redirect('college-admin')
+        elif request.user.userType == '2':
+            return redirect('college-admin')
+    else:
+        return redirect('login')
 def Login(request):
     return render(request,template_name='college/login.html')
-
+def college_admin_view(request):
+    return render(request,"college/college_admin.html")
 def dologin(request):
     print(request.method)
     if request.method == "POST":
@@ -18,7 +25,7 @@ def dologin(request):
             login(request,user)
             user_type = user.userType
             if user_type == '1':
-                return HttpResponse("Admin")
+                return redirect('college-admin')
             elif user_type == '2':
                 return HttpResponse("Faculty")
             elif user_type == '3':
