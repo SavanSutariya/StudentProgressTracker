@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend, UserModel
-
 class EmailBackEnd(ModelBackend):
     def authenticate(self,username=None,password=None,**kwargs):
         userModel = get_user_model()
@@ -13,4 +12,4 @@ class EmailBackEnd(ModelBackend):
                 return user
         return None
 
-        return super().authenticate(request, **kwargs)
+        # return super().authenticate(request, **kwargs)
