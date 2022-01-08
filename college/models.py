@@ -17,18 +17,18 @@ class College(models.Model):
         super().save()
     
 
-class Cource(models.Model):
+class Course(models.Model):
     name = models.CharField(max_length=50)
     college = models.ForeignKey(College, on_delete=models.CASCADE)
     def __str__(self):
-        return self.name
+        return self.name+" :"+self.college.name
 
 class Semester(models.Model):
     number = models.IntegerField()
-    cource = models.ForeignKey(Cource, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     def __str__(self):
         # return str(self.number)
-        return self.cource.name+" :"+str(self.number)
+        return self.course.name+" :"+str(self.number)
 
 class SubjectType(models.Model):
     name = models.CharField(max_length=30)

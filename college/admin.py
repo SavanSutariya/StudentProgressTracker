@@ -10,7 +10,7 @@ class subjectModel(ModelAdmin):
 
 admin.site.register(CustomUser)
 admin.site.register(College)
-admin.site.register(Cource)
+admin.site.register(Course)
 admin.site.register(Semester)
 admin.site.register(SubjectType)
 admin.site.register(Subject,subjectModel)
