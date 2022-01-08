@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>SPT | {{user.college.name}} | {% block site_title %}{% endblock site_title %}</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -36,7 +36,7 @@
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="{% static 'college/dist/img/AdminLTELogo.png' %}" alt="AdminLTELogo" height="60" width="60">
+            <img class="animation__shake" src="{% static 'college/dist/img/AdminLTELogo.png' %}" alt="Logo" height="60" width="60">
         </div>
 
         <!-- Navbar -->
@@ -174,9 +174,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#"
-                        role="button">
-                        <i class="fas fa-th-large"></i>
+                    <a class="nav-link" href="{% url 'logout' %}">
+                        <i class="fas fa-sign-out-alt"></i>
                     </a>
                 </li>
             </ul>
@@ -884,9 +883,6 @@
     <script src="{% static 'college/plugins/chart.js/Chart.min.js' %}"></script>
     <!-- Sparkline -->
     <script src="{% static 'college/plugins/sparklines/sparkline.js' %}"></script>
-    <!-- JQVMap -->
-    <script src="{% static 'college/plugins/jqvmap/jquery.vmap.min.js' %}"></script>
-    <script src="{% static 'college/plugins/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
     <!-- jQuery Knob Chart -->
     <script src="{% static 'college/plugins/jquery-knob/jquery.knob.min.js' %}"></script>
     <!-- daterangepicker -->
