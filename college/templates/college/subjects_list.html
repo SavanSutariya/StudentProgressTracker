@@ -3,6 +3,23 @@
 {% block content %}
 <div class="card">
     <div class="card-header">
+        <td class="project-actions text-right" align:"right">
+            <a class="btn btn-primary btn-sm" href="{% url 'add-subject' subjects_list.0.semester.course.id %}">
+                <i class="fas fa-folder">
+                </i>
+                &nbsp;  Add Subject
+            </a>
+            <a class="btn btn-info btn-sm" href="">
+                <i class="fas fa-pencil-alt">
+                </i>
+                Edit
+            </a>
+            <a class="btn btn-danger btn-sm" href="#">
+                <i class="fas fa-trash">
+                </i>
+                Delete
+            </a>
+        </td>
       <h3 class="card-title">Subjects</h3>
 
       <div class="card-tools">
