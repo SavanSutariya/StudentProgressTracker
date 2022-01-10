@@ -27,18 +27,20 @@ def add_subject(request,pk):
     semesters_list = Semester.objects.filter(course=pk)
     subject_type = SubjectType.objects.all()
 
-
     if request.method == "POST":
         subject_code =  request.POST.get('subject_code')
         subject_name =  request.POST.get('subject_name')
-        sub_type =  SubjectType.objects.get(id = request.POST.get('subject_type'))
-        semesters =  Semester.objects.get(id = request.POST.get('semesters_list'))
+        #subject_types =  request.POST.get('subject_types')
+        #semesters =  request.POST.get('semester')
+        sub_type =  SubjectType.objects.get(id = request.POST.get('subject_types'))
+        semesters =  Semester.objects.get(id = request.POST.get('semester'))
         
 
-        '''if Subject.objects.filter(code=subject_code).exists():
+        if Subject.objects.filter(code=subject_code).exists():
             print('Alredy added')
             return redirect('add-subject',pk)
-        else:                subject = Subject(
+        else:                
+            subject = Subject(
                 code = subject_code,
                 name = subject_name,
                 sub_type = sub_type,
@@ -46,9 +48,9 @@ def add_subject(request,pk):
             )
             subject.save()
             print('Added successfully')
-            return redirect('add-student',pk)'''
+            return redirect('add-subject',pk)
         
-        print(subject_code,subject_name,sub_type,semesters)
+        #print(subject_code,subject_name,subject_types,semesters)
  
     context = {
         'subject_type' : subject_type,

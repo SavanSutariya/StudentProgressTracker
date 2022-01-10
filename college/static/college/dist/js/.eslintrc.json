@@ -1,0 +1,71 @@
+{
+  "root": true,
+  "parserOptions": {
+    "ecmaVersion": 5,
+    "sourceType": "script"
+  },
+  "env": {
+    "jquery": true
+  },
+  "extends": [
+    "plugin:unicorn/recommended",
+    "xo",
+    "xo/browser"
+  ],
+  "rules": {
+    "capitalized-comments": "off",
+<<<<<<< HEAD
+=======
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+>>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
+    "indent": [
+      "error",
+      2,
+      {
+        "MemberExpression": "off",
+        "SwitchCase": 1
+      }
+    ],
+    "multiline-ternary": [
+      "error",
+      "always-multiline"
+    ],
+<<<<<<< HEAD
+=======
+    "no-var": "off",
+>>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+<<<<<<< HEAD
+=======
+    "object-shorthand": "off",
+    "prefer-arrow-callback": "off",
+>>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
+    "semi": [
+      "error",
+      "never"
+    ],
+    "strict": "error",
+    "unicorn/no-array-for-each": "off",
+    "unicorn/no-for-loop": "off",
+    "unicorn/no-null": "off",
+<<<<<<< HEAD
+    "unicorn/prefer-dataset": "off",
+    "unicorn/prefer-includes": "off",
+=======
+    "unicorn/numeric-separators-style": "off",
+    "unicorn/prefer-dataset": "off",
+    "unicorn/prefer-includes": "off",
+    "unicorn/prefer-module": "off",
+>>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
+    "unicorn/prefer-node-append": "off",
+    "unicorn/prefer-query-selector": "off",
+    "unicorn/prefer-spread": "off",
+    "unicorn/prevent-abbreviations": "off"
+  }
+}
