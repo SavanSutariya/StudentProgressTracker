@@ -16,7 +16,9 @@ def home(request):
 
 def Login(request):
     return render(request,template_name='college/login.html')
-
+def Logout(request):
+    logout(request)
+    return redirect('home')
 def dologin(request):
     if request.method == "POST":
         user = EmailBackEnd.authenticate(request,username = request.POST.get('email'),password = request.POST.get('password'))

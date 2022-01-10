@@ -24,7 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('college/', include('college.urls')),
     path('login/', views.Login,name="login"),
-    path('dologin/', views.dologin,name="do-login")
+    path('dologin/', views.dologin,name="do-login"),
+    path('logout/', views.Logout,name="logout")
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,5 +1,6 @@
 from django.shortcuts import HttpResponse,redirect,render
 from .models import *
+from django.core.exceptions import PermissionDenied
 def Home(request):
     return render(request,"college/college_dashboard.html")
 def Course_list(request):
@@ -7,6 +8,8 @@ def Course_list(request):
     return render(request,"college/courses_list.html",{'courses':courses})
 
 def subjects_list(request,pk):
+    if(request.user.college != Course.objects.get(pk=pk).college): #check college admin related college
+        raise PermissionDenied       
     subjects_list = []
     semesters_list = Semester.objects.filter(course=pk)
 

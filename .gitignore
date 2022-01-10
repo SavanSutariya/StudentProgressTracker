@@ -28,7 +28,9 @@ Notes.txt
 .Python
 build/
 develop-eggs/
-
+<<<<<<< HEAD
+=======
+>>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 downloads/
 eggs/
 .eggs/
