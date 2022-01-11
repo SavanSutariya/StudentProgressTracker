@@ -1,9 +1,5 @@
 /*!
-<<<<<<< HEAD
  * AdminLTE v3.1.0 (https://adminlte.io)
-=======
- * AdminLTE v3.2.0-rc (https://adminlte.io)
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
  * Copyright 2014-2021 Colorlib <https://colorlib.com>
  * Licensed under MIT (https://github.com/ColorlibHQ/AdminLTE/blob/master/LICENSE)
  */
@@ -46,24 +42,12 @@
     content: '.card-body',
     loadInContent: true,
     loadOnInit: true,
-<<<<<<< HEAD
     responseType: '',
     overlayTemplate: '<div class="overlay"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>',
     onLoadStart: function onLoadStart() {},
     onLoadDone: function onLoadDone(response) {
       return response;
     }
-=======
-    loadErrorTemplate: true,
-    responseType: '',
-    overlayTemplate: '<div class="overlay"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>',
-    errorTemplate: '<span class="text-danger"></span>',
-    onLoadStart: function onLoadStart() {},
-    onLoadDone: function onLoadDone(response) {
-      return response;
-    },
-    onLoadFail: function onLoadFail(_jqXHR, _textStatus, _errorThrown) {}
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   };
 
   var CardRefresh = /*#__PURE__*/function () {
@@ -103,21 +87,7 @@
         _this._settings.onLoadDone.call($__default['default'](_this), response);
 
         _this._removeOverlay();
-<<<<<<< HEAD
       }, this._settings.responseType !== '' && this._settings.responseType);
-=======
-      }, this._settings.responseType !== '' && this._settings.responseType).fail(function (jqXHR, textStatus, errorThrown) {
-        _this._removeOverlay();
-
-        if (_this._settings.loadErrorTemplate) {
-          var msg = $__default['default'](_this._settings.errorTemplate).text(errorThrown);
-
-          _this._parent.find(_this._settings.content).empty().append(msg);
-        }
-
-        _this._settings.onLoadFail.call($__default['default'](_this), jqXHR, textStatus, errorThrown);
-      });
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       $__default['default'](this._element).trigger($__default['default'].Event(EVENT_LOADED));
     };
 
@@ -439,10 +409,6 @@
   var EVENT_KEY$5 = "." + DATA_KEY$c;
   var JQUERY_NO_CONFLICT$c = $__default['default'].fn[NAME$c];
   var EVENT_COLLAPSED$3 = "collapsed" + EVENT_KEY$5;
-<<<<<<< HEAD
-=======
-  var EVENT_COLLAPSED_DONE$1 = "collapsed-done" + EVENT_KEY$5;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   var EVENT_EXPANDED$2 = "expanded" + EVENT_KEY$5;
   var SELECTOR_CONTROL_SIDEBAR = '.control-sidebar';
   var SELECTOR_CONTROL_SIDEBAR_CONTENT$1 = '.control-sidebar-content';
@@ -467,12 +433,7 @@
     controlsidebarSlide: true,
     scrollbarTheme: 'os-theme-light',
     scrollbarAutoHide: 'l',
-<<<<<<< HEAD
     target: SELECTOR_CONTROL_SIDEBAR
-=======
-    target: SELECTOR_CONTROL_SIDEBAR,
-    animationSpeed: 300
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   };
   /**
    * Class Definition
@@ -489,11 +450,6 @@
     var _proto = ControlSidebar.prototype;
 
     _proto.collapse = function collapse() {
-<<<<<<< HEAD
-=======
-      var _this = this;
-
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       var $body = $__default['default']('body');
       var $html = $__default['default']('html');
       var target = this._config.target; // Show the control sidebar
@@ -510,12 +466,6 @@
       }
 
       $__default['default'](this._element).trigger($__default['default'].Event(EVENT_COLLAPSED$3));
-<<<<<<< HEAD
-=======
-      setTimeout(function () {
-        $__default['default'](_this._element).trigger($__default['default'].Event(EVENT_COLLAPSED_DONE$1));
-      }, this._config.animationSpeed);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
     };
 
     _proto.show = function show() {
@@ -557,11 +507,7 @@
     ;
 
     _proto._init = function _init() {
-<<<<<<< HEAD
       var _this = this;
-=======
-      var _this2 = this;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 
       var $body = $__default['default']('body');
       var shouldNotHideAll = $body.hasClass(CLASS_NAME_CONTROL_SIDEBAR_OPEN$1) || $body.hasClass(CLASS_NAME_CONTROL_SIDEBAR_SLIDE);
@@ -578,26 +524,16 @@
       this._fixScrollHeight();
 
       $__default['default'](window).resize(function () {
-<<<<<<< HEAD
         _this._fixHeight();
 
         _this._fixScrollHeight();
-=======
-        _this2._fixHeight();
-
-        _this2._fixScrollHeight();
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       });
       $__default['default'](window).scroll(function () {
         var $body = $__default['default']('body');
         var shouldFixHeight = $body.hasClass(CLASS_NAME_CONTROL_SIDEBAR_OPEN$1) || $body.hasClass(CLASS_NAME_CONTROL_SIDEBAR_SLIDE);
 
         if (shouldFixHeight) {
-<<<<<<< HEAD
           _this._fixScrollHeight();
-=======
-          _this2._fixScrollHeight();
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
         }
       });
     };
@@ -1103,10 +1039,6 @@
   var JQUERY_NO_CONFLICT$8 = $__default['default'].fn[NAME$8];
   var SELECTOR_DATA_WIDGET$2 = '[data-widget="fullscreen"]';
   var SELECTOR_ICON = SELECTOR_DATA_WIDGET$2 + " i";
-<<<<<<< HEAD
-=======
-  var EVENT_FULLSCREEN_CHANGE = 'webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange';
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   var Default$8 = {
     minimizeIcon: 'fa-compress-arrows-alt',
     maximizeIcon: 'fa-expand-arrows-alt'
@@ -1133,17 +1065,6 @@
       }
     };
 
-<<<<<<< HEAD
-=======
-    _proto.toggleIcon = function toggleIcon() {
-      if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
-        $__default['default'](SELECTOR_ICON).removeClass(this.options.maximizeIcon).addClass(this.options.minimizeIcon);
-      } else {
-        $__default['default'](SELECTOR_ICON).removeClass(this.options.minimizeIcon).addClass(this.options.maximizeIcon);
-      }
-    };
-
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
     _proto.fullscreen = function fullscreen() {
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen();
@@ -1152,11 +1073,8 @@
       } else if (document.documentElement.msRequestFullscreen) {
         document.documentElement.msRequestFullscreen();
       }
-<<<<<<< HEAD
 
       $__default['default'](SELECTOR_ICON).removeClass(this.options.maximizeIcon).addClass(this.options.minimizeIcon);
-=======
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
     };
 
     _proto.windowed = function windowed() {
@@ -1167,11 +1085,8 @@
       } else if (document.msExitFullscreen) {
         document.msExitFullscreen();
       }
-<<<<<<< HEAD
 
       $__default['default'](SELECTOR_ICON).removeClass(this.options.minimizeIcon).addClass(this.options.maximizeIcon);
-=======
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
     } // Static
     ;
 
@@ -1187,11 +1102,7 @@
       var plugin = new Fullscreen($__default['default'](this), _options);
       $__default['default'](this).data(DATA_KEY$8, typeof config === 'object' ? config : data);
 
-<<<<<<< HEAD
       if (typeof config === 'string' && /toggle|fullscreen|windowed/.test(config)) {
-=======
-      if (typeof config === 'string' && /toggle|toggleIcon|fullscreen|windowed/.test(config)) {
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
         plugin[config]();
       } else {
         plugin.init();
@@ -1209,12 +1120,6 @@
   $__default['default'](document).on('click', SELECTOR_DATA_WIDGET$2, function () {
     Fullscreen._jQueryInterface.call($__default['default'](this), 'toggle');
   });
-<<<<<<< HEAD
-=======
-  $__default['default'](document).on(EVENT_FULLSCREEN_CHANGE, function () {
-    Fullscreen._jQueryInterface.call($__default['default'](SELECTOR_DATA_WIDGET$2), 'toggleIcon');
-  });
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   /**
    * jQuery API
    * ====================================================
@@ -1249,19 +1154,11 @@
   var SELECTOR_DATA_TOGGLE_FULLSCREEN = '[data-widget="iframe-fullscreen"]';
   var SELECTOR_CONTENT_WRAPPER = '.content-wrapper';
   var SELECTOR_CONTENT_IFRAME = SELECTOR_CONTENT_WRAPPER + " iframe";
-<<<<<<< HEAD
   var SELECTOR_TAB_NAV = SELECTOR_DATA_TOGGLE$1 + ".iframe-mode .nav";
   var SELECTOR_TAB_NAVBAR_NAV = SELECTOR_DATA_TOGGLE$1 + ".iframe-mode .navbar-nav";
   var SELECTOR_TAB_NAVBAR_NAV_ITEM = SELECTOR_TAB_NAVBAR_NAV + " .nav-item";
   var SELECTOR_TAB_NAVBAR_NAV_LINK = SELECTOR_TAB_NAVBAR_NAV + " .nav-link";
   var SELECTOR_TAB_CONTENT = SELECTOR_DATA_TOGGLE$1 + ".iframe-mode .tab-content";
-=======
-  var SELECTOR_TAB_NAV = SELECTOR_CONTENT_WRAPPER + ".iframe-mode .nav";
-  var SELECTOR_TAB_NAVBAR_NAV = SELECTOR_CONTENT_WRAPPER + ".iframe-mode .navbar-nav";
-  var SELECTOR_TAB_NAVBAR_NAV_ITEM = SELECTOR_TAB_NAVBAR_NAV + " .nav-item";
-  var SELECTOR_TAB_NAVBAR_NAV_LINK = SELECTOR_TAB_NAVBAR_NAV + " .nav-link";
-  var SELECTOR_TAB_CONTENT = SELECTOR_CONTENT_WRAPPER + ".iframe-mode .tab-content";
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   var SELECTOR_TAB_EMPTY = SELECTOR_TAB_CONTENT + " .tab-empty";
   var SELECTOR_TAB_LOADING = SELECTOR_TAB_CONTENT + " .tab-loading";
   var SELECTOR_TAB_PANE = SELECTOR_TAB_CONTENT + " .tab-pane";
@@ -1269,11 +1166,7 @@
   var SELECTOR_SIDEBAR_SEARCH_ITEM = '.sidebar-search-results .list-group-item';
   var SELECTOR_HEADER_MENU_ITEM = '.main-header .nav-item a.nav-link';
   var SELECTOR_HEADER_DROPDOWN_ITEM = '.main-header a.dropdown-item';
-<<<<<<< HEAD
   var CLASS_NAME_IFRAME_MODE = 'iframe-mode';
-=======
-  var CLASS_NAME_IFRAME_MODE$1 = 'iframe-mode';
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   var CLASS_NAME_FULLSCREEN_MODE = 'iframe-mode-fullscreen';
   var Default$7 = {
     onTabClick: function onTabClick(item) {
@@ -1288,13 +1181,7 @@
     autoIframeMode: true,
     autoItemActive: true,
     autoShowNewTab: true,
-<<<<<<< HEAD
     allowDuplicates: false,
-=======
-    autoDarkMode: false,
-    allowDuplicates: false,
-    allowReload: true,
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
     loadingScreen: true,
     useNavbarItems: true,
     scrollOffset: 40,
@@ -1395,19 +1282,11 @@
         return;
       }
 
-<<<<<<< HEAD
       var uniqueName = link.replace('./', '').replace(/["&'./:=?[\]]/gi, '-').replace(/(--)/gi, '');
       var navId = "tab-" + uniqueName;
 
       if (!this._config.allowDuplicates && $__default['default']("#" + navId).length > 0) {
         return this.switchTab("#" + navId);
-=======
-      var uniqueName = link.replace('./', '').replace(/["#&'./:=?[\]]/gi, '-').replace(/(--)/gi, '');
-      var navId = "tab-" + uniqueName;
-
-      if (!this._config.allowDuplicates && $__default['default']("#" + navId).length > 0) {
-        return this.switchTab("#" + navId, this._config.allowReload);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       }
 
       if (!this._config.allowDuplicates && $__default['default']("#" + navId).length === 0 || this._config.allowDuplicates) {
@@ -1415,46 +1294,10 @@
       }
     };
 
-<<<<<<< HEAD
     _proto.switchTab = function switchTab(item) {
       var $item = $__default['default'](item);
       var tabId = $item.attr('href');
       $__default['default'](SELECTOR_TAB_EMPTY).hide();
-=======
-    _proto.switchTab = function switchTab(item, reload) {
-      var _this2 = this;
-
-      if (reload === void 0) {
-        reload = false;
-      }
-
-      var $item = $__default['default'](item);
-      var tabId = $item.attr('href');
-      $__default['default'](SELECTOR_TAB_EMPTY).hide();
-
-      if (reload) {
-        var $loadingScreen = $__default['default'](SELECTOR_TAB_LOADING);
-
-        if (this._config.loadingScreen) {
-          $loadingScreen.show(0, function () {
-            $__default['default'](tabId + " iframe").attr('src', $__default['default'](tabId + " iframe").attr('src')).ready(function () {
-              if (_this2._config.loadingScreen) {
-                if (typeof _this2._config.loadingScreen === 'number') {
-                  setTimeout(function () {
-                    $loadingScreen.fadeOut();
-                  }, _this2._config.loadingScreen);
-                } else {
-                  $loadingScreen.fadeOut();
-                }
-              }
-            });
-          });
-        } else {
-          $__default['default'](tabId + " iframe").attr('src', $__default['default'](tabId + " iframe").attr('src'));
-        }
-      }
-
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       $__default['default'](SELECTOR_TAB_NAVBAR_NAV + " .active").tab('dispose').removeClass('active');
 
       this._fixHeight();
@@ -1516,15 +1359,9 @@
       if ($__default['default']('body').hasClass(CLASS_NAME_FULLSCREEN_MODE)) {
         $__default['default'](SELECTOR_DATA_TOGGLE_FULLSCREEN + " i").removeClass(this._config.iconMinimize).addClass(this._config.iconMaximize);
         $__default['default']('body').removeClass(CLASS_NAME_FULLSCREEN_MODE);
-<<<<<<< HEAD
         $__default['default'](SELECTOR_TAB_EMPTY + ", " + SELECTOR_TAB_LOADING).height('auto');
         $__default['default'](SELECTOR_CONTENT_WRAPPER).height('auto');
         $__default['default'](SELECTOR_CONTENT_IFRAME).height('auto');
-=======
-        $__default['default'](SELECTOR_TAB_EMPTY + ", " + SELECTOR_TAB_LOADING).height('100%');
-        $__default['default'](SELECTOR_CONTENT_WRAPPER).height('100%');
-        $__default['default'](SELECTOR_CONTENT_IFRAME).height('100%');
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       } else {
         $__default['default'](SELECTOR_DATA_TOGGLE_FULLSCREEN + " i").removeClass(this._config.iconMaximize).addClass(this._config.iconMinimize);
         $__default['default']('body').addClass(CLASS_NAME_FULLSCREEN_MODE);
@@ -1537,7 +1374,6 @@
     ;
 
     _proto._init = function _init() {
-<<<<<<< HEAD
       if (window.frameElement && this._config.autoIframeMode) {
         $__default['default']('body').addClass(CLASS_NAME_IFRAME_MODE);
       } else if ($__default['default'](SELECTOR_CONTENT_WRAPPER).hasClass(CLASS_NAME_IFRAME_MODE)) {
@@ -1551,32 +1387,6 @@
         this._setupListeners();
 
         this._fixHeight(true);
-=======
-      var usingDefTab = $__default['default'](SELECTOR_TAB_CONTENT).children().length > 2;
-
-      this._setupListeners();
-
-      this._fixHeight(true);
-
-      if (usingDefTab) {
-        var $el = $__default['default']("" + SELECTOR_TAB_PANE).first(); // eslint-disable-next-line no-console
-
-        console.log($el);
-        var uniqueName = $el.attr('id').replace('panel-', '');
-        var navId = "#tab-" + uniqueName;
-        this.switchTab(navId, true);
-      }
-    };
-
-    _proto._initFrameElement = function _initFrameElement() {
-      if (window.frameElement && this._config.autoIframeMode) {
-        var $body = $__default['default']('body');
-        $body.addClass(CLASS_NAME_IFRAME_MODE$1);
-
-        if (this._config.autoDarkMode) {
-          $body.addClass('dark-mode');
-        }
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       }
     };
 
@@ -1588,7 +1398,6 @@
     };
 
     _proto._setupListeners = function _setupListeners() {
-<<<<<<< HEAD
       var _this2 = this;
 
       $__default['default'](window).on('resize', function () {
@@ -1608,57 +1417,21 @@
 
           _this2.openTabSidebar(e.target);
         });
-=======
-      var _this3 = this;
-
-      $__default['default'](window).on('resize', function () {
-        setTimeout(function () {
-          _this3._fixHeight();
-        }, 1);
-      });
-
-      if ($__default['default'](SELECTOR_CONTENT_WRAPPER).hasClass(CLASS_NAME_IFRAME_MODE$1)) {
-        $__default['default'](document).on('click', SELECTOR_SIDEBAR_MENU_ITEM + ", " + SELECTOR_SIDEBAR_SEARCH_ITEM, function (e) {
-          e.preventDefault();
-
-          _this3.openTabSidebar(e.target);
-        });
-
-        if (this._config.useNavbarItems) {
-          $__default['default'](document).on('click', SELECTOR_HEADER_MENU_ITEM + ", " + SELECTOR_HEADER_DROPDOWN_ITEM, function (e) {
-            e.preventDefault();
-
-            _this3.openTabSidebar(e.target);
-          });
-        }
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       }
 
       $__default['default'](document).on('click', SELECTOR_TAB_NAVBAR_NAV_LINK, function (e) {
         e.preventDefault();
 
-<<<<<<< HEAD
         _this2.onTabClick(e.target);
 
         _this2.switchTab(e.target);
-=======
-        _this3.onTabClick(e.target);
-
-        _this3.switchTab(e.target);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       });
       $__default['default'](document).on('click', SELECTOR_TAB_NAVBAR_NAV_LINK, function (e) {
         e.preventDefault();
 
-<<<<<<< HEAD
         _this2.onTabClick(e.target);
 
         _this2.switchTab(e.target);
-=======
-        _this3.onTabClick(e.target);
-
-        _this3.switchTab(e.target);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       });
       $__default['default'](document).on('click', SELECTOR_DATA_TOGGLE_CLOSE, function (e) {
         e.preventDefault();
@@ -1668,81 +1441,47 @@
           target = e.target.offsetParent;
         }
 
-<<<<<<< HEAD
         _this2.removeActiveTab(target.attributes['data-type'] ? target.attributes['data-type'].nodeValue : null, target);
-=======
-        _this3.removeActiveTab(target.attributes['data-type'] ? target.attributes['data-type'].nodeValue : null, target);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       });
       $__default['default'](document).on('click', SELECTOR_DATA_TOGGLE_FULLSCREEN, function (e) {
         e.preventDefault();
 
-<<<<<<< HEAD
         _this2.toggleFullscreen();
-=======
-        _this3.toggleFullscreen();
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       });
       var mousedown = false;
       var mousedownInterval = null;
       $__default['default'](document).on('mousedown', SELECTOR_DATA_TOGGLE_SCROLL_LEFT, function (e) {
         e.preventDefault();
         clearInterval(mousedownInterval);
-<<<<<<< HEAD
         var scrollOffset = _this2._config.scrollOffset;
 
         if (!_this2._config.scrollBehaviorSwap) {
-=======
-        var scrollOffset = _this3._config.scrollOffset;
-
-        if (!_this3._config.scrollBehaviorSwap) {
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
           scrollOffset = -scrollOffset;
         }
 
         mousedown = true;
 
-<<<<<<< HEAD
         _this2._navScroll(scrollOffset);
 
         mousedownInterval = setInterval(function () {
           _this2._navScroll(scrollOffset);
-=======
-        _this3._navScroll(scrollOffset);
-
-        mousedownInterval = setInterval(function () {
-          _this3._navScroll(scrollOffset);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
         }, 250);
       });
       $__default['default'](document).on('mousedown', SELECTOR_DATA_TOGGLE_SCROLL_RIGHT, function (e) {
         e.preventDefault();
         clearInterval(mousedownInterval);
-<<<<<<< HEAD
         var scrollOffset = _this2._config.scrollOffset;
 
         if (_this2._config.scrollBehaviorSwap) {
-=======
-        var scrollOffset = _this3._config.scrollOffset;
-
-        if (_this3._config.scrollBehaviorSwap) {
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
           scrollOffset = -scrollOffset;
         }
 
         mousedown = true;
 
-<<<<<<< HEAD
         _this2._navScroll(scrollOffset);
 
         mousedownInterval = setInterval(function () {
           _this2._navScroll(scrollOffset);
-=======
-        _this3._navScroll(scrollOffset);
-
-        mousedownInterval = setInterval(function () {
-          _this3._navScroll(scrollOffset);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
         }, 250);
       });
       $__default['default'](document).on('mouseup', function () {
@@ -1798,7 +1537,6 @@
     } // Static
     ;
 
-<<<<<<< HEAD
     IFrame._jQueryInterface = function _jQueryInterface(operation) {
       var data = $__default['default'](this).data(DATA_KEY$7);
 
@@ -1817,27 +1555,6 @@
         }
 
         (_data = data)[operation].apply(_data, args);
-=======
-    IFrame._jQueryInterface = function _jQueryInterface(config) {
-      if ($__default['default'](SELECTOR_DATA_TOGGLE$1).length > 0) {
-        var data = $__default['default'](this).data(DATA_KEY$7);
-
-        if (!data) {
-          data = $__default['default'](this).data();
-        }
-
-        var _options = $__default['default'].extend({}, Default$7, typeof config === 'object' ? config : data);
-
-        localStorage.setItem('AdminLTE:IFrame:Options', JSON.stringify(_options));
-        var plugin = new IFrame($__default['default'](this), _options);
-        $__default['default'](this).data(DATA_KEY$7, typeof config === 'object' ? config : data);
-
-        if (typeof config === 'string' && /createTab|openTabSidebar|switchTab|removeActiveTab/.test(config)) {
-          plugin[config]();
-        }
-      } else {
-        new IFrame($__default['default'](this), JSON.parse(localStorage.getItem('AdminLTE:IFrame:Options')))._initFrameElement();
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       }
     };
 
@@ -1895,10 +1612,6 @@
   var CLASS_NAME_LAYOUT_FIXED = 'layout-fixed';
   var CLASS_NAME_CONTROL_SIDEBAR_SLIDE_OPEN = 'control-sidebar-slide-open';
   var CLASS_NAME_CONTROL_SIDEBAR_OPEN = 'control-sidebar-open';
-<<<<<<< HEAD
-=======
-  var CLASS_NAME_IFRAME_MODE = 'iframe-mode';
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   var Default$6 = {
     scrollbarTheme: 'os-theme-light',
     scrollbarAutoHide: 'l',
@@ -1935,11 +1648,7 @@
 
       var heights = {
         window: $__default['default'](window).height(),
-<<<<<<< HEAD
         header: $__default['default'](SELECTOR_HEADER).length > 0 ? $__default['default'](SELECTOR_HEADER).outerHeight() : 0,
-=======
-        header: $__default['default'](SELECTOR_HEADER).length > 0 && !$__default['default']('body').hasClass('layout-navbar-fixed') ? $__default['default'](SELECTOR_HEADER).outerHeight() : 0,
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
         footer: $__default['default'](SELECTOR_FOOTER).length > 0 ? $__default['default'](SELECTOR_FOOTER).outerHeight() : 0,
         sidebar: $__default['default'](SELECTOR_SIDEBAR$1).length > 0 ? $__default['default'](SELECTOR_SIDEBAR$1).height() : 0,
         controlSidebar: controlSidebar
@@ -1991,15 +1700,7 @@
       var $body = $__default['default']('body');
       var $selector = $__default['default'](SELECTOR_LOGIN_BOX + ", " + SELECTOR_REGISTER_BOX);
 
-<<<<<<< HEAD
       if ($selector.length === 0) {
-=======
-      if ($body.hasClass(CLASS_NAME_IFRAME_MODE)) {
-        $body.css('height', '100%');
-        $__default['default']('.wrapper').css('height', '100%');
-        $__default['default']('html').css('height', '100%');
-      } else if ($selector.length === 0) {
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
         $body.css('height', 'auto');
         $__default['default']('html').css('height', 'auto');
       } else {
@@ -2144,10 +1845,6 @@
   var EVENT_KEY$2 = "." + DATA_KEY$5;
   var JQUERY_NO_CONFLICT$5 = $__default['default'].fn[NAME$5];
   var EVENT_COLLAPSED$1 = "collapsed" + EVENT_KEY$2;
-<<<<<<< HEAD
-=======
-  var EVENT_COLLAPSED_DONE = "collapsed-done" + EVENT_KEY$2;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   var EVENT_SHOWN = "shown" + EVENT_KEY$2;
   var SELECTOR_TOGGLE_BUTTON$1 = '[data-widget="pushmenu"]';
   var SELECTOR_BODY = 'body';
@@ -2160,12 +1857,7 @@
   var Default$5 = {
     autoCollapseSize: 992,
     enableRemember: false,
-<<<<<<< HEAD
     noTransitionAfterReload: true
-=======
-    noTransitionAfterReload: true,
-    animationSpeed: 300
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   };
   /**
    * Class Definition
@@ -2207,11 +1899,6 @@
     };
 
     _proto.collapse = function collapse() {
-<<<<<<< HEAD
-=======
-      var _this = this;
-
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       var $bodySelector = $__default['default'](SELECTOR_BODY);
 
       if (this._options.autoCollapseSize && $__default['default'](window).width() <= this._options.autoCollapseSize) {
@@ -2225,12 +1912,6 @@
       }
 
       $__default['default'](this._element).trigger($__default['default'].Event(EVENT_COLLAPSED$1));
-<<<<<<< HEAD
-=======
-      setTimeout(function () {
-        $__default['default'](_this._element).trigger($__default['default'].Event(EVENT_COLLAPSED_DONE));
-      }, this._options.animationSpeed);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
     };
 
     _proto.toggle = function toggle() {
@@ -2294,39 +1975,23 @@
     ;
 
     _proto._init = function _init() {
-<<<<<<< HEAD
       var _this = this;
-=======
-      var _this2 = this;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 
       this.remember();
       this.autoCollapse();
       $__default['default'](window).resize(function () {
-<<<<<<< HEAD
         _this.autoCollapse(true);
-=======
-        _this2.autoCollapse(true);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       });
     };
 
     _proto._addOverlay = function _addOverlay() {
-<<<<<<< HEAD
       var _this2 = this;
-=======
-      var _this3 = this;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 
       var overlay = $__default['default']('<div />', {
         id: 'sidebar-overlay'
       });
       overlay.on('click', function () {
-<<<<<<< HEAD
         _this2.collapse();
-=======
-        _this3.collapse();
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       });
       $__default['default'](SELECTOR_WRAPPER).append(overlay);
     } // Static
@@ -2488,11 +2153,7 @@
         this._addNotFound();
       } else {
         endResults.each(function (i, result) {
-<<<<<<< HEAD
           $__default['default'](SELECTOR_SEARCH_RESULTS_GROUP).append(_this2._renderItem(escape(result.name), escape(result.link), result.path));
-=======
-          $__default['default'](SELECTOR_SEARCH_RESULTS_GROUP).append(_this2._renderItem(escape(result.name), encodeURI(result.link), result.path));
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
         });
       }
 
@@ -2557,10 +2218,6 @@
 
       path = path.join(" " + this.options.arrowSign + " ");
       name = unescape(name);
-<<<<<<< HEAD
-=======
-      link = decodeURI(link);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 
       if (this.options.highlightName || this.options.highlightPath) {
         var searchValue = $__default['default'](SELECTOR_SEARCH_INPUT$1).val().toLowerCase();
@@ -3193,11 +2850,7 @@
       treeviewMenu.stop().slideUp(this._config.animationSpeed, function () {
         $__default['default'](_this2._element).trigger(collapsedEvent);
         treeviewMenu.find(SELECTOR_OPEN + " > " + SELECTOR_TREEVIEW_MENU).slideUp();
-<<<<<<< HEAD
         treeviewMenu.find(SELECTOR_OPEN).removeClass(CLASS_NAME_OPEN);
-=======
-        treeviewMenu.find(SELECTOR_OPEN).removeClass(CLASS_NAME_IS_OPENING + " " + CLASS_NAME_OPEN);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
       });
     };
 

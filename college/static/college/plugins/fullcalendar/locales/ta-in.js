@@ -12,16 +12,16 @@ FullCalendar.globalLocales.push(function () {
       next: 'அடுத்தது',
       today: 'இன்று',
       month: 'மாதம்',
-      week: 'வாரம்',
+      week: 'சனிக்கிழமை',
       day: 'நாள்',
-      list: 'தினசரி அட்டவணை',
+      list: 'தினசரி கதை',
     },
-    weekText: 'வாரம்',
+    weekText: 'வார',
     allDayText: 'நாள் முழுவதும்',
     moreLinkText: function(n) {
       return '+ மேலும் ' + n
     },
-    noEventsText: 'காண்பிக்க நிகழ்வுகள் இல்லை',
+    noEventsText: 'நிகழ்வைக் காட்டவில்லை',
   };
 
   return taIn;

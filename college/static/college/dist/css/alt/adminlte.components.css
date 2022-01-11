@@ -1,9 +1,5 @@
 /*!
-<<<<<<< HEAD
  *   AdminLTE v3.1.0
-=======
- *   AdminLTE v3.2.0-rc
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
  *     Only Components
  *   Author: Colorlib
  *   Website: AdminLTE.io <https://adminlte.io>
@@ -2988,17 +2984,6 @@ body.text-sm .input-group-text {
   border-color: #6c757d;
 }
 
-<<<<<<< HEAD
-=======
-.dark-mode .custom-select {
-  background: #343a40 url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23fff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") right 0.75rem center/8px 10px no-repeat;
-}
-
-.dark-mode .custom-select[multiple] {
-  background: #343a40;
-}
-
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 .dark-mode .input-group-text {
   border-color: #6c757d;
 }
@@ -3010,21 +2995,6 @@ body.text-sm .input-group-text {
   color: #fff;
 }
 
-<<<<<<< HEAD
-=======
-.dark-mode input:-webkit-autofill,
-.dark-mode input:-webkit-autofill:hover,
-.dark-mode input:-webkit-autofill:focus,
-.dark-mode textarea:-webkit-autofill,
-.dark-mode textarea:-webkit-autofill:hover,
-.dark-mode textarea:-webkit-autofill:focus,
-.dark-mode select:-webkit-autofill,
-.dark-mode select:-webkit-autofill:hover,
-.dark-mode select:-webkit-autofill:focus {
-  -webkit-text-fill-color: #fff;
-}
-
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 .dark-mode .custom-range::-webkit-slider-runnable-track {
   background-color: #454d55;
 }
@@ -7540,20 +7510,12 @@ body.text-sm .input-group-text {
   display: none;
 }
 
-<<<<<<< HEAD
 .card .nav.flex-column > li {
-=======
-.card .nav.flex-column:not(.nav-sidebar) > li {
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   margin: 0;
 }
 
-<<<<<<< HEAD
 .card .nav.flex-column > li:last-of-type {
-=======
-.card .nav.flex-column:not(.nav-sidebar) > li:last-of-type {
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   border-bottom: 0;
 }
 
@@ -10066,10 +10028,7 @@ html.maximized-card {
 }
 
 .modal-dialog .overlay {
-<<<<<<< HEAD
   display: -webkit-flex;
-=======
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   display: -ms-flexbox;
   display: flex;
   position: absolute;
@@ -10079,15 +10038,10 @@ html.maximized-card {
   right: 0;
   margin: -1px;
   z-index: 1052;
-<<<<<<< HEAD
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
   -webkit-align-items: center;
-=======
-  -ms-flex-pack: center;
-  justify-content: center;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   -ms-flex-align: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.7);
@@ -10908,24 +10862,6 @@ html.maximized-card {
   color: #2b2b2b;
 }
 
-<<<<<<< HEAD
-=======
-.btn-default.disabled, .btn-default:disabled {
-  color: #444;
-  background-color: #f8f9fa;
-}
-
-.btn-outline-light {
-  color: #bdc6d0;
-  border-color: #bdc6d0;
-}
-
-.btn-outline-light.disabled, .btn-outline-light:disabled {
-  color: #bdc6d0;
-  border-color: #bdc6d0;
-}
-
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 .btn-app {
   border-radius: 3px;
   background-color: #f8f9fa;
@@ -11276,70 +11212,40 @@ html.maximized-card {
 
 .dark-mode .btn-dark {
   color: #fff;
-<<<<<<< HEAD
   background-color: #343a40;
   border-color: #343a40;
-=======
-  background-color: #292d32;
-  border-color: #4b545c;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   box-shadow: none;
 }
 
 .dark-mode .btn-dark:hover {
   color: #fff;
-<<<<<<< HEAD
   background-color: #23272b;
   border-color: #1d2124;
-=======
-  background-color: #171a1d;
-  border-color: #343a40;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 }
 
 .dark-mode .btn-dark:focus, .dark-mode .btn-dark.focus {
   color: #fff;
-<<<<<<< HEAD
   background-color: #23272b;
   border-color: #1d2124;
   box-shadow: 0 0 0 0 rgba(82, 88, 93, 0.5);
-=======
-  background-color: #171a1d;
-  border-color: #343a40;
-  box-shadow: 0 0 0 0 rgba(102, 109, 117, 0.5);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 }
 
 .dark-mode .btn-dark.disabled, .dark-mode .btn-dark:disabled {
   color: #fff;
-<<<<<<< HEAD
   background-color: #343a40;
   border-color: #343a40;
-=======
-  background-color: #292d32;
-  border-color: #4b545c;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 }
 
 .dark-mode .btn-dark:not(:disabled):not(.disabled):active, .dark-mode .btn-dark:not(:disabled):not(.disabled).active,
 .show > .dark-mode .btn-dark.dropdown-toggle {
   color: #fff;
-<<<<<<< HEAD
   background-color: #1d2124;
   border-color: #171a1d;
-=======
-  background-color: #121416;
-  border-color: #2e3439;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 }
 
 .dark-mode .btn-dark:not(:disabled):not(.disabled):active:focus, .dark-mode .btn-dark:not(:disabled):not(.disabled).active:focus,
 .show > .dark-mode .btn-dark.dropdown-toggle:focus {
-<<<<<<< HEAD
   box-shadow: 0 0 0 0 rgba(82, 88, 93, 0.5);
-=======
-  box-shadow: 0 0 0 0 rgba(102, 109, 117, 0.5);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 }
 
 .dark-mode .btn-outline-primary {
@@ -11567,18 +11473,12 @@ html.maximized-card {
 }
 
 .dark-mode .btn-outline-dark {
-<<<<<<< HEAD
   color: #343a40;
   border-color: #343a40;
-=======
-  color: #060708;
-  border-color: #060708;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 }
 
 .dark-mode .btn-outline-dark:hover {
   color: #fff;
-<<<<<<< HEAD
   background-color: #343a40;
   border-color: #343a40;
 }
@@ -11589,40 +11489,19 @@ html.maximized-card {
 
 .dark-mode .btn-outline-dark.disabled, .dark-mode .btn-outline-dark:disabled {
   color: #343a40;
-=======
-  background-color: #060708;
-  border-color: #060708;
-}
-
-.dark-mode .btn-outline-dark:focus, .dark-mode .btn-outline-dark.focus {
-  box-shadow: 0 0 0 0 rgba(6, 7, 8, 0.5);
-}
-
-.dark-mode .btn-outline-dark.disabled, .dark-mode .btn-outline-dark:disabled {
-  color: #060708;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   background-color: transparent;
 }
 
 .dark-mode .btn-outline-dark:not(:disabled):not(.disabled):active, .dark-mode .btn-outline-dark:not(:disabled):not(.disabled).active,
 .show > .dark-mode .btn-outline-dark.dropdown-toggle {
   color: #fff;
-<<<<<<< HEAD
   background-color: #343a40;
   border-color: #343a40;
-=======
-  background-color: #060708;
-  border-color: #060708;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 }
 
 .dark-mode .btn-outline-dark:not(:disabled):not(.disabled):active:focus, .dark-mode .btn-outline-dark:not(:disabled):not(.disabled).active:focus,
 .show > .dark-mode .btn-outline-dark.dropdown-toggle:focus {
-<<<<<<< HEAD
   box-shadow: 0 0 0 0 rgba(52, 58, 64, 0.5);
-=======
-  box-shadow: 0 0 0 0 rgba(6, 7, 8, 0.5);
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 }
 
 .callout {

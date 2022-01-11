@@ -1,6 +1,3 @@
-/*! Bootstrap integration for DataTables' SearchPanes
- * ©2016 SpryMedia Ltd - datatables.net/license
- */
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD
@@ -15,11 +12,11 @@
                 root = window;
             }
             if (!$ || !$.fn.dataTable) {
-                // eslint-disable-next-line @typescript-eslint/no-var-requires
                 $ = require('datatables.net-bs4')(root, $).$;
             }
+            console.log($.fn.dataTable);
             if (!$.fn.dataTable.SearchPanes) {
-                // eslint-disable-next-line @typescript-eslint/no-var-requires
+                console.log("not present");
                 require('datatables.net-searchpanes')(root, $);
             }
             return factory($, root, root.document);
@@ -31,33 +28,31 @@
     }
 }(function ($, window, document) {
     'use strict';
-    var dataTable = $.fn.dataTable;
-    $.extend(true, dataTable.SearchPane.classes, {
-        buttonGroup: 'btn-group',
+    var DataTable = $.fn.dataTable;
+    $.extend(true, DataTable.SearchPane.classes, {
+        buttonGroup: 'btn-group col justify-content-end',
         disabledButton: 'disabled',
+        dull: '',
         narrow: 'col',
         pane: {
             container: 'table'
         },
         paneButton: 'btn btn-light',
         pill: 'pill badge badge-pill badge-secondary',
-        search: 'form-control search',
-        searchCont: 'input-group',
+        search: 'col-sm form-control search',
+        searchCont: 'input-group col-sm',
         searchLabelCont: 'input-group-append',
         subRow1: 'dtsp-subRow1',
         subRow2: 'dtsp-subRow2',
         table: 'table table-sm table-borderless',
-        topRow: 'dtsp-topRow'
+        topRow: 'dtsp-topRow row'
     });
-    $.extend(true, dataTable.SearchPanes.classes, {
-        clearAll: 'dtsp-clearAll btn btn-light',
-        collapseAll: 'dtsp-collapseAll btn btn-light',
+    $.extend(true, DataTable.SearchPanes.classes, {
+        clearAll: 'dtsp-clearAll col-auto btn btn-light',
         container: 'dtsp-searchPanes',
-        disabledButton: 'disabled',
-        panes: 'dtsp-panes dtsp-panesContainer',
-        showAll: 'dtsp-showAll btn btn-light',
-        title: 'dtsp-title',
-        titleRow: 'dtsp-titleRow'
+        panes: 'dtsp-panes dtsp-container',
+        title: 'dtsp-title col',
+        titleRow: 'dtsp-titleRow row'
     });
-    return dataTable.searchPanes;
+    return DataTable.searchPanes;
 }));

@@ -2,67 +2,63 @@
 {% load static %}
 {% block content %}
 <section class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <!-- left column -->
-        <div class="col-md-12">
-          <!-- jquery validation -->
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title">Quick Example <small>jQuery Validation</small></h3>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- jquery validation -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">ADD <small>new Subject</small></h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form id="quickForm" method="post">
+            {% csrf_token %}
+            <div class="card-body">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Subject Code</label>
+                <input type="text" name="subject_code" class="form-control" placeholder="Eg: CC-102" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Subject Name</label>
+                <input type="text" name="subject_name" class="form-control" placeholder="Enter Subject Name" required>
+              </div>
+              <div class="form-group">
+                <label for="subjectType">Subject Type</label>
+                <select type="text" name="subject_types" class="form-control" placeholder="" required>
+                  <option>Select Subject Type</option>
+                  {% for i in subject_type %}
+                  <option value="{{i.id}}">{{i.name}}</option>
+                  {% endfor %}}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="subjectType">Semester</label>
+                <select type="text" name="semester" class="form-control" placeholder="" required>
+                  <option>Select Semester</option>
+                  {% for i in semesters_list %}
+                  <option value="{{i.id}}">{{i.course}} &nbsp; {{i.number}}</option>
+                  {% endfor %}}
+                </select>
+              </div>
             </div>
-            <!-- /.card-header -->
-            <!-- form start -->
-            <form id="quickForm" method="post">
-              {% csrf_token %}
-              <div class="card-body">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Subject Code</label>
-                  <input type="text" name="subject_code" class="form-control"  placeholder="Enter subject Code" required>
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Subject Name</label>
-                  <input type="text" name="subject_name" class="form-control"  placeholder="Password" required>
-                </div>
-                <div class="form-group">
-                  <label for="subjectType">Subject Type</label>
-                  <select type="text" name="subject_types" class="form-control"  placeholder="" required>
-                    <option>Select Subject Type</option>
-                    {% for i in subject_type %}
-                    <option value="{{i.id}}">{{i.name}}</option>
-                  {% endfor %}}
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="subjectType">Semester</label>
-                  <select type="text" name="semester" class="form-control"  placeholder="" required>
-                    <option>Select Semester</option>
-                    {% for i in semesters_list %}
-                    <option value="{{i.id}}">{{i.course}} &nbsp; {{i.number}}</option>
-                  {% endfor %}}
-                </div>
-                <div class="form-group mb-0">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1" required>
-                    <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
-                  </div>
-                </div>
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </form>
-          </div>
-          <!-- /.card -->
-          </div>
-        <!--/.col (left) -->
-        <!-- right column -->
-        <!--/.col (right) -->
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        </form>
       </div>
-      <!-- /.row -->
-    </div><!-- /.container-fluid -->
-  </section>
+      <!-- /.card -->
+    </div>
+    <!--/.col (left) -->
+    <!-- right column -->
+    <!--/.col (right) -->
+  </div>
+  <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
 
 <!-- ./wrapper -->
 {% endblock content %}

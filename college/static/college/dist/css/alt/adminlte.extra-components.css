@@ -1,9 +1,5 @@
 /*!
-<<<<<<< HEAD
  *   AdminLTE v3.1.0
-=======
- *   AdminLTE v3.2.0-rc
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
  *     Only Extra Components
  *   Author: Colorlib
  *   Website: AdminLTE.io <https://adminlte.io>
@@ -392,10 +388,7 @@
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
   border-radius: 0.25rem;
   background-color: #fff;
-<<<<<<< HEAD
   display: -webkit-flex;
-=======
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 1rem;
@@ -417,7 +410,6 @@
 
 .info-box .info-box-icon {
   border-radius: 0.25rem;
-<<<<<<< HEAD
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
@@ -426,13 +418,6 @@
   display: flex;
   font-size: 1.875rem;
   -webkit-justify-content: center;
-=======
-  -ms-flex-align: center;
-  align-items: center;
-  display: -ms-flexbox;
-  display: flex;
-  font-size: 1.875rem;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
   -ms-flex-pack: center;
   justify-content: center;
   text-align: center;
@@ -444,7 +429,6 @@
 }
 
 .info-box .info-box-content {
-<<<<<<< HEAD
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -459,19 +443,6 @@
   -ms-flex: 1;
   flex: 1;
   padding: 0 10px;
-=======
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -ms-flex-pack: center;
-  justify-content: center;
-  line-height: 1.8;
-  -ms-flex: 1;
-  flex: 1;
-  padding: 0 10px;
-  overflow: hidden;
->>>>>>> 012c6706916df704f25f969a575d37850e1d4d15
 }
 
 .info-box .info-box-number {

@@ -1,8 +1,11 @@
+from django.http import request
 from django.shortcuts import HttpResponse,redirect,render
+from django.contrib.auth.decorators import login_required
 from .models import *
 from django.core.exceptions import PermissionDenied
 def Home(request):
     return render(request,"college/college_dashboard.html")
+@login_required
 def Course_list(request):
     courses = Course.objects.filter(college=request.user.college)
     return render(request,"college/courses_list.html",{'courses':courses})
@@ -20,6 +23,7 @@ def subjects_list(request,pk):
                 subjects_list.append(subject)
     context={
         'subjects_list':subjects_list,
+        'course_id':pk
     }
     return render(request, "college/subjects_list.html",context)
 
@@ -33,7 +37,7 @@ def add_subject(request,pk):
         #subject_types =  request.POST.get('subject_types')
         #semesters =  request.POST.get('semester')
         sub_type =  SubjectType.objects.get(id = request.POST.get('subject_types'))
-        semesters =  Semester.objects.get(id = request.POST.get('semester'))
+        semester =  Semester.objects.get(id = request.POST.get('semester'))
         
 
         if Subject.objects.filter(code=subject_code).exists():
@@ -44,11 +48,11 @@ def add_subject(request,pk):
                 code = subject_code,
                 name = subject_name,
                 sub_type = sub_type,
-                semester = semesters
+                semester = semester
             )
             subject.save()
             print('Added successfully')
-            return redirect('add-subject',pk)
+            return redirect('subjects-list',pk)
         
         #print(subject_code,subject_name,subject_types,semesters)
  
