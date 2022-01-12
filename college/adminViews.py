@@ -12,7 +12,7 @@ def Home(request):
 def Course_list(request):
     courses = Course.objects.filter(college=request.user.college)
     return render(request,"college/courses_list.html",{'courses':courses})
-
+@login_required(login_url='/')
 def subjects_list(request,pk):
     if(request.user.college != Course.objects.get(pk=pk).college): #check college admin related college
         raise PermissionDenied       
@@ -29,7 +29,7 @@ def subjects_list(request,pk):
         'course_id':pk
     }
     return render(request, "college/subjects_list.html",context)
-
+@login_required(login_url='/')
 def add_subject(request,pk):
     semesters_list = Semester.objects.filter(course=pk)
     subject_type = SubjectType.objects.all()
@@ -61,6 +61,7 @@ def add_subject(request,pk):
     }
     
     return render(request, "college/add_subject.html",context)
+<<<<<<< HEAD
 
 def add_course(request):
     if request.method == 'POST':
@@ -133,3 +134,19 @@ def add_student(request):
     }
     
     return render(request,"college/add_student.html",context)
+=======
+@login_required(login_url='/')
+def students_list(request):
+    students_list = Student.objects.filter(user__college=request.user.college)
+    context={
+        'students_list':students_list
+    }
+    return render(request,'college/college_students_list.html',context)
+@login_required(login_url='/')
+def faculties_list(request):
+    faculties_list = Faculty.objects.filter(user__college=request.user.college)
+    context = {
+        'faculties_list':faculties_list
+    }
+    return render(request,'college/college_faculties_list.html',context)
+>>>>>>> e39f67bfa0b90d70e36d62fd6b0ebf049848ec02
