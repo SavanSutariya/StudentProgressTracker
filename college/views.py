@@ -14,7 +14,7 @@ def home(request):
     else:
         return redirect('login')
 
-def Login(request):
+def Login(request): 
     return render(request,template_name='college/login.html')
 def Logout(request):
     logout(request)
