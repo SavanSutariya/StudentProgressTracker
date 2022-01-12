@@ -6,7 +6,7 @@ from .models import *
 from django.core.exceptions import PermissionDenied
 def Home(request):
     return render(request,"college/college_dashboard.html")
-@login_required
+@login_required(login_url='/')
 def Course_list(request):
     courses = Course.objects.filter(college=request.user.college)
     return render(request,"college/courses_list.html",{'courses':courses})

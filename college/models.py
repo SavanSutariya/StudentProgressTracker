@@ -56,3 +56,22 @@ class CustomUser(AbstractUser):
     #         output_size = (300,300)
     #         img.thumbnail(output_size)
     #         img.save(self.profile_pic.path)
+
+class SessionYear(models.Model):
+    session_start = models.CharField(max_length=100)
+    session_end = models.CharField(max_length=100)
+
+class Student(models.Model):
+    user = models.OneToOneField(CustomUser , on_delete=models.CASCADE)
+    address = models.TextField()
+    gender = models.CharField(max_length=7, null=False)
+    session_year = models.ForeignKey( SessionYear , on_delete=models.PROTECT)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Faculty(models.Model):
+    user = models.OneToOneField(CustomUser , on_delete=models.CASCADE)
+    address = models.TextField()
+    gender = models.CharField(max_length=7, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
