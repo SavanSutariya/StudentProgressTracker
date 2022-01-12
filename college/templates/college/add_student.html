@@ -1,0 +1,85 @@
+{% extends 'college/base.html' %}
+{% load static %}
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+          <!-- jquery validation -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">ADD <small>new student</small></h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form id="quickForm" method="post">
+              {% csrf_token %}
+              <div class="card-body">
+                <div class="form-group">
+                  <label>User Name</label>
+                  <input type="text" name="user_name" class="form-control"  placeholder="Enter User name" required>
+                </div>
+                <div class="form-group">
+                  <label >First Name</label>
+                  <input type="text" name="first_name" class="form-control"  placeholder="Enter First name" required> 
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" name="last_name" class="form-control"  placeholder="Enter Last name" required> 
+                </div>
+                <div class="form-group">
+                    <label >E-mail</label>
+                    <input type="email" name="email" class="form-control"  placeholder="Enter email" required> 
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="textarea" name="address" class="form-control"  placeholder="Enter First name" required> 
+                </div>
+                <div class="form-group">
+                    <label for="subjectType">Gender</label>
+                    <select type="" name="gender" class="form-control" placeholder="" required>
+                      <option>Select Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Others">Others</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subjectType">Session_year</label>
+                    <select type="" name="session_year" class="form-control" placeholder="" required>
+                      <option>Session year</option>
+                      {% for i in session_year_list %}
+                        <option value="">{{i.session_start}} &nbsp; to &nbsp; {{i.session_end}}</option>
+                    {% endfor %}}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subjectType">Profile Photo</label>
+                    <input type="file"  name="profile_pic" class="form-control" placeholder="Select Your Profile Photo" required>
+                </input>
+                </div>
+                  <div class="form-group mb-0">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1" required>
+                      <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
+                    </div>
+                  </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Add Course</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.card -->
+          </div>
+        <!--/.col (left) -->
+        <!-- right column -->
+        <!--/.col (right) -->
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+
+<!-- ./wrapper -->
+{% endblock content %}

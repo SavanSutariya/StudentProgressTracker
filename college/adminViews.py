@@ -2,6 +2,8 @@ from io import SEEK_END
 from django.http import request
 from django.shortcuts import HttpResponse,redirect,render
 from django.contrib.auth.decorators import login_required
+
+import college
 from .models import *
 from django.core.exceptions import PermissionDenied
 def Home(request):
@@ -61,32 +63,73 @@ def add_subject(request,pk):
     return render(request, "college/add_subject.html",context)
 
 def add_course(request):
-    
-    
     if request.method == 'POST':
         course_name =  request.POST.get('course_name')
         college = request.user.college
-        
-
         semester = request.POST.get('NoOfSem')
         print(course_name,semester)
 
-        for i in range(1,int(semester)+1):
-                i+1
-                print(i)
-        '''course = Course(
+        course = Course(
                 name = course_name,
                 college = college
-
             )
         course.save()
-
-        semester = Semester(
-            for i in range(semester):
-                i+1
-                
-            )   
-        semester.save()'''
+        for i in range(1,int(semester)+1):
+                i
+                semester = Semester(
+                    number = i,
+                    course = course
+                )   
+                semester.save()
     
 
     return render(request, "college/add_course.html")
+
+def add_student(request):
+    session_year_list = SessionYear.objects.all()
+    if request.method  == "POST":
+        username = request.POST.get('user_name')
+        firstname=request.POST.get('first_name')
+        lastname=request.POST.get('last_name')
+        email=request.POST.get('email')
+        address =request.POST.get('address')
+        gender=request.POST.get('gender')
+        profile_pic = request.FILES.get('profile_pic')
+        session_year_id = request.POST.get('session_year')
+        #college =request.user.college
+        #college = request.user.college
+
+        print(username,firstname,lastname,email,address,gender,profile_pic,session_year_id,college)
+        
+        '''if CustomUser.objects.filter(email=email).exists():
+            print('email is already taken')
+            return redirect('add-student')
+        if CustomUser.objects.filter(username=username).exists():
+            print('username is already taken')
+        else:
+            user = CustomUser(
+                first_name = firstname,
+                last_name = lastname,
+                username =username,
+                email = email,
+                profile_pic = profile_pic,
+                userType = 3,
+                college = 2
+                
+            )
+            user.save()
+            session_year = SessionYear.objects.get(id = session_year_id)
+            student = Student(
+                address = address,
+                session_year = session_year,
+                gender = gender
+            )
+            student.save()
+            print('student add successfully')
+           ''' 
+
+    context = {
+        'session_year_list' : session_year_list,
+    }
+    
+    return render(request,"college/add_student.html",context)

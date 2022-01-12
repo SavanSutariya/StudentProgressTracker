@@ -7,5 +7,7 @@ urlpatterns = [
     path('course/<int:pk>/',subjects_list, name="subjects-list"),
     path('courses/',Course_list, name="college-course-list"),
     path('course/addsubject/<int:pk>',add_subject,name="add-subject"),
-    path('course/addcourse/',add_course,name="add-course")
+    path('course/addcourse/',add_course,name="add-course"),
+    path('course/addstudent/',add_student,name="add-student")
+
 ]
