@@ -1,3 +1,4 @@
+from io import SEEK_END
 from django.http import request
 from django.shortcuts import HttpResponse,redirect,render
 from django.contrib.auth.decorators import login_required
@@ -34,8 +35,6 @@ def add_subject(request,pk):
     if request.method == "POST":
         subject_code =  request.POST.get('subject_code')
         subject_name =  request.POST.get('subject_name')
-        #subject_types =  request.POST.get('subject_types')
-        #semesters =  request.POST.get('semester')
         sub_type =  SubjectType.objects.get(id = request.POST.get('subject_types'))
         semester =  Semester.objects.get(id = request.POST.get('semester'))
         
@@ -53,8 +52,6 @@ def add_subject(request,pk):
             subject.save()
             print('Added successfully')
             return redirect('subjects-list',pk)
-        
-        #print(subject_code,subject_name,subject_types,semesters)
  
     context = {
         'subject_type' : subject_type,
@@ -62,3 +59,34 @@ def add_subject(request,pk):
     }
     
     return render(request, "college/add_subject.html",context)
+
+def add_course(request):
+    
+    
+    if request.method == 'POST':
+        course_name =  request.POST.get('course_name')
+        college = request.user.college
+        
+
+        semester = request.POST.get('NoOfSem')
+        print(course_name,semester)
+
+        for i in range(1,int(semester)+1):
+                i+1
+                print(i)
+        '''course = Course(
+                name = course_name,
+                college = college
+
+            )
+        course.save()
+
+        semester = Semester(
+            for i in range(semester):
+                i+1
+                
+            )   
+        semester.save()'''
+    
+
+    return render(request, "college/add_course.html")
