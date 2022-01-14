@@ -11,6 +11,9 @@ def home(request):
             return redirect('college-home')
         elif request.user.userType == '2':
             return redirect('faculty')
+        elif request.user.userType == '3':
+            # return redirect('student')
+            return HttpResponse(f"Srudent: {request.user.get_full_name()}")
     else:
         return redirect('login')
 
@@ -28,9 +31,9 @@ def dologin(request):
             if user_type == '1':
                 return redirect('college-home')
             elif user_type == '2':
-                return HttpResponse("Faculty")
+                return HttpResponse(f"Faculty: {request.user.get_full_name()}")
             elif user_type == '3':
-                return HttpResponse("Student")
+                return HttpResponse(f"Student: {request.user.get_full_name()}")
             else:
                 messages.error(request,"User type dosen't match")
                 return redirect('login')

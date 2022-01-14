@@ -13,7 +13,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form id="quickForm" method="post">
+            <form id="quickForm" method="post" enctype="multipart/form-data">
               {% csrf_token %}
               <div class="card-body">
                 <div class="form-group">
@@ -50,8 +50,8 @@
                     <select type="" name="session_year" class="form-control" placeholder="" required>
                       <option>Session year</option>
                       {% for i in session_year_list %}
-                        <option value="">{{i.session_start}} &nbsp; to &nbsp; {{i.session_end}}</option>
-                    {% endfor %}}
+                        <option value="{{i.id}}">{{i.session_start}} &nbsp; to &nbsp; {{i.session_end}}</option>
+                      {% endfor %}}
                     </select>
                 </div>
                 <div class="form-group">
