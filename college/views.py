@@ -10,13 +10,12 @@ def home(request):
         if request.user.userType == '1':
             return redirect('college-home')
         elif request.user.userType == '2':
-            return redirect('faculty')
+            return HttpResponse(f"Faculty: {request.user.get_full_name()}")
         elif request.user.userType == '3':
             # return redirect('student')
             return HttpResponse(f"Srudent: {request.user.get_full_name()}")
     else:
         return redirect('login')
-
 def Login(request): 
     return render(request,template_name='college/login.html')
 def Logout(request):
@@ -29,6 +28,7 @@ def dologin(request):
             login(request,user)
             user_type = user.userType
             if user_type == '1':
+                messages.info(request,f"welcome {user.get_full_name()}")
                 return redirect('college-home')
             elif user_type == '2':
                 return HttpResponse(f"Faculty: {request.user.get_full_name()}")

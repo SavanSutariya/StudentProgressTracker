@@ -2,6 +2,7 @@ from django.shortcuts import HttpResponse,redirect,render
 from django.contrib.auth.decorators import user_passes_test
 from .models import *
 from django.core.exceptions import PermissionDenied
+from django.contrib import messages
 def is_college_admin(user):
     return user.userType == '1'
 
@@ -31,6 +32,8 @@ def subjects_list(request,pk):
     return render(request, "college/subjects_list.html",context)
 @user_passes_test(is_college_admin, login_url='/')
 def add_subject(request,pk):
+    if(request.user.college != Course.objects.get(pk=pk).college): #check college admin related college
+        raise PermissionDenied
     semesters_list = Semester.objects.filter(course=pk)
     subject_type = SubjectType.objects.all()
 
@@ -42,8 +45,8 @@ def add_subject(request,pk):
         
 
         if Subject.objects.filter(code=subject_code).exists():
-            print('Alredy added')
-            return redirect('add-subject',pk)
+            messages.info(request,"Subject already added")
+            return redirect('college-add-subject',pk)
         else:                
             subject = Subject(
                 code = subject_code,
@@ -52,7 +55,7 @@ def add_subject(request,pk):
                 semester = semester
             )
             subject.save()
-            print('Added successfully')
+            messages.success(request,"Subject added successfully")
             return redirect('subjects-list',pk)
  
     context = {
@@ -67,8 +70,9 @@ def add_course(request):
         course_name =  request.POST.get('course_name')
         college = request.user.college
         semester = request.POST.get('NoOfSem')
-        print(course_name,semester)
-
+        if int(semester)>10 or int(semester)<=0:
+            messages.error(request,f"cannot enter insert {semester}. semester must be >0 and <=10")
+            return redirect('college-add-course')
         course = Course(
                 name = course_name,
                 college = college
@@ -80,6 +84,7 @@ def add_course(request):
                 course = course
             )   
             semester.save()
+        messages.success(request,f"{course_name} has been added to {college}")
         return redirect('college-course-list')
     return render(request, "college/add_course.html")
 @user_passes_test(is_college_admin, login_url='/')
@@ -95,10 +100,11 @@ def add_student(request):
         profile_pic = request.FILES.get('profile_pic')
         session_year = SessionYear.objects.get(id=request.POST.get('session_year'))
         if CustomUser.objects.filter(email=email).exists():
-            print('email is already taken')
+            messages.info(request,"email is already taken")
             return redirect('college-add-student')
-        if CustomUser.objects.filter(username=username).exists():
-            print('username is already taken')
+        elif CustomUser.objects.filter(username=username).exists():
+            messages.info(request,"username is already taken")
+            return redirect('college-add-student')
         else:   
             user = CustomUser(
                 first_name = firstname,
@@ -118,9 +124,8 @@ def add_student(request):
                 session_year = session_year,
             )
             student.save()
-            print('student add successfully') 
+            messages.success(request,"student added successfully")
             return redirect('college-students-list')
-
     context = {
         'session_year_list' : session_year_list,
     }
@@ -151,10 +156,11 @@ def add_faculty(request):
         gender=request.POST.get('gender')
         profile_pic = request.FILES.get('profile_pic')
         if CustomUser.objects.filter(email=email).exists():
-            print('email is already taken')
+            messages.info(request,"email is already taken")
             return redirect('college-add-student')
         if CustomUser.objects.filter(username=username).exists():
-            print('username is already taken')
+            messages.info(request,"username is already taken")
+            return redirect('college-add-student')
         else:   
             user = CustomUser(
                 first_name = firstname,
@@ -173,7 +179,7 @@ def add_faculty(request):
                 gender = gender,
             )
             faculty.save()
-            print('faculty added successfully') 
+            messages.success(request,"faculty added successfully")
             return redirect('college-faculties-list')
 
     return render(request,'college/add_faculty.html')

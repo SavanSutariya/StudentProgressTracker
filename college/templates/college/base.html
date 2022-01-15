@@ -23,6 +23,10 @@
     <link rel="stylesheet" href="{% static 'college/plugins/jqvmap/jqvmap.min.css' %}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{% static 'college/dist/css/adminlte.min.css' %}">
+    <!-- SweetAlert2 -->
+    <!-- <link rel="stylesheet" href="{% static 'college/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}"> -->
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{% static 'college/plugins/toastr/toastr.min.css' %}">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{% static 'college/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
     <!-- Daterange picker -->
@@ -166,7 +170,7 @@
                                     Dashboard
                                 </p>
                             </a>
-                            
+
                         </li>
                         <li class="nav-item">
                             <a class="nav-link">
@@ -243,21 +247,21 @@
             </div>
             <!-- /.sidebar -->
         </aside>
-        
-{% comment %} ------------------------------------------------------------------------------- {% endcomment %}
-<div class="content-wrapper">
-    <section class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1>{{request.resolver_match.view_name}}</h1>
-            </div>
-          </div>
-        </div><!-- /.container-fluid -->
-      </section>
-    {% block content %}
-    {% endblock content %}
-</div>
+
+        {% comment %} ------------------------------------------------------------------------------- {% endcomment %}
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>{{request.resolver_match.view_name}}</h1>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            {% block content %}
+            {% endblock content %}
+        </div>
         <footer class="main-footer">
             <strong>Copyright &copy; 2014-2021 <a href="/">SPT</a>.</strong>
             All rights reserved.
@@ -297,6 +301,10 @@
     <script src="{% static 'college/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
     <!-- Summernote -->
     <script src="{% static 'college/plugins/summernote/summernote-bs4.min.js' %}"></script>
+    <!-- SweetAlert2 -->
+    <!-- <script src="{% static 'college/plugins/sweetalert2/sweetalert2.min.js' %}"></script> -->
+    <!-- Toastr -->
+    <script src="{% static 'college/plugins/toastr/toastr.min.js' %}"></script>
     <!-- overlayScrollbars -->
     <script src="{% static 'college/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
     <!-- AdminLTE App -->
@@ -304,7 +312,28 @@
     <!-- AdminLTE for demo purposes -->
     <script src="{% static 'college/dist/js/demo.js' %}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    {% comment %} <script src="{% static 'college/dist/js/pages/dashboard.js' %}"></script> {% endcomment %}
+    <!-- <script src="{% static 'college/dist/js/pages/dashboard.js' %}"></script> -->
+    <!-- Custom Script -->
+    <script>
+        // var Toast = Swal.mixin({
+        //     toast: false,
+        //     position: 'top-end',
+        //     showConfirmButton: false,
+        //     timer: 3000
+        // });
+        // Toast.fire({
+            //     icon: 'success',
+            //     title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            // })
+        {% if messages %}
+            {% for message in messages %}
+                toastr.{{message.tags}}('{{message}}')
+            {% endfor %}
+            {{messages.len}}
+        {% endif %}
+
+    </script>
+
 </body>
 
 </html>
