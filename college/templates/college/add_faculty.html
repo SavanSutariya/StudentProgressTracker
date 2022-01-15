@@ -1,0 +1,69 @@
+{% extends 'college/base.html' %}
+{% load static %}
+{% block site_title %}
+Add new Faculty
+{% endblock site_title %}
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-2">
+          other options will appear here
+        </div>
+        <div class="col-md-10">
+          <!-- jquery validation -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">ADD <small>new Faculty</small></h3>
+            </div>
+            <form id="quickForm" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="card-body row">
+                <div class="form-group col-6">
+                  <label>Username</label>
+                  <input type="text" name="user_name" class="form-control" placeholder="Enter User name" required>
+                </div>
+                <div class="form-group col-6">
+                  <label>E-mail</label>
+                  <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+                </div>
+                <div class="form-group col-6">
+                  <label>First Name</label>
+                  <input type="text" name="first_name" class="form-control" placeholder="Enter First name" required>
+                </div>
+                <div class="form-group col-6">
+                  <label>Last Name</label>
+                  <input type="text" name="last_name" class="form-control" placeholder="Enter Last name" required>
+                </div>
+                <div class="form-group col-12">
+                  <label>Address</label>
+                  <textarea class="form-control" name="address" rows="3" required></textarea>
+                </div>
+                <div class="form-group col-6">
+                  <label>Gender</label>
+                  <select type="" name="gender" class="form-control" placeholder="" required>
+                    <option>Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Others">Others</option>
+                  </select>
+                </div>
+                
+                <div class="form-group col-6">
+                  <label>Profile Photo</label>
+                  <div class="custom-file">
+                    <input type="file" name="profile_pic" class="custom-file-input" id="customFile" required>
+                    <label class="custom-file-label" for="customFile">Choose Profile</label>
+                  </div>
+                </div>
+                <div class="card-footer col-12">
+                  <button type="submit" class="btn btn-primary">Add Student</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+{% endblock content %}

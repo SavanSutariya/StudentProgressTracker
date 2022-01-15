@@ -11,4 +11,5 @@ urlpatterns = [
     path('students/',adminViews.students_list,name="college-students-list"),
     path('students/addstudent/',adminViews.add_student,name="college-add-student"),
     path('faculties/',adminViews.faculties_list,name="college-faculties-list"),
+    path('faculties/addfaculty/',adminViews.add_faculty,name="college-add-faculty"),
 ]

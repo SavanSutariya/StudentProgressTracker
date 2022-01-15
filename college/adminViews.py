@@ -1,7 +1,5 @@
-from io import SEEK_END
-from django.http import request
 from django.shortcuts import HttpResponse,redirect,render
-from django.contrib.auth.decorators import login_required,user_passes_test
+from django.contrib.auth.decorators import user_passes_test
 from .models import *
 from django.core.exceptions import PermissionDenied
 def is_college_admin(user):
@@ -136,8 +134,46 @@ def students_list(request):
     return render(request,'college/college_students_list.html',context)
 @user_passes_test(is_college_admin, login_url='/')
 def faculties_list(request):
+
     faculties_list = Faculty.objects.filter(user__college=request.user.college)
     context = {
         'faculties_list':faculties_list
     }
     return render(request,'college/college_faculties_list.html',context)
+@user_passes_test(is_college_admin, login_url='/')
+def add_faculty(request):
+    if request.method == "POST":
+        username = request.POST.get('user_name')
+        firstname=request.POST.get('first_name')
+        lastname=request.POST.get('last_name')
+        email=request.POST.get('email')
+        address =request.POST.get('address')
+        gender=request.POST.get('gender')
+        profile_pic = request.FILES.get('profile_pic')
+        if CustomUser.objects.filter(email=email).exists():
+            print('email is already taken')
+            return redirect('college-add-student')
+        if CustomUser.objects.filter(username=username).exists():
+            print('username is already taken')
+        else:   
+            user = CustomUser(
+                first_name = firstname,
+                last_name = lastname,
+                username =username,
+                email = email,
+                profile_pic = profile_pic,
+                userType = 2,
+                college = request.user.college
+            )
+            user.set_password(f"{username}123")
+            user.save()
+            faculty = Faculty(
+                user = user,
+                address = address,
+                gender = gender,
+            )
+            faculty.save()
+            print('faculty added successfully') 
+            return redirect('college-faculties-list')
+
+    return render(request,'college/add_faculty.html')
