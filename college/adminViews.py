@@ -189,4 +189,5 @@ def add_faculty(request):
     return render(request,'college/add_faculty.html')
 @user_passes_test(is_college_admin, login_url='/')
 def user_profile(request):
+    # check if fields are not empty
     return render(request,'college/user_profile.html')

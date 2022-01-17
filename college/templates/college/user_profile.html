@@ -98,6 +98,7 @@
                 icon: 'error',
                 title: 'File format is invalid!'})
             user_profile.setAttribute("value","{{user.profile_pic.url}}");
+            profile.src = "{{user.profile_pic.url}}"
         }
         console.log(user_profile);
     }
