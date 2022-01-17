@@ -4,6 +4,7 @@ from . import adminViews
 urlpatterns = [
     # college-admin urls
     path('' ,adminViews.Home, name="college-home"),
+    path('profile/',adminViews.user_profile, name="college-admin-profile"),
     path('courses/',adminViews.Course_list, name="college-course-list"),
     path('course/<int:pk>/',adminViews.subjects_list, name="subjects-list"),
     path('course/addcourse/',adminViews.add_course,name="college-add-course"),

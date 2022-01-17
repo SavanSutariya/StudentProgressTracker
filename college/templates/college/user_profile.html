@@ -1,0 +1,115 @@
+{% extends 'college/base.html' %}
+{% load static %}
+{% block site_title %}
+{{user.get_full_name}}
+{% endblock site_title %}
+{% block content %}
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">General</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body row">
+                    <!-- Profile Image -->
+                    <div class="card card-primary card-outline col-md-4">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img class="profile-user-img img-fluid img-circle" id="profile"
+                                    src="{{user.profile_pic.url}}" alt="{{user.username}}">
+                            </div>
+
+                            <h3 class="profile-username text-center">{{user.get_full_name}}</h3>
+
+                            <p class="text-muted text-center">{{user.date_joined.date}}</p>
+
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <input value="{{user.profile_pic.url}}" type="file" name="profile_pic"
+                                        class="custom-file-input" id="customFile" required
+                                        onchange="validateNPreviewImage(this); enableSave(this);">
+                                    <label class="custom-file-label" for="customFile">Choose Profile</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="userName">Userame</label>
+                            <input type="text" id="userName" class="form-control" value="{{user.username}}"
+                                onchange="enableSave(this)">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" disabled id="email" class="form-control" value="{{user.email}}">
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="firstName">First Name</label>
+                                <input onchange="enableSave(this)" type="text" id="firstName" class="form-control" value="{{user.first_name}}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="lastName">Last Name</label>
+                                <input onchange="enableSave(this)" type="text" id="lastName" class="form-control" value="{{user.last_name}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-2 col-12">
+                        <a class="btn btn-secondary disabled" id="cancel_btn" href="">Cancel</a>
+                        <input type="submit" disabled value="Save Changes" class="btn btn-success float-right"
+                            id="save_btn">
+                    </div>
+                </div>
+
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</section>
+
+<script>
+    var profile = document.getElementById('profile');
+    var sveBtn = document.getElementById('save_btn');
+    var cancBtn = document.getElementById('cancel_btn');
+    var user_profile = document.getElementById('customFile');
+    var username = document.getElementById('userName');
+    var first_name = document.getElementById('firstName');
+    var last_name = document.getElementById('lastName');
+    function validateNPreviewImage(ele) {
+        var filePath = user_profile.value;
+        var file_ext = filePath.substr(filePath.lastIndexOf('.') + 1, filePath.length);
+        if (file_ext == "jpg" || file_ext == "jpeg" || file_ext == "png") {
+            console.log("File Extension : " + file_ext);
+            profile.src = window.URL.createObjectURL(ele.files[0])
+        }
+        else{
+            Toast.fire({
+                icon: 'error',
+                title: 'File format is invalid!'})
+            user_profile.setAttribute("value","{{user.profile_pic.url}}");
+        }
+        console.log(user_profile);
+    }
+    function enableSave(ele) {
+        if (user_profile.value != "" ||username.value != "{{user.username}}" || first_name.value != "{{user.first_name}}" || last_name.value != "{{user.last_name}}") {
+            sveBtn.removeAttribute("disabled");
+            cancBtn.classList.remove("disabled");
+        }
+        else {
+            sveBtn.setAttribute("disabled", "true");
+            cancBtn.classList.add("disabled");
+        }
+    }
+</script>
+{% endblock content %}

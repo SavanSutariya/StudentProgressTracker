@@ -4,7 +4,11 @@ from .models import *
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 def is_college_admin(user):
-    return user.userType == '1'
+    '''checks if authenticated and is a college admin'''
+    if user.is_authenticated:
+        return user.userType == '1'
+    else:
+        return False
 
 @user_passes_test(is_college_admin, login_url='/')
 def Home(request):
@@ -183,3 +187,6 @@ def add_faculty(request):
             return redirect('college-faculties-list')
 
     return render(request,'college/add_faculty.html')
+@user_passes_test(is_college_admin, login_url='/')
+def user_profile(request):
+    return render(request,'college/user_profile.html')
