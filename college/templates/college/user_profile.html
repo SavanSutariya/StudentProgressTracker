@@ -17,60 +17,62 @@
                         </button>
                     </div>
                 </div>
-                <div class="card-body row">
-                    <!-- Profile Image -->
-                    <div class="card card-primary card-outline col-md-4">
-                        <div class="card-body box-profile">
-                            <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle" id="profile"
-                                    src="{{user.profile_pic.url}}" alt="{{user.username}}">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body row">
+                        <!-- Profile Image -->
+                        <div class="card card-primary card-outline col-md-4">
+                            <div class="card-body box-profile">
+                                <div class="text-center">
+                                    <img class="profile-user-img img-fluid img-circle" name="profile_pic" id="profile"
+                                        src="{{user.profile_pic.url}}" alt="{{user.username}}">
+                                </div>
+
+                                <h3 class="profile-username text-center">{{user.get_full_name}}</h3>
+
+                                <p class="text-muted text-center">{{user.date_joined.date}}</p>
+
+                                <div class="form-group">
+                                    <div class="custom-file">
+                                        <input type="file" name="profile_pic"
+                                            class="custom-file-input" id="customFile" onchange="validateNPreviewImage(this); enableSave(this);">
+                                        <label class="custom-file-label" for="customFile">Choose Profile</label>
+                                    </div>
+                                </div>
+
                             </div>
-
-                            <h3 class="profile-username text-center">{{user.get_full_name}}</h3>
-
-                            <p class="text-muted text-center">{{user.date_joined.date}}</p>
-
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                        <div class="col-md-8">
                             <div class="form-group">
-                                <div class="custom-file">
-                                    <input value="{{user.profile_pic.url}}" type="file" name="profile_pic"
-                                        class="custom-file-input" id="customFile" required
-                                        onchange="validateNPreviewImage(this); enableSave(this);">
-                                    <label class="custom-file-label" for="customFile">Choose Profile</label>
+                                <label for="userName">Userame</label>
+                                <input name="username" type="text" id="userName" class="form-control" value="{{user.username}}" onchange="enableSave(this)">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" disabled id="email" class="form-control" value="{{user.email}}">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="firstName">First Name</label>
+                                    <input name="first_name" onchange="enableSave(this)" type="text" id="firstName" class="form-control"
+                                        value="{{user.first_name}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="lastName">Last Name</label>
+                                    <input name="last_name" onchange="enableSave(this)" type="text" id="lastName" class="form-control"
+                                        value="{{user.last_name}}">
                                 </div>
                             </div>
-
                         </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label for="userName">Userame</label>
-                            <input type="text" id="userName" class="form-control" value="{{user.username}}"
-                                onchange="enableSave(this)">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" disabled id="email" class="form-control" value="{{user.email}}">
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label for="firstName">First Name</label>
-                                <input onchange="enableSave(this)" type="text" id="firstName" class="form-control" value="{{user.first_name}}">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="lastName">Last Name</label>
-                                <input onchange="enableSave(this)" type="text" id="lastName" class="form-control" value="{{user.last_name}}">
-                            </div>
+                        <div class="m-2 col-12">
+                            <a class="btn btn-secondary disabled" id="cancel_btn" href="">Cancel</a>
+                            <input type="submit" disabled value="Save Changes" class="btn btn-success float-right"
+                                id="save_btn">
                         </div>
                     </div>
-                    <div class="m-2 col-12">
-                        <a class="btn btn-secondary disabled" id="cancel_btn" href="">Cancel</a>
-                        <input type="submit" disabled value="Save Changes" class="btn btn-success float-right"
-                            id="save_btn">
-                    </div>
-                </div>
-
+                </form>
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
@@ -93,17 +95,17 @@
             console.log("File Extension : " + file_ext);
             profile.src = window.URL.createObjectURL(ele.files[0])
         }
-        else{
+        else {
             Toast.fire({
                 icon: 'error',
-                title: 'File format is invalid!'})
-            user_profile.setAttribute("value","{{user.profile_pic.url}}");
+                title: 'File format is invalid!'
+            })
+            user_profile.setAttribute("value", "{{user.profile_pic.url}}");
             profile.src = "{{user.profile_pic.url}}"
         }
-        console.log(user_profile);
     }
     function enableSave(ele) {
-        if (user_profile.value != "" ||username.value != "{{user.username}}" || first_name.value != "{{user.first_name}}" || last_name.value != "{{user.last_name}}") {
+        if (user_profile.value != "" || username.value != "{{user.username}}" || first_name.value != "{{user.first_name}}" || last_name.value != "{{user.last_name}}") {
             sveBtn.removeAttribute("disabled");
             cancBtn.classList.remove("disabled");
         }
