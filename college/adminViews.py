@@ -1,8 +1,10 @@
-from django.shortcuts import HttpResponse, redirect, render
+from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
+from django.template import context
 from .models import *
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
+from django.http import Http404
 
 
 def is_college_admin(user):
@@ -26,7 +28,8 @@ def Course_list(request):
 
 @user_passes_test(is_college_admin, login_url='/')
 def subjects_list(request, pk):
-    if(request.user.college != Course.objects.get(pk=pk).college):  # check college admin related college
+    course = get_object_or_404(Course, pk=pk)
+    if(request.user.college != course.college):  # check college admin related college
         raise PermissionDenied
     subjects_list = []
     semesters_list = Semester.objects.filter(course=pk)
@@ -38,14 +41,15 @@ def subjects_list(request, pk):
                 subjects_list.append(subject)
     context = {
         'subjects_list': subjects_list,
-        'course_id': pk
+        'course': course
     }
     return render(request, "college/subjects_list.html", context)
 
 
 @user_passes_test(is_college_admin, login_url='/')
 def add_subject(request, pk):
-    if(request.user.college != Course.objects.get(pk=pk).college):  # check college admin related college
+    course = get_object_or_404(Course, pk=pk)
+    if(request.user.college != course.college):  # check college admin related college
         raise PermissionDenied
     semesters_list = Semester.objects.filter(course=pk)
     subject_type = SubjectType.objects.all()
@@ -229,3 +233,21 @@ def user_profile(request):
         return redirect('college-admin-profile')
         # user = CustomUser(username=username,first_name=fname,last_name=lname,profile_pic=profile)
     return render(request, 'college/user_profile.html')
+
+@user_passes_test(is_college_admin, login_url='/')
+def update_course(request,pk):
+    course = get_object_or_404(Course, pk=pk)
+    if(request.user.college != course.college):  # check college admin related college
+        raise PermissionDenied
+    else:
+        semesters_list = Semester.objects.filter(course=course)
+        context = {
+            'course': course,
+            'semesters_list': semesters_list 
+            }
+        if request.method == 'POST':
+            course.name = request.POST.get('course_name')           
+            course.save()
+            messages.success(request, f"{course.name} is saved!")
+            return redirect('college-course-list')
+    return render(request, "college/update_course.html",context)

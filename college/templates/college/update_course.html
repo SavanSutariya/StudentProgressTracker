@@ -1,7 +1,7 @@
 {% extends 'college/base.html' %}
 {% load static %}
 {% block site_title %}
-{{user.get_full_name}}
+{{course.name}}
 {% endblock site_title %}
 {% block content %}
 <section class="content">
@@ -17,99 +17,27 @@
                         </button>
                     </div>
                 </div>
-                <div class="card-body row">
-                    <!-- Profile Image -->
-                    <div class="card card-primary card-outline col-md-4">
-                        <div class="card-body box-profile">
-                            <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle"
-                                    src="{% static 'college/dist/img/user4-128x128.jpg' %}" alt="User profile picture">
-                            </div>
-
-                            <h3 class="profile-username text-center">Nina Mcintire</h3>
-
-                            <p class="text-muted text-center">Software Engineer</p>
-
-                            <div class="form-group">
-                                <div class="custom-file">
-                                  <input type="file" name="profile_pic" class="custom-file-input" id="customFile" required>
-                                  <label class="custom-file-label" for="customFile">Choose Profile</label>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
-                    <div class="col-md-8">
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
                         <div class="form-group">
-                            <label for="inputName">Userame</label>
-                            <input type="text" disabled id="inputName" class="form-control" value="AdminLTE">
+                            <label for="inputCourse">Course Name</label>
+                            <input name="course_name" type="text" id="inputCourse" class="form-control"
+                                value="{{course.name}}" onchange="enableSave()">
                         </div>
-                        <div class="form-group">
-                            <label for="inputName">Email</label>
-                            <input type="text" disabled id="inputName" class="form-control" value="AdminLTE">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputDescription">Project Description</label>
-                        <textarea id="inputDescription" class="form-control"
-                            rows="4">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terr.</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputStatus">Status</label>
-                        <select id="inputStatus" class="form-control custom-select">
-                            <option disabled>Select one</option>
-                            <option>On Hold</option>
-                            <option>Canceled</option>
-                            <option selected>Success</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputClientCompany">Client Company</label>
-                        <input type="text" id="inputClientCompany" class="form-control" value="Deveint Inc">
-                    </div>
-                    <div class="form-group">
-                        <label for="inputProjectLeader">Project Leader</label>
-                        <input type="text" id="inputProjectLeader" class="form-control" value="Tony Chicken">
-                    </div>
+                        <a href="" id="cancel_btn" class="btn btn-secondary disabled">Cancel</a>
+                        <input id="save_btn" disabled type="submit" value="Save Changes"
+                            class="btn btn-success float-right">
+                    </form>
                 </div>
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
         </div>
-        <div class="col-md-4    ">
-            <div class="card card-secondary">
-                <div class="card-header">
-                    <h3 class="card-title">Budget</h3>
-
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="inputEstimatedBudget">Estimated budget</label>
-                        <input type="number" id="inputEstimatedBudget" class="form-control" value="2300" step="1">
-                    </div>
-                    <div class="form-group">
-                        <label for="inputSpentBudget">Total amount spent</label>
-                        <input type="number" id="inputSpentBudget" class="form-control" value="2000" step="1">
-                    </div>
-                    <div class="form-group">
-                        <label for="inputEstimatedDuration">Estimated project duration</label>
-                        <input type="number" id="inputEstimatedDuration" class="form-control" value="20" step="0.1">
-                    </div>
-                </div>
-                <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+        <div class="col-md-4">
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Files</h3>
-
+                    <h3 class="card-title">Semesters</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -120,59 +48,27 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>File Name</th>
-                                <th>File Size</th>
+                                <th>Semesters</th>
+                                <th>Subjects</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-
+                            {% for semester in semesters_list %}
                             <tr>
-                                <td>Functional-requirements.docx</td>
-                                <td>49.8005 kb</td>
+                                <td>{{semester.number}}</td>
+                                <td>{{semester.get_subjects.count}}</td>
                                 <td class="text-right py-0 align-middle">
-                                    <div class="btn-group btn-group-sm">
-                                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                    {% if semester.get_subjects.count == 0 %}
                                         <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                    </div>
+                                    {% else %}
+                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Can not delete semester containing subjects">
+                                        <a href="" class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>
+                                    </span>
+                                    {% endif %}
                                 </td>
-                            <tr>
-                                <td>UAT.pdf</td>
-                                <td>28.4883 kb</td>
-                                <td class="text-right py-0 align-middle">
-                                    <div class="btn-group btn-group-sm">
-                                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                    </div>
-                                </td>
-                            <tr>
-                                <td>Email-from-flatbal.mln</td>
-                                <td>57.9003 kb</td>
-                                <td class="text-right py-0 align-middle">
-                                    <div class="btn-group btn-group-sm">
-                                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                    </div>
-                                </td>
-                            <tr>
-                                <td>Logo.png</td>
-                                <td>50.5190 kb</td>
-                                <td class="text-right py-0 align-middle">
-                                    <div class="btn-group btn-group-sm">
-                                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                    </div>
-                                </td>
-                            <tr>
-                                <td>Contract-10_12_2014.docx</td>
-                                <td>44.9715 kb</td>
-                                <td class="text-right py-0 align-middle">
-                                    <div class="btn-group btn-group-sm">
-                                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                    </div>
-                                </td>
-
+                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -181,11 +77,20 @@
             <!-- /.card -->
         </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <a href="#" class="btn btn-secondary">Cancel</a>
-            <input type="submit" value="Save Changes" class="btn btn-success float-right">
-        </div>
-    </div>
 </section>
+<script>
+    var sveBtn = document.getElementById('save_btn');
+    var cancBtn = document.getElementById('cancel_btn');
+    var courseField = document.getElementById('inputCourse');
+    function enableSave() {
+        if (courseField.value != "{{course.name}}") {
+            sveBtn.removeAttribute("disabled");
+            cancBtn.classList.remove("disabled");
+        }
+        else {
+            sveBtn.setAttribute("disabled", "true");
+            cancBtn.classList.add("disabled");
+        }
+    }
+</script>
 {% endblock content %}

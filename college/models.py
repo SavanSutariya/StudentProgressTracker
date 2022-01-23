@@ -29,6 +29,8 @@ class Semester(models.Model):
     def __str__(self):
         # return str(self.number)
         return self.course.name+" :"+str(self.number)
+    def get_subjects(self):
+        return Subject.objects.filter(semester=self)
 
 class SubjectType(models.Model):
     name = models.CharField(max_length=30)
