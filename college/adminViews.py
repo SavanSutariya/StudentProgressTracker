@@ -60,20 +60,15 @@ def add_subject(request, pk):
         sub_type = SubjectType.objects.get(
             id=request.POST.get('subject_types'))
         semester = Semester.objects.get(id=request.POST.get('semester'))
-
-        if Subject.objects.filter(code=subject_code).exists():
-            messages.info(request, "Subject already added")
-            return redirect('college-add-subject', pk)
-        else:
-            subject = Subject(
-                code=subject_code,
-                name=subject_name,
-                sub_type=sub_type,
-                semester=semester
-            )
-            subject.save()
-            messages.success(request, "Subject added successfully")
-            return redirect('subjects-list', pk)
+        subject = Subject(
+            code=subject_code,
+            name=subject_name,
+            sub_type=sub_type,
+            semester=semester
+        )
+        subject.save()
+        messages.success(request, "Subject added successfully")
+        return redirect('subjects-list', pk)
 
     context = {
         'subject_type': subject_type,
@@ -251,3 +246,30 @@ def update_course(request,pk):
             messages.success(request, f"{course.name} is saved!")
             return redirect('college-course-list')
     return render(request, "college/update_course.html",context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def update_subject(request,pk):
+    subject = get_object_or_404(Subject,pk=pk)
+    subject_types = SubjectType.objects.all()
+    semesters = Semester.objects.filter(course=subject.semester.course)
+    if (subject.semester.course.college != request.user.college):
+        raise PermissionDenied
+    if request.method == "POST":
+        code = request.POST.get('subject_code')
+        name = request.POST.get('subject_name')
+        subtype = request.POST.get('subject_type')
+        semester = request.POST.get('semester')
+        subject.code = code
+        subject.name = name
+        subject.sub_type = SubjectType.objects.get(pk=subtype)
+        subject.semester = Semester.objects.get(pk=semester)
+        subject.save()
+        messages.success(request,f"{subject.name} has been updated!")
+        return redirect('college-update-subject',pk)
+
+    context = {
+        'subject':subject,
+        'subject_types':subject_types,
+        'semesters_list':semesters
+    }
+    return render(request,'college/update_subject.html',context)

@@ -9,6 +9,7 @@ urlpatterns = [
     path('course/<int:pk>/',adminViews.subjects_list, name="subjects-list"),
     path('course/addcourse/',adminViews.add_course,name="college-add-course"),
     path('course/addsubject/<int:pk>',adminViews.add_subject,name="college-add-subject"),
+    path('course/updatesubject/<int:pk>',adminViews.update_subject,name="college-update-subject"),
     path('course/update/<int:pk>',adminViews.update_course,name="college-update-course"),
     path('students/',adminViews.students_list,name="college-students-list"),
     path('students/addstudent/',adminViews.add_student,name="college-add-student"),

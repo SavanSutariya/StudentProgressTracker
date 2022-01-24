@@ -1,0 +1,93 @@
+{% extends 'college/base.html' %}
+{% load static %}
+{% block site_title %}
+{{subject.name}}
+{% endblock site_title %}
+{% block content %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- jquery validation -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">UPDATE <small>{{subject.name}}</small></h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form id="quickForm" method="post">
+            {% csrf_token %}
+            <div class="card-body">
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label for="exampleInputEmail1">Subject Code</label>
+                  <input type="text" name="subject_code" class="form-control" placeholder="Eg: CC-102"
+                    value="{{subject.code}}" required id="code" onchange="enableSave()">
+                </div>
+                <div class="form-group col-md-8">
+                  <label for="subject_name">Subject Name</label>
+                  <input id="subject_name" type="text" name="subject_name" class="form-control" placeholder="Enter Subject Name" value="{{subject.name}}" required onchange="enableSave()">
+                </div>
+                <div class="form-group col-md-8">
+                  <label for="type">Subject Type</label>
+                  <select type="text" name="subject_type" class="form-control" placeholder="" required id="type" onchange="enableSave()">
+                    <option disabled>Select Subject Type</option>
+                    {% for subtype in subject_types %}
+                    <option {% if subtype == subject.sub_type %}selected{% endif %} value="{{subtype.id}}">{{subtype.name}}
+                    </option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="semester">Semester</label>
+                  <select type="text" name="semester" class="form-control" placeholder="" required id="semester" onchange="enableSave()">
+                    <option disabled>Select Semester</option>
+                    {% for semester in semesters_list %}
+                    <option {% if semester == subject.semester %}selected{% endif %} value="{{semester.id}}">&nbsp;
+                      {{semester.number}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+          <div class="m-2 col-md-12">
+            <a class="btn btn-secondary disabled" id="cancel_btn" href="">Cancel</a>
+            <input type="submit" disabled value="Save Changes" class="btn btn-success float-right" id="save_btn">
+          </div>
+        </div>
+        </form>
+      </div>
+      <!-- /.card -->
+    </div>
+    <!--/.col (left) -->
+    <!-- right column -->
+    <!--/.col (right) -->
+  </div>
+  <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<script>
+  var sveBtn = document.getElementById('save_btn');
+  var cancBtn = document.getElementById('cancel_btn');
+  var code = document.getElementById('code');
+  var subname = document.getElementById('subject_name');
+  var type = document.getElementById('type');
+  var sem = document.getElementById('semester');
+
+  function enableSave() {
+        if (code.value != "{{subject.code}}" || subname.value != "{{subject.name}}" || type.value != "{{subject.sub_type.id}}" || sem.value != "{{subject.semester.id}}") {
+            sveBtn.removeAttribute("disabled");
+            cancBtn.classList.remove("disabled");
+        }
+        else {
+            sveBtn.setAttribute("disabled", "true");
+            cancBtn.classList.add("disabled");
+        }
+    }
+</script>
+<!-- ./wrapper -->
+{% endblock content %}
