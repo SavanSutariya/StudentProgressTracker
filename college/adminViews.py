@@ -14,17 +14,14 @@ def is_college_admin(user):
     else:
         return False
 
-
 @user_passes_test(is_college_admin, login_url='/')
 def Home(request):
     return render(request, "college/college_dashboard.html")
-
 
 @user_passes_test(is_college_admin, login_url='/')
 def Course_list(request):
     courses = Course.objects.filter(college=request.user.college)
     return render(request, "college/courses_list.html", {'courses': courses})
-
 
 @user_passes_test(is_college_admin, login_url='/')
 def subjects_list(request, pk):
@@ -44,7 +41,6 @@ def subjects_list(request, pk):
         'course': course
     }
     return render(request, "college/subjects_list.html", context)
-
 
 @user_passes_test(is_college_admin, login_url='/')
 def add_subject(request, pk):
@@ -77,7 +73,6 @@ def add_subject(request, pk):
 
     return render(request, "college/add_subject.html", context)
 
-
 @user_passes_test(is_college_admin, login_url='/')
 def add_course(request):
     if request.method == 'POST':
@@ -102,7 +97,6 @@ def add_course(request):
         messages.success(request, f"{course_name} has been added to {college}")
         return redirect('college-course-list')
     return render(request, "college/add_course.html")
-
 
 @user_passes_test(is_college_admin, login_url='/')
 def add_student(request):
@@ -149,7 +143,6 @@ def add_student(request):
     }
     return render(request, "college/add_student.html", context)
 
-
 @user_passes_test(is_college_admin, login_url='/')
 def students_list(request):
     students_list = Student.objects.filter(user__college=request.user.college)
@@ -157,7 +150,6 @@ def students_list(request):
         'students_list': students_list
     }
     return render(request, 'college/college_students_list.html', context)
-
 
 @user_passes_test(is_college_admin, login_url='/')
 def faculties_list(request):
@@ -167,7 +159,6 @@ def faculties_list(request):
         'faculties_list': faculties_list
     }
     return render(request, 'college/college_faculties_list.html', context)
-
 
 @user_passes_test(is_college_admin, login_url='/')
 def add_faculty(request):
@@ -207,7 +198,6 @@ def add_faculty(request):
             return redirect('college-faculties-list')
 
     return render(request, 'college/add_faculty.html')
-
 
 @user_passes_test(is_college_admin, login_url='/')
 def user_profile(request):
@@ -273,3 +263,80 @@ def update_subject(request,pk):
         'semesters_list':semesters
     }
     return render(request,'college/update_subject.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def delete_subject(request,pk):
+    subject = get_object_or_404(Subject, pk=pk)
+    if (subject.semester.course.college != request.user.college):
+        raise PermissionDenied
+    else:
+        if(request.method == "POST"):
+            subject.delete()
+            messages.success(request, f"{subject.name} has been deleted!")
+            return redirect('subjects-list' , subject.semester.course.id)
+        context = {
+            'obj':subject
+        }
+        return render(request,'college/delete_confirmation.html',context)
+
+# @user_passes_test(is_college_admin, login_url='/')
+# def delete_semester(request,pk):
+#     semester = get_object_or_404(Semester, pk=pk)
+#     if (semester.course.college != request.user.college):
+#         raise PermissionDenied
+#     else:
+#         if(request.method == "POST"):
+#             semester.delete()
+#             messages.success(request, f"{semester.name} has been deleted!")
+#             return redirect('college-course-list')
+#         context = {
+#             'obj':semester
+#         }
+#         return render(request,'college/delete_confirmation.html',context)
+            
+@user_passes_test(is_college_admin, login_url='/')
+def delete_course(request,pk):
+    course = get_object_or_404(Course, pk=pk)
+    if (course.college != request.user.college):
+        raise PermissionDenied
+    else:
+        if(request.method == "POST"):
+            course.delete()
+            messages.success(request, f"{course.name} has been deleted!")
+            return redirect('college-course-list')
+        context = {
+            'obj':course
+        }
+        return render(request,'college/delete_confirmation.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def delete_faculty(request,pk):
+    faculty = get_object_or_404(Faculty, pk=pk)
+    if (faculty.user.college != request.user.college):
+        raise PermissionDenied
+    else:
+        if(request.method == "POST"):
+            faculty.user.delete()
+            faculty.delete()
+            messages.success(request, f"{faculty.user.first_name} has been deleted!")
+            return redirect('college-faculties-list')
+        context = {
+            'obj':faculty
+        }
+        return render(request,'college/delete_confirmation.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def delete_student(request,pk):
+    student = get_object_or_404(Student, pk=pk)
+    if (student.user.college != request.user.college):
+        raise PermissionDenied
+    else:
+        if(request.method == "POST"):
+            student.user.delete()
+            student.delete()
+            messages.success(request, f"{student.user.first_name} has been deleted!")
+            return redirect('college-students-list')
+        context = {
+            'obj':student
+        }
+        return render(request,'college/delete_confirmation.html',context)

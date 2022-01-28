@@ -5,14 +5,24 @@ urlpatterns = [
     # college-admin urls
     path('' ,adminViews.Home, name="college-home"),
     path('profile/',adminViews.user_profile, name="college-admin-profile"),
+
     path('courses/',adminViews.Course_list, name="college-course-list"),
-    path('course/<int:pk>/',adminViews.subjects_list, name="subjects-list"),
-    path('course/addcourse/',adminViews.add_course,name="college-add-course"),
+    path('course/add/',adminViews.add_course,name="college-add-course"),
+    path('course/update/<int:pk>',adminViews.update_course,name="college-update-course"),
+    path('course/delete/<int:pk>',adminViews.delete_course,name="college-delete-course"),
+
+    path('course/<int:pk>',adminViews.subjects_list, name="subjects-list"),
     path('course/addsubject/<int:pk>',adminViews.add_subject,name="college-add-subject"),
     path('course/updatesubject/<int:pk>',adminViews.update_subject,name="college-update-subject"),
-    path('course/update/<int:pk>',adminViews.update_course,name="college-update-course"),
+    path('course/deletesubject/<int:pk>',adminViews.delete_subject,name="college-delete-subject"),
+
     path('students/',adminViews.students_list,name="college-students-list"),
-    path('students/addstudent/',adminViews.add_student,name="college-add-student"),
+    path('students/add/',adminViews.add_student,name="college-add-student"),
+    # path('students/update/<int:pk>',adminViews.update_student,name="college-update-student"),
+    path('students/delete/<int:pk>',adminViews.delete_student,name="college-delete-student"),
+
     path('faculties/',adminViews.faculties_list,name="college-faculties-list"),
-    path('faculties/addfaculty/',adminViews.add_faculty,name="college-add-faculty"),
+    path('faculties/add/',adminViews.add_faculty,name="college-add-faculty"),
+    # path('faculties/update/<int:pk>',adminViews.update_faculty,name="college-update-faculty"),
+    path('faculties/delete/<int:pk>',adminViews.delete_faculty,name="college-delete-faculty"),
 ]

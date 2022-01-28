@@ -1,0 +1,22 @@
+{% extends 'college/base.html' %}
+{% load static %}
+{% block site_title %}
+Delete
+{% endblock site_title %}
+{% block content %}
+<section class="content">
+    <div class="card card-primary card-outline align-items-center">
+        <div class="card-body box-profile">
+            <h3 class="text-center">Do you want to delete <b>{{obj}}</b>?</h3>
+            <div class="mt-4">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <a class="btn btn-secondary" id="cancel_btn" onClick="javascript:history.go(-1);">Cancel</a>
+                    <input type="submit" value="Yes, Delete" class="btn btn-danger float-right" id="save_btn">
+                </form>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+</section>
+{% endblock content %}

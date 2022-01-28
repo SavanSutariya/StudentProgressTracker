@@ -91,7 +91,6 @@
         var filePath = user_profile.value;
         var file_ext = filePath.substr(filePath.lastIndexOf('.') + 1, filePath.length);
         if (file_ext == "jpg" || file_ext == "jpeg" || file_ext == "png") {
-            console.log("File Extension : " + file_ext);
             profile.src = window.URL.createObjectURL(ele.files[0])
         }
         else {
