@@ -1,0 +1,145 @@
+{% extends 'college/base.html' %}
+{% load static %}
+{% block site_title %}
+Update Student
+{% endblock site_title %}
+{% block content %}
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Update Student</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body row">
+                        <!-- Profile Image -->
+                        <div class="card card-primary card-outline col-md-4">
+                            <div class="card-body box-profile">
+                                <div class="text-center">
+                                    <img class="profile-user-img img-fluid img-circle" name="profile_pic" id="profile"
+                                        src="{{student.user.profile_pic.url}}" alt="{{student.user.username}}">
+                                </div>
+
+                                <h3 class="profile-username text-center">{{student.user.get_full_name}}</h3>
+
+                                <p class="text-muted text-center">{{student.user.date_joined.date}}</p>
+
+                                <div class="form-group">
+                                    <div class="custom-file">
+                                        <input type="file" name="profile_pic" class="custom-file-input" id="customFile"
+                                            onchange="validateNPreviewImage(this);">
+                                        <label class="custom-file-label" for="customFile">Choose Profile</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                        <div class="col-md-8 row">
+                            <div class="form-group col-12">
+                                <label for="userName">Userame</label>
+                                <input name="username" type="text" id="userName" class="form-control"
+                                    value="{{student.user.username}}" onchange="enableSave(this)">
+                            </div>
+                            <div class="form-group col-12">
+                                <label for="email">Email</label>
+                                <input type="text" disabled id="email" class="form-control"
+                                    value="{{student.user.email}}">
+                            </div>
+                            <div class="row col-12">
+                                <div class="form-group col-md-6">
+                                    <label for="firstName">First Name</label>
+                                    <input name="first_name" onchange="enableSave(this)" type="text" id="firstName"
+                                        class="form-control" value="{{student.user.first_name}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="lastName">Last Name</label>
+                                    <input name="last_name" onchange="enableSave(this)" type="text" id="lastName"
+                                        class="form-control" value="{{student.user.last_name}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="form-group col-12">
+                                <label>Address</label>
+                                <textarea class="form-control" name="address" rows="3"
+                                    required>{{student.address}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label>Session year</label>
+                            <select type="" name="session_year" class="form-control" required>
+                                <option disabled>Session year</option>
+                                {% for session in session_year_list %}
+                                <option value="{{session.id}}" {% if student.session_year == session %}{% endif %}>{{session.session_start}} &nbsp; to &nbsp; {{session.session_end}}</option>
+                                {% endfor %}}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Gender</label>
+                            <select name="gender" class="form-control" placeholder="" required>
+                                <option disabled>Select Gender</option>
+                                <option value="Male" {% if student.gender == "Male" %}selected{% endif %}>Male
+                                </option>
+                                <option value="Female" {% if student.gender == "Female" %}selected{% endif %}>Female
+                                </option>
+                                <option value="Others" {% if student.gender == "Others" %}selected{% endif %}>Others
+                                </option>
+                            </select>
+                        </div>
+                        <div class="m-2 col-12">
+                            <a class="btn btn-secondary" id="cancel_btn" href="">Cancel</a>
+                            <input type="submit" value="Save Changes" class="btn btn-success float-right" id="save_btn">
+                        </div>
+                    </div>
+                </form>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</section>
+
+<script>
+    var profile = document.getElementById('profile');
+    var sveBtn = document.getElementById('save_btn');
+    var cancBtn = document.getElementById('cancel_btn');
+    var user_profile = document.getElementById('customFile');
+    var username = document.getElementById('userName');
+    var first_name = document.getElementById('firstName');
+    var last_name = document.getElementById('lastName');
+    function validateNPreviewImage(ele) {
+        var filePath = user_profile.value;
+        var file_ext = filePath.substr(filePath.lastIndexOf('.') + 1, filePath.length);
+        if (file_ext == "jpg" || file_ext == "jpeg" || file_ext == "png") {
+            profile.src = window.URL.createObjectURL(ele.files[0])
+        }
+        else {
+            Toast.fire({
+                icon: 'error',
+                title: 'File format is invalid!'
+            })
+            profile.src = "{{user.profile_pic.url}}"
+        }
+    }
+    {% comment %} function enableSave(ele) {
+        if (user_profile.value != "" || username.value != "{{user.username}}" || first_name.value != "{{user.first_name}}" || last_name.value != "{{user.last_name}}") {
+            sveBtn.removeAttribute("disabled");
+            cancBtn.classList.remove("disabled");
+        }
+        else {
+            sveBtn.setAttribute("disabled", "true");
+            cancBtn.classList.add("disabled");
+        }
+    } {% endcomment %}
+</script>
+{% endblock content %}

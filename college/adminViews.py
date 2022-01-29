@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from django.template import context
@@ -215,8 +216,8 @@ def user_profile(request):
         user.last_name = lname
         user.profile_pic=profile
         user.save()
+        messages.success(request, "Profile Updated Successfully")
         return redirect('college-admin-profile')
-        # user = CustomUser(username=username,first_name=fname,last_name=lname,profile_pic=profile)
     return render(request, 'college/user_profile.html')
 
 @user_passes_test(is_college_admin, login_url='/')
@@ -264,6 +265,56 @@ def update_subject(request,pk):
     }
     return render(request,'college/update_subject.html',context)
 
+@user_passes_test(is_college_admin, login_url='/')
+def update_faculty(request,pk):
+    faculty = get_object_or_404(Faculty,pk=pk)
+    if (faculty.user.college != request.user.college):
+        raise PermissionDenied
+    if request.method == "POST":
+        profile = request.FILES.get("profile_pic")
+        if profile == None:
+            profile = faculty.user.profile_pic
+        faculty.user.username = request.POST.get('username')
+        faculty.user.first_name = request.POST.get('first_name')
+        faculty.user.last_name = request.POST.get('last_name')
+        faculty.gender = request.POST.get('gender')
+        faculty.address = request.POST.get('address')
+        faculty.user.profile_pic = profile
+        faculty.save()
+        faculty.user.save()
+        messages.success(request,'Faculty Profile Updated Successfully!')
+        return redirect('college-update-faculty',faculty.id)
+    context = {
+        'faculty':faculty,
+    }
+    return render(request,'college/update_faculty.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def update_student(request,pk):
+    student = get_object_or_404(Student,pk=pk)
+    session_years = SessionYear.objects.all()
+    if (student.user.college != request.user.college):
+        raise PermissionDenied
+    if request.method == "POST":
+        profile = request.FILES.get("profile_pic")
+        if profile == None:
+            profile = student.user.profile_pic
+        student.user.username = request.POST.get('username')
+        student.user.first_name = request.POST.get('first_name')
+        student.user.last_name = request.POST.get('last_name')
+        student.address = request.POST.get('address')
+        student.gender = request.POST.get('gender')
+        student.user.profile_pic = profile
+        student.session_year = SessionYear.objects.get(pk=request.POST.get('session_year'))
+        student.save()
+        student.user.save()
+        messages.success(request,'Student Profile Updated Successfully!')
+        return redirect('college-update-student',student.id)
+    context = {
+        'student':student,
+        'session_year_list':session_years
+    }
+    return render(request,'college/update_student.html',context)
 @user_passes_test(is_college_admin, login_url='/')
 def delete_subject(request,pk):
     subject = get_object_or_404(Subject, pk=pk)

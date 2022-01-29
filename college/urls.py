@@ -18,11 +18,11 @@ urlpatterns = [
 
     path('students/',adminViews.students_list,name="college-students-list"),
     path('students/add/',adminViews.add_student,name="college-add-student"),
-    # path('students/update/<int:pk>',adminViews.update_student,name="college-update-student"),
+    path('students/update/<int:pk>',adminViews.update_student,name="college-update-student"),
     path('students/delete/<int:pk>',adminViews.delete_student,name="college-delete-student"),
 
     path('faculties/',adminViews.faculties_list,name="college-faculties-list"),
     path('faculties/add/',adminViews.add_faculty,name="college-add-faculty"),
-    # path('faculties/update/<int:pk>',adminViews.update_faculty,name="college-update-faculty"),
+    path('faculties/update/<int:pk>',adminViews.update_faculty,name="college-update-faculty"),
     path('faculties/delete/<int:pk>',adminViews.delete_faculty,name="college-delete-faculty"),
 ]
