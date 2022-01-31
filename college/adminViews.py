@@ -407,3 +407,50 @@ def delete_student(request,pk):
             'obj':student
         }
         return render(request,'college/delete_confirmation.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def exams_list(request):
+    exams = Exam.objects.filter(semester__course__college=request.user.college)
+    context = {
+        'exams':exams
+    }
+    return render(request,'college/exam_list.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def add_exam(request):
+    if request.method == "POST":
+        name = request.POST.get('exam_name')
+        date = request.POST.get('exam_date')
+        session_year = request.POST.get('session_year')
+        semester = request.POST.get('semester')
+        try:
+            exam = Exam(name=name,date=date,session_year=SessionYear.objects.get(pk=session_year),semester=Semester.objects.get(pk=semester))
+            exam.save()
+            messages.success(request, f"{exam.name} has been added!")
+        except:
+            messages.error(request, f"Something went wrong!")
+        return redirect('college-exams-list')
+    session_year = SessionYear.objects.all()
+    semesters = Semester.objects.filter(course__college=request.user.college)
+    context = {
+        'session_year_list':session_year,
+        'semesters':semesters
+    }
+    return render(request,'college/add_exam.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def update_exam(request,pk):
+    exam = get_object_or_404(Exam, pk=pk)
+    if (exam.semester.course.college != request.user.college):
+        raise PermissionDenied
+    else:
+        if request.method == "POST":
+            exam.name = request.POST.get('exam_name')
+            exam.date = request.POST.get('exam_date')
+            exam.save()
+            messages.success(request, f"{exam.name} has been updated!")
+            return redirect('college-exams-list')
+        context = {
+            'exam':exam,            
+        }
+        return render(request,'college/update_exam.html',context)

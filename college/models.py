@@ -32,6 +32,19 @@ class Semester(models.Model):
     def get_subjects(self):
         return Subject.objects.filter(semester=self)
 
+class CustomUser(AbstractUser):
+    USER = (('1',"CollegeAdmin"),('2',"Faculty"),('3',"Student") )
+    userType = models.CharField(choices=USER,default=1, max_length=50)
+    profile_pic = models.ImageField(upload_to='media/profile_pic')
+    college = models.ForeignKey(College, on_delete=models.CASCADE)
+
+class Faculty(models.Model):
+    user = models.OneToOneField(CustomUser , on_delete=models.CASCADE)
+    address = models.TextField()
+    gender = models.CharField(max_length=7, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 class SubjectType(models.Model):
     name = models.CharField(max_length=30)
     def __str__(self):
@@ -42,14 +55,9 @@ class Subject(models.Model):
     name = models.CharField(max_length=100)
     sub_type = models.ForeignKey(SubjectType, on_delete=models.CASCADE)
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    faculty = models.ForeignKey(Faculty , on_delete=models.CASCADE)
     def __str__(self):
         return self.name
-
-class CustomUser(AbstractUser):
-    USER = (('1',"CollegeAdmin"),('2',"Faculty"),('3',"Student") )
-    userType = models.CharField(choices=USER,default=1, max_length=50)
-    profile_pic = models.ImageField(upload_to='media/profile_pic')
-    college = models.ForeignKey(College, on_delete=models.CASCADE)
 
     # def save(self):
     #     super().save()
@@ -67,13 +75,30 @@ class Student(models.Model):
     user = models.OneToOneField(CustomUser , on_delete=models.CASCADE)
     address = models.TextField()
     gender = models.CharField(max_length=7, null=False)
-    session_year = models.ForeignKey( SessionYear , on_delete=models.PROTECT)
+    session_year = models.ForeignKey(SessionYear , on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
 
-class Faculty(models.Model):
-    user = models.OneToOneField(CustomUser , on_delete=models.CASCADE)
-    address = models.TextField()
-    gender = models.CharField(max_length=7, null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+class Exam(models.Model):
+    name = models.CharField(max_length=50)
+    session_year = models.ForeignKey(SessionYear , on_delete=models.CASCADE)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    date = models.DateField()
+    def __str__(self):
+        return self.name
+
+class Paper(models.Model):
+    name = models.CharField(max_length=50)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    total_marks = models.IntegerField()
+    def __str__(self):
+        return self.name
+
+class Result(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
+    marks = models.IntegerField()
+    def __str__(self):
+        return self.paper.name+" : "+str(self.marks)

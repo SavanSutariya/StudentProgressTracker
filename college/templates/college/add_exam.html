@@ -1,0 +1,67 @@
+{% extends 'college/base.html' %}
+{% load static %}
+{% block title %}
+Add Exam
+{% endblock %}
+{% block content %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- jquery validation -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">ADD <small>new Exam</small></h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form id="quickForm" method="post">
+            {% csrf_token %}
+            <div class="card-body row">
+              <div class="form-group col-6">
+                <label>Course Name</label>
+                <input type="text" name="exam_name" class="form-control"
+                  placeholder="eg - ICET" required>
+              </div>
+              <div class="form-group col-6">
+                <label>Session year</label>
+                <select name="session_year" class="form-control" required>
+                  <option disabled>Session year</option>
+                  {% for session_year in session_year_list %}
+                  <option value="{{session_year.id}}">{{session_year.session_start}} &nbsp; to &nbsp; {{session_year.session_end}}</option>
+                  {% endfor %}}
+                </select>
+              </div> 
+              <div class="form-group col-6">
+                <label>Semester</label>
+                <select name="semester" class="form-control" required>
+                  <option disabled>Semester</option>
+                  {% for semester in semesters %}
+                  <option value="{{semester.id}}">{{semester}}</option>
+                  {% endfor %}}
+                </select>
+              </div> 
+              
+                <div class="form-group col-6">
+                    <label>Exam Date</label>
+                    <input type="date" name="exam_date" class="form-control"
+                    placeholder="eg - ICET" required>
+                </div>
+              <!-- /.card-body -->
+              <div class="form-group col-12">
+                <button type="submit" class="btn btn-primary">Add Course</button>
+              </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!--/.col (left) -->
+      <!--/.col (right) -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- ./wrapper -->
+{% endblock content %}

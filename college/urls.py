@@ -25,4 +25,9 @@ urlpatterns = [
     path('faculties/add/',adminViews.add_faculty,name="college-add-faculty"),
     path('faculties/update/<int:pk>',adminViews.update_faculty,name="college-update-faculty"),
     path('faculties/delete/<int:pk>',adminViews.delete_faculty,name="college-delete-faculty"),
+
+    path('exams/',adminViews.exams_list,name="college-exams-list"),
+    path('exams/add/',adminViews.add_exam,name="college-add-exam"),
+    path('exams/update/<int:pk>',adminViews.update_exam,name="college-update-exam"),
+    # path('exams/delete/<int:pk>',adminViews.delete_exam,name="college-delete-exam"),
 ]
