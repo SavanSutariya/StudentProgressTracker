@@ -1,11 +1,10 @@
-import re
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
-from django.template import context
 from .models import *
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.http import Http404
+import os
 
 
 def is_college_admin(user):
@@ -207,6 +206,11 @@ def user_profile(request):
         profile = request.FILES.get("profile_pic")
         if profile == None:
             profile = request.user.profile_pic
+        else:
+            try:
+                os.remove(request.user.profile_pic.path)
+            except:
+                pass
         username = request.POST.get("username")
         fname = request.POST.get("first_name")
         lname = request.POST.get("last_name")
@@ -274,6 +278,11 @@ def update_faculty(request,pk):
         profile = request.FILES.get("profile_pic")
         if profile == None:
             profile = faculty.user.profile_pic
+        else:
+            try:
+                os.remove(faculty.user.profile_pic.path)
+            except:
+                pass
         faculty.user.username = request.POST.get('username')
         faculty.user.first_name = request.POST.get('first_name')
         faculty.user.last_name = request.POST.get('last_name')
@@ -299,6 +308,11 @@ def update_student(request,pk):
         profile = request.FILES.get("profile_pic")
         if profile == None:
             profile = student.user.profile_pic
+        else:
+            try:
+                os.remove(student.user.profile_pic.path)
+            except:
+                pass
         student.user.username = request.POST.get('username')
         student.user.first_name = request.POST.get('first_name')
         student.user.last_name = request.POST.get('last_name')
@@ -315,6 +329,7 @@ def update_student(request,pk):
         'session_year_list':session_years
     }
     return render(request,'college/update_student.html',context)
+
 @user_passes_test(is_college_admin, login_url='/')
 def delete_subject(request,pk):
     subject = get_object_or_404(Subject, pk=pk)
@@ -369,6 +384,7 @@ def delete_faculty(request,pk):
         if(request.method == "POST"):
             faculty.user.delete()
             faculty.delete()
+            os.remove(faculty.user.profile_pic.path)
             messages.success(request, f"{faculty.user.first_name} has been deleted!")
             return redirect('college-faculties-list')
         context = {
