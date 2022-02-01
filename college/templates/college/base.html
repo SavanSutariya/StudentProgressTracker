@@ -1,4 +1,5 @@
 {% load static %}
+{% load active_link_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -126,7 +127,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a href="" class="brand-link">
                 <img src="{{user.college.logo.url}}" alt="Admin Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">{{user.college.name}}</span>
@@ -164,7 +165,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="{% url 'college-home' %}" class="nav-link active">
+                            <a href="{% url 'college-home' %}" class="nav-link {% active_link 'college-home' %}">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -172,7 +173,7 @@
                             </a>
 
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% active_link 'college-course-list || college-add-course' 'menu-open' %}">
                             <a class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
@@ -182,20 +183,20 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'college-course-list' %}" class="nav-link">
+                                    <a href="{% url 'college-course-list' %}" class="nav-link {% active_link 'college-course-list' %}">
                                         &nbsp;<i class="nav-icon fas fa-table"></i>
                                         <p>Course List</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'college-add-course' %}" class="nav-link">
+                                    <a href="{% url 'college-add-course' %}" class="nav-link {% active_link 'college-add-course' %}">
                                         &nbsp;<i class="fas fa-plus nav-icon"></i>
                                         <p>Add Course</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% active_link 'college-students-list || college-add-student' 'menu-open' %}">
                             <a class="nav-link">
                                 <i class="nav-icon fas fa-user-graduate"></i>
                                 <p>
@@ -205,20 +206,20 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'college-students-list' %}" class="nav-link">
+                                    <a href="{% url 'college-students-list' %}" class="nav-link {% active_link 'college-students-list' %}">
                                         &nbsp;<i class="nav-icon fas fa-table"></i>
                                         <p>Students List</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'college-add-student' %}" class="nav-link">
+                                    <a href="{% url 'college-add-student' %}" class="nav-link {% active_link 'college-add-student' %}">
                                         &nbsp;<i class="fas fa-plus nav-icon"></i>
                                         <p>Add Student</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% active_link 'college-faculties-list || college-add-faculty' 'menu-open' %}">
                             <a class="nav-link">
                                 <i class="fas fa-chalkboard-teacher"></i>
                                 <p>
@@ -228,20 +229,20 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'college-faculties-list' %}" class="nav-link">
+                                    <a href="{% url 'college-faculties-list' %}" class="nav-link {% active_link 'college-faculties-list' %}">
                                         &nbsp;<i class="nav-icon fas fa-table"></i>
                                         <p>Faculties List</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'college-add-faculty' %}" class="nav-link">
+                                    <a href="{% url 'college-add-faculty' %}" class="nav-link {% active_link 'college-add-faculty' %}">
                                         &nbsp;<i class="fas fa-plus nav-icon"></i>
                                         <p>Add Faculty</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% active_link 'college-exams-list || college-add-exam' 'menu-open' %}">
                             <a class="nav-link">
                                 <i class="fas fa-envelope-open-text"></i>
                                 <p>
@@ -251,15 +252,15 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'college-exams-list' %}" class="nav-link">
+                                    <a href="{% url 'college-exams-list' %}" class="nav-link {% active_link 'college-exams-list' %}">
                                         &nbsp;<i class="nav-icon fas fa-table"></i>
                                         <p>Exams</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'college-add-exam' %}" class="nav-link">
+                                    <a href="{% url 'college-add-exam' %}" class="nav-link {% active_link 'college-add-exam' %}">
                                         &nbsp;<i class="fas fa-plus nav-icon"></i>
-                                        <p>Add Exam</p>
+                                        <p>Add Exam {{url}}</p>
                                     </a>
                                 </li>
                             </ul>

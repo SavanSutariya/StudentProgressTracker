@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'college',
+    'active_link',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,5 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'college.CustomUser'
+
+ACTIVE_LINK_STRICT = True
