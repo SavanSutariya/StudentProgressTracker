@@ -30,4 +30,7 @@ urlpatterns = [
     path('exams/add/',adminViews.add_exam,name="college-add-exam"),
     path('exams/update/<int:pk>',adminViews.update_exam,name="college-update-exam"),
     # path('exams/delete/<int:pk>',adminViews.delete_exam,name="college-delete-exam"),
+
+    path('exams/<int:pk>',adminViews.papers_list,name="college-papers-list"),
+    path('exams/addpaper/<int:pk>',adminViews.add_paper,name="college-add-paper"),
 ]

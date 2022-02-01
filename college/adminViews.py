@@ -454,3 +454,50 @@ def update_exam(request,pk):
             'exam':exam,            
         }
         return render(request,'college/update_exam.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def delete_exam(request,pk):
+    exam = get_object_or_404(Exam, pk=pk)
+    if (exam.semester.course.college != request.user.college):
+        raise PermissionDenied
+    else:
+        if(request.method == "POST"):
+            exam.delete()
+            messages.success(request, f"{exam.name} has been deleted!")
+            return redirect('college-exams-list')
+        context = {
+            'obj':exam
+        }
+        return render(request,'college/delete_confirmation.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def papers_list(request,pk):
+    exam = get_object_or_404(Exam, pk=pk)
+    papers = Paper.objects.filter(exam=exam)
+    context = {
+        'papers':papers,
+        'exam':exam
+    }
+    return render(request,'college/papers_list.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def add_paper(request):
+    if request.method == "POST":
+        name = request.POST.get('paper_name')
+        exam = request.POST.get('exam')
+        subject = request.POST.get('subject')
+        marks = request.POST.get('marks')
+        try:
+            paper = Paper(name=name,exam=Exam.objects.get(pk=exam),subject=Subject.objects.get(pk=subject),marks=marks)
+            paper.save()
+            messages.success(request, f"{paper.name} has been added to {paper.exam}!")
+        except:
+            messages.error(request, f"Something went wrong!")
+        return redirect('college-exams-list')
+    exams = Exam.objects.filter(semester__course__college=request.user.college)
+    subjects = Subject.objects.filter(course__college=request.user.college)
+    context = {
+        'exams':exams
+        ,'subjects':subjects
+    }
+    return render(request,'college/add_paper.html',context)

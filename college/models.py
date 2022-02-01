@@ -93,6 +93,7 @@ class Paper(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     total_marks = models.IntegerField()
+    # add date also!
     def __str__(self):
         return self.name
 

@@ -241,6 +241,29 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link">
+                                <i class="fas fa-envelope-open-text"></i>
+                                <p>
+                                    Manage Exams
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{% url 'college-exams-list' %}" class="nav-link">
+                                        &nbsp;<i class="nav-icon fas fa-table"></i>
+                                        <p>Exams</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'college-add-exam' %}" class="nav-link">
+                                        &nbsp;<i class="fas fa-plus nav-icon"></i>
+                                        <p>Add Exam</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
