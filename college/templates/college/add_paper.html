@@ -1,0 +1,57 @@
+{% extends 'college/base.html' %}
+{% load static %}
+{% block title %}
+Add Paper
+{% endblock %}
+{% block content %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- jquery validation -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">ADD <small>new Paper</small></h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form id="quickForm" method="post">
+            {% csrf_token %}
+            <div class="card-body row">
+              <div class="form-group col-6">
+                <label>Paper Name</label>
+                <input type="text" name="paper_name" class="form-control"
+                  placeholder="Not compulsory">
+              </div>
+              <div class="form-group col-6">
+                <label>Total marks</label>
+                <input type="number" name="paper_marks" class="form-control"
+                  placeholder="" required>
+              </div>
+              <div class="form-group col-6">
+                <label>Subject</label>
+                <select name="subject" class="form-control" required>
+                  <option disabled>Session year</option>
+                  {% for subject in subjects %}
+                  <option value="{{subject.id}}">{{subject.code}} - {{subject.name}}</option>
+                  {% endfor %}}
+                </select>
+              </div>
+              <!-- /.card-body -->
+              <div class="form-group col-12">
+                <button type="submit" class="btn btn-primary">Add Paper</button>
+              </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!--/.col (left) -->
+      <!--/.col (right) -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- ./wrapper -->
+{% endblock content %}

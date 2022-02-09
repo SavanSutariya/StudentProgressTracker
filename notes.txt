@@ -1,3 +1,5 @@
+Pending tasks
+- upload csv and get data
 Tools
 - Django
 - Github

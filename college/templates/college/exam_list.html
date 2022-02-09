@@ -49,7 +49,7 @@ Exams
                             {{forloop.counter}}
                         </td>
                         <td>
-                            <a href="">
+                            <a href="{% url 'college-papers-list' exam.id %}">
                                 {{exam.name}}
                             </a>
                             <br />

@@ -47,20 +47,22 @@ def add_subject(request, pk):
     course = get_object_or_404(Course, pk=pk)
     if(request.user.college != course.college):  # check college admin related college
         raise PermissionDenied
+    faculties = Faculty.objects.filter(user__college=request.user.college)
     semesters_list = Semester.objects.filter(course=pk)
     subject_type = SubjectType.objects.all()
 
     if request.method == "POST":
         subject_code = request.POST.get('subject_code')
         subject_name = request.POST.get('subject_name')
-        sub_type = SubjectType.objects.get(
-            id=request.POST.get('subject_types'))
+        sub_type = SubjectType.objects.get(id=request.POST.get('subject_types'))
         semester = Semester.objects.get(id=request.POST.get('semester'))
+        faculty = Faculty.objects.get(id=request.POST.get('faculty'))
         subject = Subject(
             code=subject_code,
             name=subject_name,
             sub_type=sub_type,
-            semester=semester
+            semester=semester,
+            faculty=faculty,
         )
         subject.save()
         messages.success(request, "Subject added successfully")
@@ -68,7 +70,8 @@ def add_subject(request, pk):
 
     context = {
         'subject_type': subject_type,
-        'semesters_list': semesters_list
+        'semesters_list': semesters_list,
+        'faculties': faculties,
     }
 
     return render(request, "college/add_subject.html", context)
@@ -481,23 +484,38 @@ def papers_list(request,pk):
     return render(request,'college/papers_list.html',context)
 
 @user_passes_test(is_college_admin, login_url='/')
-def add_paper(request):
-    if request.method == "POST":
-        name = request.POST.get('paper_name')
-        exam = request.POST.get('exam')
-        subject = request.POST.get('subject')
-        marks = request.POST.get('marks')
-        try:
-            paper = Paper(name=name,exam=Exam.objects.get(pk=exam),subject=Subject.objects.get(pk=subject),marks=marks)
-            paper.save()
-            messages.success(request, f"{paper.name} has been added to {paper.exam}!")
-        except:
-            messages.error(request, f"Something went wrong!")
-        return redirect('college-exams-list')
-    exams = Exam.objects.filter(semester__course__college=request.user.college)
-    subjects = Subject.objects.filter(course__college=request.user.college)
-    context = {
-        'exams':exams
-        ,'subjects':subjects
-    }
-    return render(request,'college/add_paper.html',context)
+def add_paper(request,pk):
+    exam = get_object_or_404(Exam, pk=pk)
+    subjects = Subject.objects.filter(semester__course=exam.semester.course)
+    if (exam.semester.course.college != request.user.college):
+        raise PermissionDenied
+    else:
+        if request.method == "POST":
+            paper_name = request.POST.get('paper_name')
+            try:
+                paper = Paper(name=paper_name,exam=exam,subject=Subject.objects.get(pk=request.POST.get('subject')),total_marks=request.POST.get('paper_marks'))
+                paper.save()
+                messages.success(request, f"{paper.name} has been added!")
+            except:
+                messages.error(request, f"Something went wrong!")
+            return redirect('college-papers-list',pk=pk)
+        context = {
+            'exam':exam,
+            'subjects':subjects
+        }
+        return render(request,'college/add_paper.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def delete_paper(request,pk):
+    paper = get_object_or_404(Paper, pk=pk)
+    if (paper.exam.semester.course.college != request.user.college):
+        raise PermissionDenied
+    else:
+        if(request.method == "POST"):
+            paper.delete()
+            messages.success(request, f"{paper.name} has been deleted!")
+            return redirect('college-papers-list',pk=paper.exam.pk)
+        context = {
+            'obj':paper
+        }
+        return render(request,'college/delete_confirmation.html',context)
