@@ -1,5 +1,14 @@
+Notes
+    default password is username + "123" (for example, username is "someone" then password will be "someone123")
 Pending tasks
+- option to select course and semester while adding a new student (AJAX)
 - upload csv and get data
+- Generate csv
+- Collect marks
+    - faculty login
+    - show option to add marks to faculty
+- show marks to student
+- show marks to college admin
 Tools
 - Django
 - Github

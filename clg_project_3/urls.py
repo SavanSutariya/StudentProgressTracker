@@ -22,7 +22,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('', views.home, name="home"), #landing page
     path('admin/', admin.site.urls),
-    path('college/', include('college.urls')),
+    path('college/', include('college.clg_urls')),
+    path('faculty/', include('college.fac_urls')),
     path('login/', views.Login,name="login"),
     path('dologin/', views.dologin,name="do-login"),
     path('logout/', views.Logout,name="logout")

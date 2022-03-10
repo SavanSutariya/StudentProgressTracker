@@ -10,7 +10,7 @@ def home(request):
         if request.user.userType == '1':
             return redirect('college-home')
         elif request.user.userType == '2':
-            return HttpResponse(f"Faculty: {request.user.get_full_name()}")
+            return redirect('faculty-home')
         elif request.user.userType == '3':
             # return redirect('student')
             return HttpResponse(f"Srudent: {request.user.get_full_name()}")
@@ -31,7 +31,7 @@ def dologin(request):
                 messages.info(request,f"welcome {user.get_full_name()}")
                 return redirect('college-home')
             elif user_type == '2':
-                return HttpResponse(f"Faculty: {request.user.get_full_name()}")
+                return redirect('faculty-home')
             elif user_type == '3':
                 return HttpResponse(f"Student: {request.user.get_full_name()}")
             else:
