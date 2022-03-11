@@ -2,6 +2,8 @@ from django.urls import path
 from . import adminViews
 
 urlpatterns = [
+    # Ajax Urls
+    # path('ajax/get-no-of-sem/'),
     # college-admin urls
     path('' ,adminViews.Home, name="college-home"),
     path('profile/',adminViews.user_profile, name="college-admin-profile"),

@@ -67,6 +67,23 @@ Add new Student
                   <label class="custom-file-label" for="customFile">Choose Profile</label>
                 </div>
               </div>
+              <div class="form-group col-4">
+                <label>Course</label>
+                <select type="" name="course_name" onchange="fetchCourse()" id="course" class="form-control" required>
+                  <option disabled>Select Cource</option>
+                  {% for course in courses_list %}
+                  <option value="{{course.id}}">{{course.name}}</option>
+                  {% endfor %}}
+                </select>
+              </div>
+              <div class="form-group col-4">
+                <label>Semester</label>
+                <select type="" name="semester" id="semester_field" class="form-control" required>
+                  <option disabled>Select Semester</option>
+                  
+                </select>
+              </div>
+
               <!-- /.card-body -->
               <div class="card-footer col-12">
                 <button type="submit" class="btn btn-primary">Add Student</button>
@@ -82,4 +99,20 @@ Add new Student
 </section>
 
 <!-- ./wrapper -->
+<script>
+   function fetchCourse(){
+    xhr = new XMLHttpRequest();
+    var course = document.getElementById("course");
+    var semester = document.getElementById("semester_field");
+    xhr.open("GET","ajax/get-no-of-sem/"+course.value)
+    xhr.onreadystatechange = function()
+    {
+      if(xhr.readyState == 4 )
+      {
+        console.log(xhr.responseText);
+      }
+    }
+    xhr.send();
+   }
+</script>
 {% endblock content %}

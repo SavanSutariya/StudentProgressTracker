@@ -59,4 +59,8 @@ def paper_marks(request,pk):
     #                 marksheet.save()
     #     messages.success(request,'Marks Added')
     #     return redirect('faculty-paper-marks',pk=pk)
-    return render(request, 'faculty/paper_marks.html',{'paper':paper})
+    context = {
+        'paper':paper,
+        'students_list': students_list
+    }
+    return render(request, 'faculty/paper_marks.html',context)

@@ -104,6 +104,8 @@ def add_course(request):
 @user_passes_test(is_college_admin, login_url='/')
 def add_student(request):
     session_year_list = SessionYear.objects.all()
+    course_list = Course.objects.filter(college=request.user.college)
+    print(course_list)
     if request.method == "POST":
         username = request.POST.get('user_name')
         firstname = request.POST.get('first_name')
@@ -143,6 +145,7 @@ def add_student(request):
             return redirect('college-students-list')
     context = {
         'session_year_list': session_year_list,
+        'courses_list': course_list
     }
     return render(request, "college/add_student.html", context)
 
