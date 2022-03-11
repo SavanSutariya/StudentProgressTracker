@@ -83,7 +83,6 @@ Add new Student
                   
                 </select>
               </div>
-
               <!-- /.card-body -->
               <div class="card-footer col-12">
                 <button type="submit" class="btn btn-primary">Add Student</button>
@@ -104,15 +103,23 @@ Add new Student
     xhr = new XMLHttpRequest();
     var course = document.getElementById("course");
     var semester = document.getElementById("semester_field");
-    xhr.open("GET","ajax/get-no-of-sem/"+course.value)
+    xhr.open("GET","/college/ajax/get-semesters/"+course.value)
     xhr.onreadystatechange = function()
     {
       if(xhr.readyState == 4 )
       {
-        console.log(xhr.responseText);
+        js = xhr.responseText;
+        const obj = JSON.parse(js)["data"];
+        console.log(obj);
+        var html = "";
+        for(var i=0;i<obj.length;i++)
+        {
+          html += "<option value='"+obj[i].id+"'>"+obj[i].number+"</option>";
+        }
+        semester.innerHTML = html;
       }
     }
-    xhr.send();
+    xhr.send();    
    }
 </script>
 {% endblock content %}
