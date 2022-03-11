@@ -31,8 +31,10 @@ def dologin(request):
                 messages.info(request,f"welcome {user.get_full_name()}")
                 return redirect('college-home')
             elif user_type == '2':
+                messages.info(request,f"welcome {user.get_full_name()}")
                 return redirect('faculty-home')
             elif user_type == '3':
+                messages.info(request,f"welcome {user.get_full_name()}")
                 return HttpResponse(f"Student: {request.user.get_full_name()}")
             else:
                 messages.error(request,"User type dosen't match")

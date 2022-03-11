@@ -51,12 +51,7 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
-                </li>
+                
             </ul>
 
             <!-- Right navbar links -->
@@ -141,7 +136,7 @@
                         <img src="{{user.profile_pic.url}}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="{% url 'college-admin-profile' %}" class="d-block">{{user.first_name}} {{user.last_name}}</a>
+                        <a href="{% url 'college-faculty-profile' %}" class="d-block">{{user.first_name}} {{user.last_name}}</a>
                     </div>
                 </div>
 
@@ -173,50 +168,23 @@
                             </a>
 
                         </li>
-                        <li class="nav-item {% active_link 'college-course-list || college-add-course' 'menu-open' %}">
-                            <a class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Cources
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{% url 'college-course-list' %}" class="nav-link {% active_link 'college-course-list' %}">
-                                        &nbsp;<i class="nav-icon fas fa-table"></i>
-                                        <p>Course List</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{% url 'college-add-course' %}" class="nav-link {% active_link 'college-add-course' %}">
-                                        &nbsp;<i class="fas fa-plus nav-icon"></i>
-                                        <p>Add Course</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item {% active_link 'college-exams-list || college-add-exam' 'menu-open' %}">
+                        
+                        <li class="nav-item {% active_lin k menu-open">
                             <a class="nav-link">
                                 <i class="fas fa-envelope-open-text"></i>
                                 <p>
-                                    Manage Exams
+                                    Manage Papers
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'college-exams-list' %}" class="nav-link {% active_link 'college-exams-list' %}">
+                                    <a href="{% url 'faculty-papers-list' %}" class="nav-link {% active_link 'faculty-papers-list' %}">
                                         &nbsp;<i class="nav-icon fas fa-table"></i>
-                                        <p>Exams</p>
+                                        <p>Papers </p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{% url 'college-add-exam' %}" class="nav-link {% active_link 'college-add-exam' %}">
-                                        &nbsp;<i class="fas fa-plus nav-icon"></i>
-                                        <p>Add Exam {{url}}</p>
-                                    </a>
-                                </li>
+                               
                             </ul>
                         </li>
                     </ul>

@@ -1,6 +1,6 @@
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
-
+import os
 from college.adminViews import students_list
 from .models import *
 from django.core.exceptions import PermissionDenied
@@ -64,3 +64,27 @@ def paper_marks(request,pk):
         'students_list': students_list
     }
     return render(request, 'faculty/paper_marks.html',context)
+
+@user_passes_test(is_faculty,login_url='/')
+def user_profile(request):
+    if(request.method == "POST"):
+        profile = request.FILES.get("profile_pic")
+        if profile == None:
+            profile = request.user.profile_pic
+        else:
+            try:
+                os.remove(request.user.profile_pic.path)
+            except:
+                pass
+        username = request.POST.get("username")
+        fname = request.POST.get("first_name")
+        lname = request.POST.get("last_name")
+        user = CustomUser.objects.get(id=request.user.id)
+        user.username=username
+        user.first_name =fname
+        user.last_name = lname
+        user.profile_pic=profile
+        user.save()
+        messages.success(request, "Profile Updated Successfully")
+        return redirect('college-faculty-profile')
+    return render(request, 'college/user_profile.html')
