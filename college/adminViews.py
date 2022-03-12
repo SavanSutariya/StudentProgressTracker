@@ -3,9 +3,18 @@ from django.contrib.auth.decorators import user_passes_test
 from .models import *
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
-from django.http import Http404
+from django.http import Http404,JsonResponse
 import os
 
+# Ajax views
+def get_semesters_ajax(request,pk):
+    '''returns all semesters in json format'''
+    
+    semesters = Semester.objects.filter(course=pk)
+    data = []
+    for semester in semesters:
+        data.append({"id":semester.id,"number"  :semester.number})
+    return JsonResponse({"data":data})
 
 def is_college_admin(user):
     '''checks if authenticated and is a college admin'''
@@ -113,9 +122,10 @@ def add_student(request):
         email = request.POST.get('email')
         address = request.POST.get('address')
         gender = request.POST.get('gender')
+        age = request.POST.get('age')
         profile_pic = request.FILES.get('profile_pic')
-        session_year = SessionYear.objects.get(
-            id=request.POST.get('session_year'))
+        session_year = SessionYear.objects.get(id=request.POST.get('session_year'))
+        semester = Semester.objects.get(id=request.POST.get('semester'))
         if CustomUser.objects.filter(email=email).exists():
             messages.info(request, "email is already taken")
             return redirect('college-add-student')
@@ -139,6 +149,8 @@ def add_student(request):
                 address=address,
                 gender=gender,
                 session_year=session_year,
+                semester=semester,
+                age=age 
             )
             student.save()
             messages.success(request, "student added successfully")

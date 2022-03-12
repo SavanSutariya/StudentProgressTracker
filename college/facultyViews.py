@@ -14,7 +14,7 @@ def is_faculty(user):
     else:
         return False
 
-@user_passes_test(is_faculty)
+@user_passes_test(is_faculty,login_url='/')
 def Home(request):
     '''Home Page for Faculty'''
     return render(request, 'faculty/faculty_home.html')
