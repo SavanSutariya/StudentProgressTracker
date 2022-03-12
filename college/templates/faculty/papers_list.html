@@ -30,8 +30,12 @@ Papers
                         <th style="width: 20%">
                             Paper Name
                         </th>
+                        
                         <th>
                             Type
+                        </th>
+                        <th>
+                            Class
                         </th>
                         <th style="width: 20%" class="project-actions text-right">
                             <a class="btn btn-primary btn-sm" href="">
@@ -59,6 +63,9 @@ Papers
                         </td>
                         <td>
                             {{paper.subject.sub_type}}
+                        </td>
+                        <td>
+                           {{paper.subject.semester.course}}| sem {{paper.subject.semester.number}}
                         </td>
                         <td class="project-actions text-right">
                             <a class="btn btn-primary btn-sm" href="">
