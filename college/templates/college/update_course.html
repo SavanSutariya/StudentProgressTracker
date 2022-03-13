@@ -50,7 +50,6 @@
                             <tr>
                                 <th>Semesters</th>
                                 <th>Subjects</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,15 +57,6 @@
                             <tr>
                                 <td>{{semester.number}}</td>
                                 <td>{{semester.get_subjects.count}}</td>
-                                <td class="text-right py-0 align-middle">
-                                    {% if semester.get_subjects.count == 0 %}
-                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                    {% else %}
-                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Can not delete semester containing subjects">
-                                        <a href="" class="btn btn-danger disabled"><i class="fas fa-trash"></i></a>
-                                    </span>
-                                    {% endif %}
-                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
