@@ -5,7 +5,20 @@ from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.http import Http404,JsonResponse
 import os
+import csv
 
+def exportCsv(request):
+    response = HttpResponse(content_type='text/csv')
+
+    writer = csv.writer(response)
+    writer.writerow(['First Name', 'Last Name', 'Email'])
+
+    for user in CustomUser.objects.all().values_list('first_name', 'last_name', 'email'):
+        writer.writerow(user)
+
+    response['Content-Disposition'] = 'attachment; filename="members.csv"'
+    return response
+    
 # Ajax views
 def get_semesters_ajax(request,pk):
     '''returns all semesters in json format'''
@@ -122,7 +135,7 @@ def add_student(request):
         email = request.POST.get('email')
         address = request.POST.get('address')
         gender = request.POST.get('gender')
-        age = request.POST.get('age')
+        dob = request.POST.get('dob')
         profile_pic = request.FILES.get('profile_pic')
         session_year = SessionYear.objects.get(id=request.POST.get('session_year'))
         semester = Semester.objects.get(id=request.POST.get('semester'))
@@ -150,7 +163,7 @@ def add_student(request):
                 gender=gender,
                 session_year=session_year,
                 semester=semester,
-                age=age 
+                dob=dob
             )
             student.save()
             messages.success(request, "student added successfully")

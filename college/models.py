@@ -75,7 +75,7 @@ class Student(models.Model):
     user = models.OneToOneField(CustomUser , on_delete=models.CASCADE)
     address = models.TextField()
     gender = models.CharField(max_length=7, null=False)
-    age = models.IntegerField(null=False)
+    dob = models.DateField(null=False)
     session_year = models.ForeignKey(SessionYear , on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -1,9 +1,15 @@
+from pydoc import resolve
+from urllib import response
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from college.EmailBackEnd import EmailBackEnd
 from django.contrib.auth import authenticate,logout,login
 from django.contrib import messages
+from .models import *
+
+import csv
 # Create your views here.
+
 
 def home(request):
     if request.user.is_authenticated:
@@ -44,3 +50,13 @@ def dologin(request):
             return redirect('login')
     else:
         return redirect('login')
+
+def exportCsv():
+    response = HttpResponse(content_type = 'text/csv')
+    writer = csv.writer(response)
+    writer.writerow(['username','first_name','last_name'])
+
+    for user in CustomUser.objects.all().values_list('username','first_name','last_name'):
+        writer.writerow(user)
+    
+    response['Content-Disposition'] = 'attachment; filename="user.csv"'
