@@ -5,6 +5,8 @@ urlpatterns = [
     # Ajax Urls
     path('ajax/get-semesters/<int:pk>',view=adminViews.get_semesters_ajax, name="ajax-get-no-of-sem"),
     # college-admin urls
+
+    path('csv/',adminViews.exportCsv ,name="csv-generte-demo"),
     path('' ,adminViews.Home, name="college-home"),
     path('profile/',adminViews.user_profile, name="college-admin-profile"),
 
