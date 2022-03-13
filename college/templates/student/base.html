@@ -136,7 +136,7 @@
                         <img src="{{user.profile_pic.url}}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="{% url 'college-faculty-profile' %}" class="d-block">{{user.first_name}} {{user.last_name}}</a>
+                        <a href="{% url 'college-student-profile' %}" class="d-block">{{user.first_name}} {{user.last_name}}</a>
                     </div>
                 </div>
 
@@ -160,7 +160,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="{% url 'faculty-home' %}" class="nav-link {% active_link 'faculty-home' %}">
+                            <a href="{% url 'student-home' %}" class="nav-link {% active_link 'student-home' %}">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -173,15 +173,15 @@
                             <a class="nav-link">
                                 <i class="fas fa-envelope-open-text"></i>
                                 <p>
-                                    Manage Papers
+                                     Result
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'faculty-papers-list' %}" class="nav-link {% active_link 'faculty-papers-list' %}">
+                                    <a href="#" class="nav-link {% active_link 'faculty-papers-list' %}">
                                         &nbsp;<i class="nav-icon fas fa-table"></i>
-                                        <p>Papers </p>
+                                        <p>Check Result </p>
                                     </a>
                                 </li>
                                
@@ -270,11 +270,11 @@
             //     icon: 'success',
             //     title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
             // })
-        {% if messages %}
+        {% if messages %} 
             {% for message in messages %}
                 toastr.{{message.tags}}('{{message}}')
             {% endfor %}
-            {{messages.len}}
+            {{messages.len}} 
         {% endif %}
 
     </script>
