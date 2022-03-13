@@ -4,4 +4,7 @@
 Dashboard
 {% endblock site_title %}
 {% block content %}
+{% if user.is_superuser %}
+<a href="{% url 'csv-generte-demo' %}" class="btn btn-primary">Download users list( CSV download demo)</a>
+{% endif %}
 {% endblock content %}
