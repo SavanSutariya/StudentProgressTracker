@@ -122,7 +122,7 @@ def add_student(request):
         email = request.POST.get('email')
         address = request.POST.get('address')
         gender = request.POST.get('gender')
-        age = request.POST.get('age')
+        dob = request.POST.get('dob')
         profile_pic = request.FILES.get('profile_pic')
         session_year = SessionYear.objects.get(id=request.POST.get('session_year'))
         semester = Semester.objects.get(id=request.POST.get('semester'))
@@ -150,7 +150,7 @@ def add_student(request):
                 gender=gender,
                 session_year=session_year,
                 semester=semester,
-                age=age 
+                dob=dob
             )
             student.save()
             messages.success(request, "student added successfully")

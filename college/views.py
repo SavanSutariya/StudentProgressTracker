@@ -12,8 +12,8 @@ def home(request):
         elif request.user.userType == '2':
             return redirect('faculty-home')
         elif request.user.userType == '3':
-            # return redirect('student')
-            return HttpResponse(f"Srudent: {request.user.get_full_name()}")
+            return redirect('student-home')
+            
     else:
         return redirect('login')
 def Login(request): 
@@ -35,7 +35,7 @@ def dologin(request):
                 return redirect('faculty-home')
             elif user_type == '3':
                 messages.info(request,f"welcome {user.get_full_name()}")
-                return HttpResponse(f"Student: {request.user.get_full_name()}")
+                return redirect('student-home')
             else:
                 messages.error(request,"User type dosen't match")
                 return redirect('login')

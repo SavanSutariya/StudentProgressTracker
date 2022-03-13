@@ -65,8 +65,10 @@ def paper_marks(request,pk):
     }
     return render(request, 'faculty/paper_marks.html',context)
 
-@user_passes_test(is_faculty,login_url='/')
+
+@user_passes_test(is_faculty, login_url='/')
 def user_profile(request):
+    # check if fields are not empty
     if(request.method == "POST"):
         profile = request.FILES.get("profile_pic")
         if profile == None:
@@ -87,4 +89,4 @@ def user_profile(request):
         user.save()
         messages.success(request, "Profile Updated Successfully")
         return redirect('college-faculty-profile')
-    return render(request, 'college/user_profile.html')
+    return render(request, 'faculty/user_profile.html')
