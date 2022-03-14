@@ -20,87 +20,31 @@ Studentss
                 </button>
             </div>
         </div>
-<<<<<<< HEAD
-        <div class="card-body p-0 row">
-=======
         <div class="card-body row">
->>>>>>> 3d5395e85b633390da0ae0435a9450549c1e32b7
             <div class="form-group col-md-6">
                 <label> &nbsp; Select Exam</label>
                     <select type="" onchange="getPaper()"name="exam_name"  id="exam" class="form-control" required>
-                      <option disabled>Select Exam</option>
+                      <option default value="NULL">Select Exam</option>
                       {% for exams_list in exams_list %}
                       <option value="{{exams_list.id}}">{{exams_list.name}}</option>
-                      {% endfor %}}
+                      {% endfor %}
                     </select>
             </div>
-<<<<<<< HEAD
-            <div class="col-md-6">
-                
-            </div>
-        </div>
-=======
             <div class="form-group col-md-6">
                 <label> &nbsp; Select Paper</label>
                 <select type="" name="paper_name" onchange="getMarks()"  id="paper" class="form-control" required>
-                    <option disabled>Select Exam</option>
+                    <option disabled>Select Paper</option>
                 </select>  
             </div>
         </div>
         <div class="col-12" id="marks">
 
         </div >
->>>>>>> 3d5395e85b633390da0ae0435a9450549c1e32b7
         <!-- /.card-body -->
     </div>
     <!-- /.card -->
 
 </section>
-<<<<<<< HEAD
-    <!-- Default box -->
-    <!--<div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Check Result</h3>
-
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-       <div class="card-body p-0">
-            <table class="table table-striped projects">
-               <div class="row"> 
-                <div class="form-group col-md-6">
-                    <label> &nbsp; Select Exam</label>
-                    <select type="" onchange="getPaper()"name="exam_name"  id="exam" class="form-control" required>
-                      <option disabled>Select Exam</option>
-                      {% for exams_list in exams_list %}
-                      <option value="{{exams_list.id}}">{{exams_list.name}}</option>
-                      {% endfor %}}
-                    </select>
-                </div>
-                <div class="form-group col-md-6">
-                    <label> &nbsp; Select Paper</label>
-                    <select type="" name="paper_name" onchange="getMarks()"  id="paper" class="form-control" required>
-                        <option disabled>Select Exam</option>
-                      
-                    </select>   
-                </div>
-                <div id="marks">
-
-                </div>
-               </div> 
-            </table>
-        </div>
-        
-    </div> -->
-    <!-- /.card -->
-=======
->>>>>>> 3d5395e85b633390da0ae0435a9450549c1e32b7
 
 <script>
     function getPaper()
@@ -108,6 +52,10 @@ Studentss
         xhr = new XMLHttpRequest;
         var exam = document.getElementById("exam");
         var paper = document.getElementById("paper");
+        if (exam.value == "NULL"){
+            paper.innerHTML = "";
+        }
+        else{
         xhr.open("GET","/student/ajax/get-papers/"+exam.value);
         
         xhr.onreadystatechange = function()
@@ -120,6 +68,7 @@ Studentss
                
                 //console.log(obj);
                 var html = "";
+                html += "<option value='NULL'>Select Paper</option>"
                 for(var i=0;i<obj.length;i++)
                 {
                     html += "<option value='"+obj[i].id+"'>"+obj[i].number+"</option>";
@@ -128,12 +77,17 @@ Studentss
             }
         }
     xhr.send(); 
+        }
     }
     function getMarks()
     {
         xhr = new XMLHttpRequest;
         var paper = document.getElementById("paper");
         var marks = document.getElementById("marks");
+        if (paper.value == "NULL"){
+            marks.innerHTML = "";
+        }
+        else{
         xhr.open("GET","/student/ajax/get-marks/"+paper.value);
         
         xhr.onreadystatechange = function()
@@ -153,6 +107,7 @@ Studentss
             }
         }
     xhr.send(); 
+        }
     }
 
 </script>
