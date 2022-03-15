@@ -9,6 +9,7 @@ Pending tasks
     - show option to add marks to faculty
 - show marks to student
 - show marks to college admin
+- marks must not be greater than total
 Tools
 - Django
 - Github
@@ -17,3 +18,10 @@ Tools
 - AdminLTE
 - Watsapp
 - Communities
+D - Fail below 36% (gray)
+C - pass between 36% and 47.99% (red)
+B - second between 48% and 54.99% (orange)
+B+ - Higher Second between 55% and 59.99% (yellow)
+A - first between 60% and 69.99% (blue)
+O - dist in between 70% and 84.99% (green)
+O+ - dist in between 85% and 100% (green)(Bold)
