@@ -278,6 +278,7 @@ def update_subject(request,pk):
     subject = get_object_or_404(Subject,pk=pk)
     subject_types = SubjectType.objects.all()
     semesters = Semester.objects.filter(course=subject.semester.course)
+    faculties = Faculty.objects.filter(user__college=request.user.college)
     if (subject.semester.course.college != request.user.college):
         raise PermissionDenied
     if request.method == "POST":
@@ -285,10 +286,13 @@ def update_subject(request,pk):
         name = request.POST.get('subject_name')
         subtype = request.POST.get('subject_type')
         semester = request.POST.get('semester')
+        facultie = request.POST.get('faculty')
+        
         subject.code = code
         subject.name = name
         subject.sub_type = SubjectType.objects.get(pk=subtype)
         subject.semester = Semester.objects.get(pk=semester)
+        subject.faculty = Faculty.objects.get(pk=facultie)
         subject.save()
         messages.success(request,f"{subject.name} has been updated!")
         return redirect('college-update-subject',pk)
@@ -296,7 +300,8 @@ def update_subject(request,pk):
     context = {
         'subject':subject,
         'subject_types':subject_types,
-        'semesters_list':semesters
+        'semesters_list':semesters,
+        'faculties' : faculties,
     }
     return render(request,'college/update_subject.html',context)
 
@@ -332,7 +337,10 @@ def update_faculty(request,pk):
 @user_passes_test(is_college_admin, login_url='/')
 def update_student(request,pk):
     student = get_object_or_404(Student,pk=pk)
+    course_list = Course.objects.filter(college=request.user.college)
+    print(course_list)
     session_years = SessionYear.objects.all()
+    #semester = Semester.objects.get(id=request.POST.get('semester'))
     if (student.user.college != request.user.college):
         raise PermissionDenied
     if request.method == "POST":
@@ -351,13 +359,17 @@ def update_student(request,pk):
         student.gender = request.POST.get('gender')
         student.user.profile_pic = profile
         student.session_year = SessionYear.objects.get(pk=request.POST.get('session_year'))
+        student.dob = request.POST.get('dob')
+        student.semester = Semester.objects.get(pk=request.POST.get('semester'))
+        
         student.save()
         student.user.save()
         messages.success(request,'Student Profile Updated Successfully!')
         return redirect('college-update-student',student.id)
     context = {
         'student':student,
-        'session_year_list':session_years
+        'session_year_list':session_years,
+        'course_list' : course_list,
     }
     return render(request,'college/update_student.html',context)
 

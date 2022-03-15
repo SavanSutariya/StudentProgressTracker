@@ -49,6 +49,15 @@
                     {% endfor %}
                   </select>
                 </div>
+                <div class="form-group col-md-12">
+                <label>Faculty</label>
+                <select type="text" name="faculty" class="form-control" placeholder="" required>
+                  <option>Select Faculty</option>
+                  {% for i in faculties %}
+                  <option value="{{i.id}}">{{i.user.get_full_name}}</option>
+                  {% endfor %}}
+                </select>
+              </div>
               </div>
             </div>
         </div>

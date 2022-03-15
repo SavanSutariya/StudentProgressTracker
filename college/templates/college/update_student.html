@@ -96,6 +96,26 @@ Update Student
                                 </option>
                             </select>
                         </div>
+                        <div class="form-group col-4">
+                            <label>Date of Birth</label>
+                            <input name="exam_date" type="date" id="inputDate" class="form-control" value="{{student.dob | date:'Y-m-d'}}" onchange="enableSave()">
+                        </div>
+                        <div class="form-group col-4">
+                            <label>Course</label>
+                            <select type="" name="course_name" onchange="fetchCourse()" id="course" class="form-control" required>
+                                <option disabled>Select Cource</option>
+                                {% for course in course_list %}
+                                <option value="{{course.id}}">{{course.name}}</option>
+                                {% endfor %}}
+                              </select>
+                        </div>
+                        <div class="form-group col-4">
+                            <label>Semester</label>
+                            <select type="" name="semester" id="semester_field" class="form-control"  required>
+                              <option disabled>Select Semester</option>
+                              
+                            </select>
+                        </div>
                         <div class="m-2 col-12">
                             <a class="btn btn-secondary" id="cancel_btn" href="">Cancel</a>
                             <input type="submit" value="Save Changes" class="btn btn-success float-right" id="save_btn">
@@ -141,5 +161,29 @@ Update Student
             cancBtn.classList.add("disabled");
         }
     } {% endcomment %}
+    
+        function fetchCourse(){
+         xhr = new XMLHttpRequest();
+         var course = document.getElementById("course");
+         var semester = document.getElementById("semester_field");
+         xhr.open("GET","/college/ajax/get-semesters/"+course.value)
+         xhr.onreadystatechange = function()
+         {
+           if(xhr.readyState == 4 )
+           {
+             js = xhr.responseText;
+             const obj = JSON.parse(js)["data"];
+             console.log(obj);
+             var html = "";
+             for(var i=0;i<obj.length;i++)
+             {
+               html += "<option value='"+obj[i].id+"'>"+obj[i].number+"</option>";
+             }
+             semester.innerHTML = html;
+           }
+         }
+         xhr.send();    
+        }
+    
 </script>
 {% endblock content %}
