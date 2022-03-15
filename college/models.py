@@ -80,6 +80,12 @@ class Student(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    def get_obtained_marks(self,paper):
+        try:
+            result = Result.objects.get(student=self,paper=paper)
+            return result.marks
+        except:
+            return "(Empty)"
 
 class Exam(models.Model):
     name = models.CharField(max_length=50)

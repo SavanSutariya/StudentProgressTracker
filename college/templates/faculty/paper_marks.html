@@ -1,5 +1,6 @@
 {% extends 'faculty/base.html' %}
 {% load static %}
+{% load shortcuts %}
 {% block site_title %}
 Papers
 {% endblock site_title %}
@@ -64,10 +65,11 @@ Papers
                             <td class="project-actions text-right">
                                 <input type="number" name="paper" hidden value="{{paper.id}}">
                                 <input type="number" name="student" hidden value="{{student.id}}">
-                                <input class="form-control" name="marks" type="number" width="1" max="{{paper.total_marks}}">
+                                <input value="{{ student.id|get_result:paper.id }}" class="form-control" name="marks" type="number" width="1" max="{{paper.total_marks}}">
                             </td>
                             <td>
                                 <button class="btn btn-primary" type="submit">Save</button>
+                                
                             </td>
                         </form>
                     </tr>

@@ -34,8 +34,6 @@ def paper_marks(request,pk):
     '''
     paper = get_object_or_404(Paper,pk=pk)
     students_list = Student.objects.filter(semester=paper.subject.semester)
-    results = Result.objects.filter(paper=paper)
-    print(results)
     # if paper.subject.faculty != request.user.faculty:
     #     raise PermissionDenied
     # if request.method == 'POST':
@@ -96,16 +94,20 @@ def save_marks(request):
     if request.method == 'POST':
         student = Student.objects.get(id=request.POST.get('student'))
         paper = Paper.objects.get(id=request.POST.get('paper'))
-        marks = int(request.POST.get('marks'))
-        try:
-            if(marks == None):
-                marks = 0
-            elif(marks < 0 or marks > 100):
-                messages.error(request,'Invalid Marks')
-            else:
-                print("Heloooo")
-                Result.objects.update_or_create(student=student,paper=paper,defaults={'marks':marks})
-                messages.success(request,'Marks saved')
-        except:
-            messages.error(request,'something went wrong')
+        marks = request.POST.get('marks')
+        if marks:
+            try:
+                marks = int(marks)
+                if(marks == None):
+                    marks = 0
+                elif(marks < 0 or marks > 100):
+                    messages.error(request,'Invalid Marks')
+                else:
+                    print("Heloooo")
+                    Result.objects.update_or_create(student=student,paper=paper,defaults={'marks':marks})
+                    messages.success(request,'Marks saved')
+            except:
+                messages.error(request,'something went wrong')
+        else:
+            messages.warning(request,'Field must not be Empty')
         return redirect('faculty-paper-marks',paper.id)
