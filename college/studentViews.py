@@ -47,28 +47,36 @@ def user_profile(request):
 
 @user_passes_test(is_student,login_url='/') 
 def check_result(request): 
+    # student = get_object_or_404(Student,user=request.user)
+    # exams_list = Exam.objects.filter(semester__course__college=request.user.college)
+    # paper_list = Paper.objects.filter(exam__semester__course__college=request.user.college)
+    # marks_list = Result.objects.filter(paper__exam__semester__course__college=request.user.college)
+    # context = {
+    #     'exams_list' : exams_list,
+    #     'paper_list' : paper_list,
+    #     'marks_list' : marks_list,
+    # }
     student = get_object_or_404(Student,user=request.user)
-    exams_list = Exam.objects.filter(semester__course__college=request.user.college)
-    paper_list = Paper.objects.filter(exam__semester__course__college=request.user.college)
-    marks_list = Result.objects.filter(paper__exam__semester__course__college=request.user.college)
+    exams_list = Exam.objects.filter(semester=student.semester)
     context = {
-        'exams_list' : exams_list,
-        'paper_list' : paper_list,
-        'marks_list' : marks_list,
+        'exams_list': exams_list,
     }
     return render(request, 'student/check_result.html',context)
 
 def get_papers_ajax(request,pk):
     papers = Paper.objects.filter(exam=pk)
+    student = get_object_or_404(Student,user=request.user)
     data = []
     for paper in papers:
-        data.append({"id":paper.id,"number":paper.name})
+        marks = Result.objects.get(paper=paper,student=student)
+        data.append({"id":paper.id,"paper":paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
     return JsonResponse({"data":data})
 
 def get_marks_ajax(request,pk):
-    marks_list = Result.objects.filter(paper__exam__semester__course__college=request.user.college)
+    student = get_object_or_404(Student,user=request.user)
+    marks_list = Result.objects.filter(paper=pk,student=student)
   
     data = [] 
     for marks in marks_list:
-        data.append({"paper":marks.id,"marks":marks.marks})
+        data.append({"paper":marks.paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
     return JsonResponse({"data" : data})

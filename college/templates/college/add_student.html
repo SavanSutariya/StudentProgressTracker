@@ -74,7 +74,7 @@ Add new Student
               <div class="form-group col-4">
                 <label>Course</label>
                 <select type="" name="course_name" onchange="fetchCourse()" id="course" class="form-control" required>
-                  <option disabled>Select Cource</option>
+                  <option default value="NULL">Select Cource</option>
                   {% for course in courses_list %}
                   <option value="{{course.id}}">{{course.name}}</option>
                   {% endfor %}}
@@ -107,6 +107,10 @@ Add new Student
     xhr = new XMLHttpRequest();
     var course = document.getElementById("course");
     var semester = document.getElementById("semester_field");
+    if (course.value == "NULL"){
+      semester.innerHTML = "";
+    }
+    else{
     xhr.open("GET","/college/ajax/get-semesters/"+course.value)
     xhr.onreadystatechange = function()
     {
@@ -116,6 +120,7 @@ Add new Student
         const obj = JSON.parse(js)["data"];
         console.log(obj);
         var html = "";
+        html += "<option value='NULL'>Select paper</option>"
         for(var i=0;i<obj.length;i++)
         {
           html += "<option value='"+obj[i].id+"'>"+obj[i].number+"</option>";
@@ -124,6 +129,7 @@ Add new Student
       }
     }
     xhr.send();    
-   }
+        }
+  }
 </script>
 {% endblock content %}

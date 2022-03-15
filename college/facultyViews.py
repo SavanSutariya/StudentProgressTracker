@@ -1,7 +1,6 @@
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 import os
-from college.adminViews import students_list
 from .models import *
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages

@@ -23,23 +23,46 @@ Studentss
         <div class="card-body row">
             <div class="form-group col-md-6">
                 <label> &nbsp; Select Exam</label>
-                    <select type="" onchange="getPaper()"name="exam_name"  id="exam" class="form-control" required>
-                      <option default value="NULL">Select Exam</option>
-                      {% for exams_list in exams_list %}
-                      <option value="{{exams_list.id}}">{{exams_list.name}}</option>
-                      {% endfor %}
-                    </select>
+                <select type="" onchange="getPaper()" name="exam_name" id="exam" class="form-control" required>
+                    <option default value="NULL">Select Exam</option>
+                    {% for exams_list in exams_list %}
+                    <option value="{{exams_list.id}}">{{exams_list.name}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label> &nbsp; Select Paper</label>
-                <select type="" name="paper_name" onchange="getMarks()"  id="paper" class="form-control" required>
-                    <option disabled>Select Paper</option>
-                </select>  
+                <select type="" name="paper_name" onchange="getMarks()" id="paper" class="form-control" required>
+                    <option value="NULL">Select Paper</option>
+                </select>
             </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><b>Exam name</b></h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Paper</th>
+                            <th>Subject</th>
+                            <th>marks</th>
+                            <th style="width: 50%">Progress Bar</th>
+                            <th style="width: 40px">(%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbl">
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
         </div>
         <div class="col-12" id="marks">
 
-        </div >
+        </div>
         <!-- /.card-body -->
     </div>
     <!-- /.card -->
@@ -47,66 +70,76 @@ Studentss
 </section>
 
 <script>
-    function getPaper()
-    {
+    function getPaper() {
         xhr = new XMLHttpRequest;
         var exam = document.getElementById("exam");
         var paper = document.getElementById("paper");
-        if (exam.value == "NULL"){
+        var table = document.getElementById("tbl");
+        if (exam.value == "NULL") {
             paper.innerHTML = "";
+            table.innerHTML = "";
         }
-        else{
-        xhr.open("GET","/student/ajax/get-papers/"+exam.value);
-        
-        xhr.onreadystatechange = function()
-        {
-         
-            if(xhr.readyState == 4 )
-            {
-                js = xhr.responseText;
-                const obj = JSON.parse(js)["data"];
-               
-                //console.log(obj);
-                var html = "";
-                html += "<option value='NULL'>Select Paper</option>"
-                for(var i=0;i<obj.length;i++)
-                {
-                    html += "<option value='"+obj[i].id+"'>"+obj[i].number+"</option>";
+        else {
+            xhr.open("GET", "/student/ajax/get-papers/" + exam.value);
+
+            xhr.onreadystatechange = function () {
+
+                if (xhr.readyState == 4) {
+                    js = xhr.responseText;
+                    const obj = JSON.parse(js)["data"];
+
+                    var opt = "";
+                    var tbl = "";
+                    opt += "<option value='NULL'>Select Paper</option>";
+                    var clr = "primary";
+                    for (var i = 0; i < obj.length; i++) {
+                        opt += "<option value='" + obj[i].id + "'>" + obj[i].paper + "</option>";
+                        tbl += `
+                        <tr>
+                            <td>`+(i+1)+`</td>
+                            <td>`+obj[i].paper+`</td>
+                            <td>`+obj[i].subject+`</td>
+                            <td>`+obj[i].marks+`/`+obj[i].total+`</td>
+                            <td>
+                                <div class="progress progress-xs">
+                                    <div class="progress-bar bg-`+getColorAccordingToMarks(obj[i].marks)+`" style="width: `+getPercentage(obj[i].marks,obj[i].total)+`%"></div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-`+getColorAccordingToMarks(obj[i].marks)+`">`+getPercentage(obj[i].marks,obj[i].total)+`%</span></td>
+                        </tr>
+                        `
+                    }
+                    paper.innerHTML = opt;
+                    table.innerHTML = tbl;
                 }
-                paper.innerHTML = html;
             }
-        }
-    xhr.send(); 
+            xhr.send();
         }
     }
-    function getMarks()
-    {
+    function getMarks() {
         xhr = new XMLHttpRequest;
         var paper = document.getElementById("paper");
         var marks = document.getElementById("marks");
-        if (paper.value == "NULL"){
+        if (paper.value == "NULL") {
             marks.innerHTML = "";
         }
-        else{
-        xhr.open("GET","/student/ajax/get-marks/"+paper.value);
-        
-        xhr.onreadystatechange = function()
-        {
-         
-            if(xhr.readyState == 4 )
-            {
-                js = xhr.responseText;
-                const obj = JSON.parse(js)["data"];
-                console.log(obj);
-                var html = "";
-                for(var i=0;i<obj.length;i++)
-                {
-                    html += "<option value='"+obj[i].id+"'>"+obj[i].marks+"</option>";
+        else {
+            xhr.open("GET", "/student/ajax/get-marks/" + paper.value);
+
+            xhr.onreadystatechange = function () {
+
+                if (xhr.readyState == 4) {
+                    js = xhr.responseText;
+                    const obj = JSON.parse(js)["data"];
+                    console.log(obj);
+                    var html = "";
+                    for (var i = 0; i < obj.length; i++) {
+                        html += "Paper : " + obj[i].paper + "(Subject : " + obj[i].subject + " )</br>Marks obtained : " + obj[i].marks + "</br>out of : " + obj[i].total + "</br>";
+                    }
+                    marks.innerHTML = html;
                 }
-                marks.innerHTML = html;
             }
-        }
-    xhr.send(); 
+            xhr.send();
         }
     }
 

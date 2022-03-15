@@ -102,4 +102,4 @@ class Result(models.Model):
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
     marks = models.IntegerField()
     def __str__(self):
-        return self.paper.name+" : "+str(self.marks)
+        return self.paper.name+" : "+str(self.marks) +" : "+self.student.user.get_full_name()
