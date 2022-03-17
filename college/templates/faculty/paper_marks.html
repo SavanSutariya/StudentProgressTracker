@@ -1,5 +1,6 @@
 {% extends 'faculty/base.html' %}
 {% load static %}
+{% load shortcuts %}
 {% block site_title %}
 Papers
 {% endblock site_title %}
@@ -36,7 +37,13 @@ Papers
                         <th style="width: 20%" class="project-actions text-right">
                             Obtained
                         </th>
+<<<<<<< HEAD
 
+=======
+                        <th style="width: 10px;">
+
+                        </th>
+>>>>>>> 4a0011e49a65ba60708817685fd610b9e1a1857a
                     </tr>
                 </thead>
                 <tbody>
@@ -57,6 +64,7 @@ Papers
                         <td>
                             {{paper.total_marks}}
                         </td>
+<<<<<<< HEAD
                         <td class="project-actions text-right">
                             <input type="number" width="1">
                         </td>
@@ -72,6 +80,20 @@ Papers
                                 Save
                             </a>
                         </td>
+=======
+                        <form action="{% url 'faculty-save-marks' %}" method="post">
+                            {% csrf_token %}
+                            <td class="project-actions text-right">
+                                <input type="number" name="paper" hidden value="{{paper.id}}">
+                                <input type="number" name="student" hidden value="{{student.id}}">
+                                <input value="{{ student.id|get_result:paper.id }}" class="form-control" name="marks" type="number" width="1" max="{{paper.total_marks}}">
+                            </td>
+                            <td>
+                                <button class="btn btn-primary" type="submit">Save</button>
+                                
+                            </td>
+                        </form>
+>>>>>>> 4a0011e49a65ba60708817685fd610b9e1a1857a
                     </tr>
                     {% endfor %}
                 </tbody>
