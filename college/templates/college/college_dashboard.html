@@ -4,7 +4,71 @@
 Dashboard
 {% endblock site_title %}
 {% block content %}
-{% if user.is_superuser %}
-<a href="{% url 'csv-generte-demo' %}" class="btn btn-primary">Download users list( CSV download demo)</a>
-{% endif %}
+<section class="content">
+    <div class="row">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{{courses_list.count}}</h3>
+
+              <p>Courses</p>
+            </div>
+            <div class="icon">
+                <i class="nav-icon fas fa-th"></i>
+            </div>
+            <a href="{% url 'college-course-list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{{students_list.count}}</h3>
+
+              <p>Students</p>
+            </div>
+            <div class="icon">
+                <i class="nav-icon fas fa-user-graduate"></i>
+            </div>
+            <a href="{% url 'college-students-list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{{faculties_list.count}}</h3>
+
+              <p>Faculties</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <a href="{% url 'college-faculties-list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>{{exams_list.count}}</h3>
+
+              <p>Exams</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <a href="{% url 'college-exams-list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      {% if user.is_superuser %}
+      <a href="{% url 'csv-generte-demo' %}" class="btn btn-primary">Download users list( CSV download demo)</a>
+      {% endif %}
+</section>
 {% endblock content %}

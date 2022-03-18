@@ -38,7 +38,18 @@ def is_college_admin(user):
 
 @user_passes_test(is_college_admin, login_url='/')
 def Home(request):
-    return render(request, "college/college_dashboard.html")
+    courses_list = Course.objects.filter(college=request.user.college)
+    students_list = Student.objects.filter(user__college=request.user.college)
+    faculties_list = Faculty.objects.filter(user__college=request.user.college)
+    exams = Exam.objects.filter(semester__course__college=request.user.college)
+
+    context = {
+        'courses_list':courses_list,
+        'students_list':students_list,
+        'faculties_list':faculties_list,
+        'exams_list':exams
+    }
+    return render(request, "college/college_dashboard.html",context)
 
 @user_passes_test(is_college_admin, login_url='/')
 def Course_list(request):
