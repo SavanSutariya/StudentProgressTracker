@@ -98,7 +98,7 @@ Update Student
                         </div>
                         <div class="form-group col-4">
                             <label>Date of Birth</label>
-                            <input name="exam_date" type="date" id="inputDate" class="form-control" value="{{student.dob | date:'Y-m-d'}}" onchange="enableSave()">
+                            <input name="exam_date" type="date" id="inputDate" class="form-control" onchange="validateDate();" value="{{student.dob | date:'Y-m-d'}}" onchange="enableSave()">
                         </div>
                         <div class="form-group col-4">
                             <label>Course</label>
@@ -184,6 +184,22 @@ Update Student
          }
          xhr.send();    
         }
-    
+        function validateDate()
+        {
+          var date = document.getElementById('dob').value;
+          var today = Date();
+          var Ddate = moment(today).format('YYYY-MM-DD');
+          var temp;
+         if( Ddate > date )
+         {
+          true;
+         }
+         else
+         {
+          alert('Enter right date');
+          $("input[type=date]").val("")
+          
+         }    
+        }
 </script>
 {% endblock content %}

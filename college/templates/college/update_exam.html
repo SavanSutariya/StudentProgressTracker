@@ -27,7 +27,7 @@
                         </div>
                         <div class="form-group">
                             <label for="inputDate">Exam Date</label>
-                            <input name="exam_date" type="date" id="inputDate" class="form-control" value="{{exam.date | date:'Y-m-d'}}" onchange="enableSave()">
+                            <input name="exam_date" type="date" id="inputDate" class="form-control" onchange="validateDate();" value="{{exam.date | date:'Y-m-d'}}" onchange="enableSave()">
                         </div>
                         <a href="" id="cancel_btn" class="btn btn-secondary disabled">Cancel</a>
                         <input id="save_btn" disabled type="submit" value="Save Changes"
@@ -55,5 +55,22 @@
             cancBtn.classList.add("disabled");
         }
     }
+   function validateDate()
+  {
+    var date = document.getElementById('inputDate').value;
+    var today = Date();
+    var Ddate = moment(today).format('YYYY-MM-DD');
+    var temp;
+   if( Ddate <= date )
+   {
+    true;
+   }
+   else
+   {
+    alert('Enter valid date');
+    $("input[type=date]").val("")
+    
+   }    
+  }
 </script>
 {% endblock content %}
