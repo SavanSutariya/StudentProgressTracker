@@ -16,6 +16,7 @@ def exportCsv(request):
     for user in CustomUser.objects.all().values_list('first_name', 'last_name', 'email'):
         writer.writerow(user)
 
+
     response['Content-Disposition'] = 'attachment; filename="members.csv"'
     return response
     
