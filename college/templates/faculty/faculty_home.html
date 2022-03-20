@@ -4,5 +4,57 @@
 Papers
 {% endblock site_title %}
 {% block content %}
-Faculty Home page
+<section class="content">
+    <div class="row">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{{subjects_list.count}}</h3>
+
+              <p>Subjects</p>
+            </div>
+            <div class="icon">
+                <i class="nav-icon fas fa-th"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>--</h3>
+
+              <p>View performance (Under Development)</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>{{papers_list.count}}</h3>
+
+              <p>Papers</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <a href="{% url 'faculty-papers-list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      {% if user.is_superuser %}
+      <a href="{% url 'csv-generte-demo' %}" class="btn btn-primary">Download users list( CSV download demo)</a>
+      {% endif %}
+</section>
 {% endblock content %}

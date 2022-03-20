@@ -247,7 +247,10 @@ def user_profile(request):
     # check if fields are not empty
     if(request.method == "POST"):
         profile = request.FILES.get("profile_pic")
+        ext = os.path.splitext(profile.name)[1]
         if profile == None:
+            profile = request.user.profile_pic
+        elif ext not in ['.jpg', '.png', '.jpeg']:
             profile = request.user.profile_pic
         else:
             try:
@@ -258,7 +261,7 @@ def user_profile(request):
         fname = request.POST.get("first_name")
         lname = request.POST.get("last_name")
         user = CustomUser.objects.get(id=request.user.id)
-        user.username=username
+        user.username=username  
         user.first_name =fname
         user.last_name = lname
         user.profile_pic=profile

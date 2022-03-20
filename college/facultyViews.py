@@ -16,7 +16,14 @@ def is_faculty(user):
 @user_passes_test(is_faculty,login_url='/')
 def Home(request):
     '''Home Page for Faculty'''
-    return render(request, 'faculty/faculty_home.html')
+    subjects_list = Subject.objects.filter(faculty__user=request.user)
+    # students_list = Student.objects.filter()
+    papers_list=Paper.objects.filter(subject__faculty__user=request.user)
+    context = {
+        'subjects_list':subjects_list,
+        'papers_list':papers_list
+    }
+    return render(request, 'faculty/faculty_home.html',context)
 
 @user_passes_test(is_faculty,login_url='/')
 def papers_list(request):
