@@ -29,6 +29,14 @@ def Logout(request):
     return redirect('home')
 def dologin(request):
     if request.method == "POST":
+        '''if request.POST.get('email') == "":
+            messages.error(request , "Email is required")
+            return redirect('login')
+        elif request.POST.get('password') == "":
+            messages.error(request , "Password is required")
+            return redirect('login')'''
+           
+
         user = EmailBackEnd.authenticate(request,username = request.POST.get('email'),password = request.POST.get('password'))
         if user != None:
             login(request,user)

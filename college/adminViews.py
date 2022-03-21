@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.http import Http404,JsonResponse
 import os
 import csv
+import re
 
 def exportCsv(request):
     response = HttpResponse(content_type='text/csv')
@@ -87,7 +88,19 @@ def add_subject(request, pk):
 
     if request.method == "POST":
         subject_code = request.POST.get('subject_code')
+        if re.findall('^[a-zA-Z][- 0-9]*',subject_code) == []:   
+                messages.error(request , "Subject must not start with numeric value and special charachters")
+                return redirect('college-add-subject',pk)
+        elif subject_code == '':
+            messages.error(request , "Subejct Code must not be Empty")
+            return redirect('college-add-course',pk)
         subject_name = request.POST.get('subject_name')
+        if re.findall('^[a-zA-Z ]+$',subject_name) == []:   
+                messages.error(request , "Name must not contain numeric Value")
+                return redirect('college-add-subject',pk)
+        elif subject_name == '':
+            messages.error(request , "Name must not be Empty")
+            return redirect('college-add-course',pk)
         sub_type = SubjectType.objects.get(id=request.POST.get('subject_types'))
         semester = Semester.objects.get(id=request.POST.get('semester'))
         faculty = Faculty.objects.get(id=request.POST.get('faculty'))
@@ -113,9 +126,22 @@ def add_subject(request, pk):
 @user_passes_test(is_college_admin, login_url='/')
 def add_course(request):
     if request.method == 'POST':
+        
         course_name = request.POST.get('course_name')
+        if re.findall('^[a-zA-Z ]*$',course_name) == []:
+            messages.error(request , "Course name must not contain numeric or other type of  value")
+            return redirect('college-add-course')
+        elif course_name == '':
+            messages.error(request , "Course name must not be Empty")
+            return redirect('college-add-course')
         college = request.user.college
         semester = request.POST.get('NoOfSem')
+        if semester == '':
+            messages.error(request , "Semester name must not be Empty")
+            return redirect('college-add-course')     
+        elif re.findall('^[0-9]*$',semester) == []:
+            messages.error(request , "Smester name must not contain alphabetaic Value or other type of  value")       
+
         if int(semester) > 10 or int(semester) <= 0:
             messages.error(
                 request, f"cannot enter insert {semester}. semester must be >0 and <=10")
@@ -142,9 +168,34 @@ def add_student(request):
     print(course_list)
     if request.method == "POST":
         username = request.POST.get('user_name')
+        if re.findall('^[\w.@+\-]+?$',username) == []:
+            messages.error(request , "Username is not valid")
+            return redirect('college-add-student')
+
+        elif username == '':
+            messages.error(request , "Username is required")
+            return redirect('college-add-student')
         firstname = request.POST.get('first_name')
+        if re.findall('^[a-z A-Z]+?$',firstname) == []:
+            messages.error(request , "firstname is not valid")
+            return redirect('college-add-student')
+        elif firstname == '':
+            messages.error(request , "Firstname is required")
+            return redirect('college-add-student')
         lastname = request.POST.get('last_name')
+        if re.findall('^[a-z A-Z]+?$',lastname) == []:
+            messages.error(request , "lastname is not valid")
+            return redirect('college-add-student')
+        elif lastname == '':
+            messages.error(request , "lastname is required")
+            return redirect('college-add-student')
         email = request.POST.get('email')
+        if email == '':
+            messages.error(request , "Email is required")
+            return redirect('college-add-student')
+        elif re.findall('^[a-z 0-9]+[/._]?[a-z 0-9][@][a-z 0-9]+[.]\w{2,3}$',email) == []:
+            messages.error(request , "email is not valid")
+            return redirect('college-add-student')
         address = request.POST.get('address')
         gender = request.POST.get('gender')
         dob = request.POST.get('dob')
@@ -282,6 +333,13 @@ def update_course(request,pk):
             'semesters_list': semesters_list 
             }
         if request.method == 'POST':
+            course_name = request.POST.get('course_name') 
+            if re.findall('^[-a-zA-Z ]+$',course_name) == []:   
+                messages.error(request , "Course name must not contain numeric or other type of  value")
+                return redirect('college-update-course',pk)
+            elif course_name == '':
+                messages.error(request , "Course name must not be Empty")
+                return redirect('college-update-course',pk)
             course.name = request.POST.get('course_name')           
             course.save()
             messages.success(request, f"{course.name} is saved!")
@@ -298,7 +356,19 @@ def update_subject(request,pk):
         raise PermissionDenied
     if request.method == "POST":
         code = request.POST.get('subject_code')
+        if re.findall('^[a-zA-Z][- 0-9]*',code) == []:   
+                messages.error(request , "Subject must not start with numeric value")
+                return redirect('college-update-subject',pk)
+        elif code == '':
+            messages.error(request , "Subejct Code must not be Empty")
+            return redirect('college-update-course',pk)
         name = request.POST.get('subject_name')
+        if re.findall('^[-a-zA-Z ]+$',name) == []:   
+                messages.error(request , "Name must not contain numeric Value")
+                return redirect('college-update-subject',pk)
+        elif code == '':
+            messages.error(request , "Name must not be Empty")
+            return redirect('college-update-course',pk)
         subtype = request.POST.get('subject_type')
         semester = request.POST.get('semester')
         facultie = request.POST.get('faculty')
@@ -326,6 +396,7 @@ def update_faculty(request,pk):
     if (faculty.user.college != request.user.college):
         raise PermissionDenied
     if request.method == "POST":
+
         profile = request.FILES.get("profile_pic")
         if profile == None:
             profile = faculty.user.profile_pic
@@ -478,6 +549,7 @@ def exams_list(request):
 def add_exam(request):
     if request.method == "POST":
         name = request.POST.get('exam_name')
+        
         date = request.POST.get('exam_date')
         session_year = request.POST.get('session_year')
         semester = request.POST.get('semester')

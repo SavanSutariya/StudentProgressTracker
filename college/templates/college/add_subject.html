@@ -27,7 +27,7 @@
               <div class="form-group">
                 <label for="subjectType">Subject Type</label>
                 <select type="text" name="subject_types" class="form-control" placeholder="" required>
-                  <option>Select Subject Type</option>
+                  <option disabled>Select Subject Type</option>
                   {% for i in subject_type %}
                   <option value="{{i.id}}">{{i.name}}</option>
                   {% endfor %}}
@@ -36,7 +36,7 @@
               <div class="form-group">
                 <label>Semester</label>
                 <select type="text" name="semester" class="form-control" placeholder="" required>
-                  <option>Select Semester</option>
+                  <option disabled>Select Semester</option>
                   {% for i in semesters_list %}
                   <option value="{{i.id}}">{{i.course}} &nbsp; {{i.number}}</option>
                   {% endfor %}}
@@ -45,7 +45,7 @@
               <div class="form-group">
                 <label>Faculty</label>
                 <select type="text" name="faculty" class="form-control" placeholder="" required>
-                  <option>Select Faculty</option>
+                  <option disabled> Select Faculty</option>
                   {% for i in faculties %}
                   <option value="{{i.id}}">{{i.user.get_full_name}}</option>
                   {% endfor %}}

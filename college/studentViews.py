@@ -25,13 +25,16 @@ def Home(request):
 def user_profile(request):
     if(request.method == "POST"):
         profile = request.FILES.get("profile_pic")
+        ext = os.path.splitext(profile.name)[1]
         if profile == None:
+            profile = request.user.profile_pic
+        elif ext not in ['.jpg', '.png', '.jpeg']:
             profile = request.user.profile_pic
         else:
             try:
                 os.remove(request.user.profile_pic.path)
             except:
-                pass
+                pass 
         username = request.POST.get("username")
         fname = request.POST.get("first_name")
         lname = request.POST.get("last_name")
