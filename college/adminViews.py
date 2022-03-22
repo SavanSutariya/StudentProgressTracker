@@ -88,19 +88,19 @@ def add_subject(request, pk):
 
     if request.method == "POST":
         subject_code = request.POST.get('subject_code')
-        if re.findall('^[a-zA-Z][- 0-9]*',subject_code) == []:   
-                messages.error(request , "Subject must not start with numeric value and special charachters")
-                return redirect('college-add-subject',pk)
-        elif subject_code == '':
+        if subject_code == '':
             messages.error(request , "Subejct Code must not be Empty")
             return redirect('college-add-course',pk)
-        subject_name = request.POST.get('subject_name')
-        if re.findall('^[a-zA-Z ]+$',subject_name) == []:   
-                messages.error(request , "Name must not contain numeric Value")
+        elif re.findall('^[a-zA-Z][- 0-9]*',subject_code) == []:   
+                messages.error(request , "Subject must not start with numeric value and special charachters")
                 return redirect('college-add-subject',pk)
-        elif subject_name == '':
+        subject_name = request.POST.get('subject_name')
+        if subject_name == '':
             messages.error(request , "Name must not be Empty")
             return redirect('college-add-course',pk)
+        elif re.findall('^[a-zA-Z ]+$',subject_name) == []:   
+                messages.error(request , "Name must not contain numeric Value")
+                return redirect('college-add-subject',pk)
         sub_type = SubjectType.objects.get(id=request.POST.get('subject_types'))
         semester = Semester.objects.get(id=request.POST.get('semester'))
         faculty = Faculty.objects.get(id=request.POST.get('faculty'))
@@ -168,26 +168,26 @@ def add_student(request):
     print(course_list)
     if request.method == "POST":
         username = request.POST.get('user_name')
-        if re.findall('^[\w.@+\-]+?$',username) == []:
+        if username == '':
+            messages.error(request , "Username is required")
+            return redirect('college-add-student')
+        elif re.findall('^[\w.@+\-]+?$',username) == []:
             messages.error(request , "Username is not valid")
             return redirect('college-add-student')
 
-        elif username == '':
-            messages.error(request , "Username is required")
-            return redirect('college-add-student')
         firstname = request.POST.get('first_name')
-        if re.findall('^[a-z A-Z]+?$',firstname) == []:
-            messages.error(request , "firstname is not valid")
-            return redirect('college-add-student')
-        elif firstname == '':
+        if firstname == '':
             messages.error(request , "Firstname is required")
             return redirect('college-add-student')
-        lastname = request.POST.get('last_name')
-        if re.findall('^[a-z A-Z]+?$',lastname) == []:
-            messages.error(request , "lastname is not valid")
+        elif re.findall('^[a-z A-Z]+?$',firstname) == []:
+            messages.error(request , "firstname is not valid")
             return redirect('college-add-student')
-        elif lastname == '':
+        lastname = request.POST.get('last_name')
+        if lastname == '':
             messages.error(request , "lastname is required")
+            return redirect('college-add-student')
+        elif re.findall('^[a-z A-Z]+?$',lastname) == []:
+            messages.error(request , "lastname is not valid")
             return redirect('college-add-student')
         email = request.POST.get('email')
         if email == '':
@@ -258,18 +258,42 @@ def faculties_list(request):
 def add_faculty(request):
     if request.method == "POST":
         username = request.POST.get('user_name')
+        if username == '':
+            messages.error(request , "Username is required")
+            return redirect('college-add-faculty')
+        elif re.findall('^[\w.@+\-]+?$',username) == []:
+            messages.error(request , "Username is not valid")
+            return redirect('college-add-faculty')
         firstname = request.POST.get('first_name')
+        if firstname == '':
+            messages.error(request , "Firstname is required")
+            return redirect('college-add-faculty')
+        elif re.findall('^[a-z A-Z]+?$',firstname) == []:
+            messages.error(request , "firstname is not valid")
+            return redirect('college-add-faculty')
         lastname = request.POST.get('last_name')
+        if lastname == '':
+            messages.error(request , "lastname is required")
+            return redirect('college-add-faculty')
+        elif re.findall('^[a-z A-Z]+?$',lastname) == []:
+            messages.error(request , "lastname is not valid")
+            return redirect('college-add-faculty')
         email = request.POST.get('email')
+        if email == '':
+            messages.error(request , "Email is required")
+            return redirect('college-add-faculty')
+        elif re.findall('^[a-z 0-9]+[/._]?[a-z 0-9][@][a-z 0-9]+[.]\w{2,3}$',email) == []:
+            messages.error(request , "email is not valid")
+            return redirect('college-add-faculty')
         address = request.POST.get('address')
         gender = request.POST.get('gender')
         profile_pic = request.FILES.get('profile_pic')
         if CustomUser.objects.filter(email=email).exists():
             messages.info(request, "email is already taken")
-            return redirect('college-add-student')
+            return redirect('college-add-faculty')
         if CustomUser.objects.filter(username=username).exists():
             messages.info(request, "username is already taken")
-            return redirect('college-add-student')
+            return redirect('college-add-faculty')
         else:
             user = CustomUser(
                 first_name=firstname,
@@ -549,7 +573,9 @@ def exams_list(request):
 def add_exam(request):
     if request.method == "POST":
         name = request.POST.get('exam_name')
-        
+        if name == '':
+            messages.error(request , "name is required")
+            return redirect('college-add-exam')
         date = request.POST.get('exam_date')
         session_year = request.POST.get('session_year')
         semester = request.POST.get('semester')
