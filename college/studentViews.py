@@ -11,7 +11,7 @@ from django.db.models import Avg
 
 
 def is_student(user):
-    '''checks if authenticated and is a Faculty'''
+    '''checks if authenticated and is a student'''
     if user.is_authenticated:
         return user.userType == '3'
     else:
@@ -19,7 +19,7 @@ def is_student(user):
 
 @user_passes_test(is_student,login_url='/')
 def Home(request):
-    '''Home Page for Faculty'''
+    '''Home Page for student'''
     types = SubjectType.objects.all()
     average = Result.objects.filter(student=request.user.student).aggregate(Avg('marks'))
     context = {

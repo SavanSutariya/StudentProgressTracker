@@ -29,7 +29,7 @@ class Semester(models.Model):
     def __str__(self):
         # return str(self.number)
         return self.course.name+" :"+str(self.number)
-    def get_subjects(self):
+    def get_subjects(self): 
         return Subject.objects.filter(semester=self)
 
 class CustomUser(AbstractUser):
@@ -113,6 +113,7 @@ class Result(models.Model):
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
     marks = models.IntegerField()
     def __str__(self):
+<<<<<<< HEAD
         return self.paper.name+" : "+str(self.marks) +" : "+self.student.user.get_full_name()
 
 # students can give feedback to college admin
@@ -124,3 +125,8 @@ class Suggestion(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return str(self.created_at.date())+" | "+self.message[:10]+"..."
+=======
+          return self.paper.name+" : "+str(self.marks) +" : "+self.student.user.get_full_name()
+
+
+>>>>>>> 34a07905940bf77d4a0d6e3e47066a07e5210a98
