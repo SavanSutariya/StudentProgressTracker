@@ -90,14 +90,14 @@ def add_subject(request, pk):
         subject_code = request.POST.get('subject_code')
         if subject_code == '':
             messages.error(request , "Subejct Code must not be Empty")
-            return redirect('college-add-course',pk)
+            return redirect('college-add-subject',pk)
         elif re.findall('^[a-zA-Z][- 0-9]*',subject_code) == []:   
                 messages.error(request , "Subject must not start with numeric value and special charachters")
                 return redirect('college-add-subject',pk)
         subject_name = request.POST.get('subject_name')
         if subject_name == '':
             messages.error(request , "Name must not be Empty")
-            return redirect('college-add-course',pk)
+            return redirect('college-add-subject',pk)
         elif re.findall('^[a-zA-Z ]+$',subject_name) == []:   
                 messages.error(request , "Name must not contain numeric Value")
                 return redirect('college-add-subject',pk)
@@ -358,11 +358,11 @@ def update_course(request,pk):
             }
         if request.method == 'POST':
             course_name = request.POST.get('course_name') 
-            if re.findall('^[-a-zA-Z ]+$',course_name) == []:   
-                messages.error(request , "Course name must not contain numeric or other type of  value")
-                return redirect('college-update-course',pk)
-            elif course_name == '':
+            if course_name == '':
                 messages.error(request , "Course name must not be Empty")
+                return redirect('college-update-course',pk)
+            elif re.findall('^[-a-zA-Z ]+$',course_name) == []:   
+                messages.error(request , "Course name must not contain numeric or other type of  value")
                 return redirect('college-update-course',pk)
             course.name = request.POST.get('course_name')           
             course.save()
@@ -380,19 +380,19 @@ def update_subject(request,pk):
         raise PermissionDenied
     if request.method == "POST":
         code = request.POST.get('subject_code')
-        if re.findall('^[a-zA-Z][- 0-9]*',code) == []:   
+        if code == '':
+            messages.error(request , "Subejct Code must not be Empty")
+            return redirect('college-update-subject',pk)
+        elif re.findall('^[a-zA-Z][- 0-9]*',code) == []:   
                 messages.error(request , "Subject must not start with numeric value")
                 return redirect('college-update-subject',pk)
-        elif code == '':
-            messages.error(request , "Subejct Code must not be Empty")
-            return redirect('college-update-course',pk)
         name = request.POST.get('subject_name')
-        if re.findall('^[-a-zA-Z ]+$',name) == []:   
+        if code == '':
+            messages.error(request , "Name must not be Empty")
+            return redirect('college-update-subject',pk)
+        elif re.findall('^[-a-zA-Z ]+$',name) == []:   
                 messages.error(request , "Name must not contain numeric Value")
                 return redirect('college-update-subject',pk)
-        elif code == '':
-            messages.error(request , "Name must not be Empty")
-            return redirect('college-update-course',pk)
         subtype = request.POST.get('subject_type')
         semester = request.POST.get('semester')
         facultie = request.POST.get('faculty')
@@ -430,8 +430,35 @@ def update_faculty(request,pk):
             except:
                 pass
         faculty.user.username = request.POST.get('username')
+        if faculty.user.username == '':
+           messages.error(request , "Username is required")
+           return redirect('college-update-faculty',pk)
+        elif re.findall('^[\w.@+\-]+?$',faculty.user.username) == []:
+           messages.error(request , "Username is not valid")
+           return redirect('college-update-faculty',pk)
+        
         faculty.user.first_name = request.POST.get('first_name')
+        if faculty.user.first_name == '':
+            messages.error(request , "Firstname is required")
+            return redirect('college-update-faculty',pk)
+        elif re.findall('^[a-z A-Z]+?$',faculty.user.first_name) == []:
+            messages.error(request , "firstname is not valid")
+            return redirect('college-update-faculty',pk)
+        
         faculty.user.last_name = request.POST.get('last_name')
+        if faculty.user.last_name == '':
+            messages.error(request , "lastname is required")
+            return redirect('college-update-faculty',pk)
+        elif re.findall('^[a-z A-Z]+?$',faculty.user.last_name) == []:
+            messages.error(request , "lastname is not valid")
+            return redirect('college-update-faculty',pk)
+        #faculty.user.email = request.POST.get('user')
+        #if faculty.user.email == '':
+        #    messages.error(request , "Email is required")
+        #    return redirect('college-update-faculty')
+        #elif re.findall('^[a-z 0-9]+[/._]?[a-z 0-9][@][a-z 0-9]+[.]\w{2,3}$',faculty.user.email) == []:
+        #    messages.error(request , "email is not valid")
+        #    return redirect('college-update-faculty') 
         faculty.gender = request.POST.get('gender')
         faculty.address = request.POST.get('address')
         faculty.user.profile_pic = profile
@@ -463,8 +490,29 @@ def update_student(request,pk):
             except:
                 pass
         student.user.username = request.POST.get('username')
+        if student.user.username == '':
+            messages.error(request , "Username is required")
+            return redirect('college-update-student',pk)
+        elif re.findall('^[\w.@+\-]+?$',student.user.username) == []:
+            messages.error(request , "Username is not valid")
+            return redirect('college-update-student',pk)
+        
         student.user.first_name = request.POST.get('first_name')
+        if student.user.first_name == '':
+            messages.error(request , "Firstname is required")
+            return redirect('college-update-student',pk)
+        elif re.findall('^[a-z A-Z]+?$',student.user.first_name) == []:
+            messages.error(request , "firstname is not valid")
+            return redirect('college-update-student',pk)
+        
         student.user.last_name = request.POST.get('last_name')
+        if student.user.last_name == '':
+            messages.error(request , "lastname is required")
+            return redirect('college-update-student',pk)
+        elif re.findall('^[a-z A-Z]+?$',student.user.last_name) == []:
+            messages.error(request , "lastname is not valid")
+            return redirect('college-update-student',pk)
+        
         student.address = request.POST.get('address')
         student.gender = request.POST.get('gender')
         student.user.profile_pic = profile
@@ -602,6 +650,9 @@ def update_exam(request,pk):
     else:
         if request.method == "POST":
             exam.name = request.POST.get('exam_name')
+            if exam.name == '':
+               messages.error(request , "name is required")
+               return redirect('college-update-exam')
             exam.date = request.POST.get('exam_date')
             exam.save()
             messages.success(request, f"{exam.name} has been updated!")
