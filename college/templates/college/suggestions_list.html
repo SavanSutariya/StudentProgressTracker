@@ -1,0 +1,54 @@
+{% extends 'college/base.html' %}
+{% load static %}
+{% block site_title %}
+Suggestions List
+{% endblock site_title %}
+{% block content %}
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Suggestions List</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Email (Reply)</th>
+                                    <th>Suggestion</th>
+                                    <th>Attachment</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for suggestion in suggestions %}
+                                <tr>
+                                    <td>{{ suggestion.id }}</td>
+                                    <td>{{ suggestion.student.user.get_full_name }}</td>
+                                    <td><a href="mailto:{{ suggestion.student.user.email }}">{{ suggestion.student.user.email }}</a></td>
+                                    <td><textarea cols="50" rows="5" disabled>{{ suggestion.message }}</textarea></td>
+                                    <td>
+                                        {% if suggestion.attachment %}
+                                        <a href="{{ suggestion.attachment.url }}" target="_blank">Attachment</a>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ suggestion.created_at }}</td>
+                                    <td>
+                                        <a href="{% url 'college-delete-suggestion' suggestion.id %}" class="btn btn-danger btn-xs">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -109,3 +109,13 @@ class Result(models.Model):
     marks = models.IntegerField()
     def __str__(self):
         return self.paper.name+" : "+str(self.marks) +" : "+self.student.user.get_full_name()
+
+# students can give feedback to college admin
+
+class Suggestion(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    attachment = models.FileField(upload_to='media/feedback_attachment')
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return str(self.created_at.date())+" | "+self.message[:10]+"..."

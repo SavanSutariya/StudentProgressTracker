@@ -72,7 +72,7 @@ def check_result(request):
         'exams_list': exams_list,
     }
     return render(request, 'student/check_result.html',context)
-
+@user_passes_test(is_student,login_url='/') 
 def get_papers_ajax(request,pk):
     papers = Paper.objects.filter(exam=pk)
     student = get_object_or_404(Student,user=request.user)
@@ -81,7 +81,7 @@ def get_papers_ajax(request,pk):
         marks = Result.objects.get(paper=paper,student=student)
         data.append({"id":paper.id,"paper":paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
     return JsonResponse({"data":data})
-
+@user_passes_test(is_student,login_url='/') 
 def get_marks_ajax(request,pk):
     student = get_object_or_404(Student,user=request.user)
     marks_list = Result.objects.filter(paper=pk,student=student)
@@ -90,3 +90,26 @@ def get_marks_ajax(request,pk):
     for marks in marks_list:
         data.append({"paper":marks.paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
     return JsonResponse({"data" : data})
+@user_passes_test(is_student,login_url='/') 
+def suggestion(request):
+    if request.method == "POST":
+        student = get_object_or_404(Student,user=request.user)
+        attachment = request.FILES.get("attachment")
+        if attachment != None:
+            ext = os.path.splitext(attachment.name)[1]
+            if ext.lower() not in ['.jpg', '.png', '.jpeg', '.pdf', '.docx', '.doc', '.pptx', '.ppt', '.xlsx', '.xls', '.txt']:
+                messages.error(request, "Please Upload a valid file")
+                return redirect('college-student-suggestion-box')
+        message = request.POST.get("message")
+        if message == "":
+            messages.error(request, "Please Enter a message")
+            return redirect('college-student-suggestion-box')
+        try:
+            suggestion = Suggestion(student=student,attachment=attachment,message=message)
+            suggestion.save()
+            messages.success(request, "Suggestion Submitted Successfully")
+            return redirect('college-student-suggestion-box')
+        except:
+            messages.error(request, "Error Occured")
+            return redirect('college-student-suggestion-box')
+    return render(request, 'student/suggestion.html')

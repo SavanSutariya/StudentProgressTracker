@@ -723,3 +723,26 @@ def delete_paper(request,pk):
             'obj':paper
         }
         return render(request,'college/delete_confirmation.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def suggestions_list(request):
+    suggestions = Suggestion.objects.filter(student__user__college=request.user.college)
+    context = {
+        'suggestions':suggestions
+    }
+    return render(request,'college/suggestions_list.html',context)
+
+@user_passes_test(is_college_admin, login_url='/')
+def delete_suggestion(request,pk):
+    suggestion = get_object_or_404(Suggestion, pk=pk)
+    if (suggestion.student.user.college != request.user.college):
+        raise PermissionDenied
+    else:
+        if(request.method == "POST"):
+            suggestion.delete()
+            messages.success(request, f"{suggestion.student.user.first_name}'s suggestion has been deleted!")
+            return redirect('college-suggestions-list')
+        context = {
+            'obj':suggestion
+        }
+        return render(request,'college/delete_confirmation.html',context)

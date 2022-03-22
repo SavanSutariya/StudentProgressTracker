@@ -39,4 +39,6 @@ urlpatterns = [
     path('exams/addpaper/<int:pk>',adminViews.add_paper,name="college-add-paper"),
     path('exams/deletepaper/<int:pk>',adminViews.delete_paper,name="college-delete-paper"),
 
+    path('suggestions/',adminViews.suggestions_list,name="college-suggestions-list"),
+    path('suggestions/delete/<int:pk>',adminViews.delete_suggestion,name="college-delete-suggestion"),
 ]
