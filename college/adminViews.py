@@ -404,7 +404,7 @@ def update_subject(request,pk):
         subject.faculty = Faculty.objects.get(pk=facultie)
         subject.save()
         messages.success(request,f"{subject.name} has been updated!")
-        return redirect('college-update-subject',pk)
+        return redirect('subjects-list')
 
     context = {
         'subject':subject,
@@ -465,7 +465,7 @@ def update_faculty(request,pk):
         faculty.save()
         faculty.user.save()
         messages.success(request,'Faculty Profile Updated Successfully!')
-        return redirect('college-update-faculty',faculty.id)
+        return redirect('college-faculties-list')
     context = {
         'faculty':faculty,
     }
@@ -523,7 +523,7 @@ def update_student(request,pk):
         student.save()
         student.user.save()
         messages.success(request,'Student Profile Updated Successfully!')
-        return redirect('college-update-student',student.id)
+        return redirect('college-students-list')
     context = {
         'student':student,
         'session_year_list':session_years,
