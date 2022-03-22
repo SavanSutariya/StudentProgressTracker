@@ -103,7 +103,7 @@ Update Student
                         <div class="form-group col-4">
                             <label>Course</label>
                             <select type="" name="course_name" onchange="fetchCourse()" id="course" class="form-control" required>
-                                <option disabled>Select Cource</option>
+                                <option value="NULL">Select Cource</option>
                                 {% for course in course_list %}
                                 <option value="{{course.id}}">{{course.name}}</option>
                                 {% endfor %}}
@@ -112,7 +112,7 @@ Update Student
                         <div class="form-group col-4">
                             <label>Semester</label>
                             <select type="" name="semester" id="semester_field" class="form-control"  required>
-                              <option disabled>Select Semester</option>
+                              <option value="NULL">Select Semester</option>
                               
                             </select>
                         </div>
@@ -166,23 +166,31 @@ Update Student
          xhr = new XMLHttpRequest();
          var course = document.getElementById("course");
          var semester = document.getElementById("semester_field");
+         if (course.value == "NULL") {
+            semester.innerHTML = "";
+         } 
+         else{
          xhr.open("GET","/college/ajax/get-semesters/"+course.value)
          xhr.onreadystatechange = function()
          {
            if(xhr.readyState == 4 )
            {
-             js = xhr.responseText;
-             const obj = JSON.parse(js)["data"];
-             console.log(obj);
-             var html = "";
-             for(var i=0;i<obj.length;i++)
-             {
+            js = xhr.responseText;
+            const obj = JSON.parse(js)["data"];
+            console.log(obj);
+            
+            var html = "";
+            html += "<option value='NULL'>select semester</option>"; 
+            for(var i=0;i<obj.length;i++)
+            {
                html += "<option value='"+obj[i].id+"'>"+obj[i].number+"</option>";
-             }
-             semester.innerHTML = html;
+            }
+            semester.innerHTML = html;
            }
          }
-         xhr.send();    
+         xhr.send();  
+         
+        }
         }
         function validateDate()
         {
