@@ -13,3 +13,36 @@ def get_result(student,paper):
         return result.marks
     except:
         return None
+
+    # if (marks < 36) {
+    #     return "dark"
+    # } else if (marks < 48) {
+    #     return "danger"
+    # } else if (marks < 55) {
+    #     return "warning"
+    # } else if (marks < 60) {
+    #     return "info"
+    # } else if (marks < 70) {
+    #     return "primary"
+    # } else if (marks < 85) {
+    #     return "success"
+    # } else {
+    #     return "success"
+    # }
+
+@register.filter(name='get_class_according_to_marks')
+def get_class_according_to_marks(marks):
+    if (marks < 36):
+        return "dark"
+    elif (marks < 48):
+        return "danger"
+    elif (marks < 55):
+        return "warning"
+    elif (marks < 60):
+        return "info"
+    elif (marks < 70):
+        return "primary"
+    elif (marks < 85):
+        return "success"
+    else:
+        return "success"

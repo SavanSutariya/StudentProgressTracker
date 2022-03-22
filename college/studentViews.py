@@ -7,6 +7,7 @@ from .models import *
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.http import Http404, JsonResponse
+from django.db.models import Avg
 
 
 def is_student(user):
@@ -19,7 +20,13 @@ def is_student(user):
 @user_passes_test(is_student,login_url='/')
 def Home(request):
     '''Home Page for Faculty'''
-    return render(request, 'student/student_home.html')
+    types = SubjectType.objects.all()
+    average = Result.objects.filter(student=request.user.student).aggregate(Avg('marks'))
+    context = {
+        'types':types,
+        'average':average.get('marks__avg')
+    }
+    return render(request, 'student/student_home.html',context)
     
 @user_passes_test(is_student,login_url='/')
 def user_profile(request):
