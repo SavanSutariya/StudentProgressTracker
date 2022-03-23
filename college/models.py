@@ -29,7 +29,7 @@ class Semester(models.Model):
     def __str__(self):
         # return str(self.number)
         return self.course.name+" :"+str(self.number)
-    def get_subjects(self):
+    def get_subjects(self): 
         return Subject.objects.filter(semester=self)
 
 class CustomUser(AbstractUser):
@@ -108,4 +108,6 @@ class Result(models.Model):
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
     marks = models.IntegerField()
     def __str__(self):
-        return self.paper.name+" : "+str(self.marks) +" : "+self.student.user.get_full_name()
+          return self.paper.name+" : "+str(self.marks) +" : "+self.student.user.get_full_name()
+
+
