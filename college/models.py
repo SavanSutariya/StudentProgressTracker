@@ -44,6 +44,8 @@ class Faculty(models.Model):
     gender = models.CharField(max_length=7, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.user.get_full_name()
 
 class SubjectType(models.Model):
     name = models.CharField(max_length=30)
@@ -86,6 +88,8 @@ class Student(models.Model):
             return result.marks
         except:
             return "(Empty)"
+    def __str__(self):
+        return self.user.get_full_name()
 
 class Exam(models.Model):
     name = models.CharField(max_length=50)
@@ -94,6 +98,7 @@ class Exam(models.Model):
     date = models.DateField()
     def __str__(self):
         return self.name
+
 
 class Paper(models.Model):
     name = models.CharField(max_length=50)
