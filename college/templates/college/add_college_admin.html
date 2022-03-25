@@ -1,0 +1,72 @@
+{% extends 'college/base.html' %}
+{% load static %}
+{% block site_title %}
+Add College Admin
+{% endblock site_title %}
+{% block content %}
+{% if user.is_superuser %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <!-- jquery validation -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">ADD <small>new College Admin</small></h3>
+                    </div>
+                    <form id="quickForm" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="card-body row">
+                            <div class="form-group col-6">
+                                <label>Username</label>
+                                <input type="text" name="user_name" class="form-control" placeholder="Enter User name"
+                                    required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label>E-mail</label>
+                                <input type="email" name="email" class="form-control" placeholder="Enter email"
+                                    required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label>Password</label>
+                                <input type="password" name="password" class="form-control" placeholder="Enter Password"
+                                    required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label>First Name</label>
+                                <input type="text" name="first_name" class="form-control" placeholder="Enter First name"
+                                    required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label>Last Name</label>
+                                <input type="text" name="last_name" class="form-control" placeholder="Enter Last name"
+                                    required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label>College</label>
+                                <select type="" name="college" class="form-control" placeholder="" required>
+                                    <option value="">Select College</option>
+                                    {% for college in colleges %}
+                                        <option value="{{college.id}}">{{college.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label>Profile Photo</label>
+                                <div class="custom-file">
+                                    <input type="file" name="profile_pic" class="custom-file-input" id="customFile"
+                                        required>
+                                    <label class="custom-file-label" for="customFile">Choose Profile</label>
+                                </div>
+                            </div>
+                            <div class="card-footer col-12">
+                                <button type="submit" class="btn btn-primary">Add Faculty</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+{% endif %}
+{% endblock content %}

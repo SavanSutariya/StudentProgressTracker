@@ -30,6 +30,8 @@ urlpatterns = [
     path('student/',include('college.stu_urls')),
     path('login/', views.Login,name="login"),
     path('dologin/', views.dologin,name="do-login"),
+    # add college admin
+    path('add-college-admin/', views.add_college_admin,name="add-college-admin"),
     path('logout/', views.Logout,name="logout")
 ]
 if settings.DEBUG:

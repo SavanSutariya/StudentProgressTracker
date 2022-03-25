@@ -137,10 +137,10 @@ def add_course(request):
         college = request.user.college
         semester = request.POST.get('NoOfSem')
         if semester == '':
-            messages.error(request , "Semester name must not be Empty")
+            messages.error(request , "number of semesters must not be Empty")
             return redirect('college-add-course')     
         elif re.findall('^[0-9]*$',semester) == []:
-            messages.error(request , "Smester name must not contain alphabetaic Value or other type of  value")       
+            messages.error(request , "number of semesters must not contain alphabetaic Value or other type of  value")       
 
         if int(semester) > 10 or int(semester) <= 0:
             messages.error(
@@ -404,7 +404,7 @@ def update_subject(request,pk):
         subject.faculty = Faculty.objects.get(pk=facultie)
         subject.save()
         messages.success(request,f"{subject.name} has been updated!")
-        return redirect('subjects-list')
+        return redirect('subjects-list',subject.semester.course.id)
 
     context = {
         'subject':subject,

@@ -1,3 +1,4 @@
+from audioop import avg
 from multiprocessing import context
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
@@ -9,7 +10,19 @@ from django.contrib import messages
 from django.http import Http404, JsonResponse
 from django.db.models import Avg
 
+def Average(results):
+    '''find average from marks from results'''
+    obtained = 0
+    total = 0
+    for result in results:
+        total += result.paper.total_marks
+        obtained += result.marks
+        print(result.paper.total_marks,result.marks)
 
+    try:
+        return (100*obtained)/total
+    except (ZeroDivisionError):
+        return 0
 def is_student(user):
     '''checks if authenticated and is a student'''
     if user.is_authenticated:
@@ -21,10 +34,18 @@ def is_student(user):
 def Home(request):
     '''Home Page for student'''
     types = SubjectType.objects.all()
-    average = Result.objects.filter(student=request.user.student).aggregate(Avg('marks'))
+    overall = Result.objects.filter(student=request.user.student)
+    types = SubjectType.objects.all()
+    avg_lst = []
+    for type in types:
+        result = Result.objects.filter(student=request.user.student,paper__subject__sub_type=type)
+        avg_lst.append({'type':type.name,'avg':Average(result)})
+    print(avg_lst)
+    overall_average = Average(overall)
     context = {
         'types':types,
-        'average':average.get('marks__avg')
+        'overall':overall_average,
+        'avg_lst':avg_lst
     }
     return render(request, 'student/student_home.html',context)
     
