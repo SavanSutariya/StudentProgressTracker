@@ -21,6 +21,20 @@ def exportCsv(request):
     response['Content-Disposition'] = 'attachment; filename="members.csv"'
     return response
     
+def Average(results):
+    '''find average from marks from results'''
+    obtained = 0
+    total = 0
+    for result in results:
+        total += result.paper.total_marks
+        obtained += result.marks
+
+
+    try:
+        return (100*obtained)/total
+    except (ZeroDivisionError):
+        return 0
+
 # Ajax views
 def get_semesters_ajax(request,pk):
     '''returns all semesters in json format'''
@@ -746,3 +760,31 @@ def delete_suggestion(request,pk):
             'obj':suggestion
         }
         return render(request,'college/delete_confirmation.html',context)
+
+# show leaderboard according to semester
+@user_passes_test(is_college_admin, login_url='/')
+def leaderboard(request):
+    courses_list = Course.objects.filter(college=request.user.college)
+    context = {
+        'courses_list':courses_list
+    }
+    return render(request,'college/leaderboard.html',context)
+
+# students average score ajax
+@user_passes_test(is_college_admin, login_url='/')
+def leaderboard_ajax(request,pk):
+    semester = get_object_or_404(Semester, pk=pk)
+    students = Student.objects.filter(semester=semester)
+    # students = Student.objects.all()
+    data = []
+    for student in students:
+        overall = Result.objects.filter(student=student)
+        overall_average = round(Average(overall), 2)
+        data.append({
+            'profile':student.user.profile_pic.url,
+            'name':student.user.get_full_name(),
+            'stud_id':student.id,
+            'score':overall_average
+        })
+        data.sort(key=lambda x: x['score'], reverse=True)
+    return JsonResponse({'data':data})

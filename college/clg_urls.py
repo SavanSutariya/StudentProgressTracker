@@ -4,11 +4,14 @@ from . import adminViews
 urlpatterns = [
     # Ajax Urls
     path('ajax/get-semesters/<int:pk>',view=adminViews.get_semesters_ajax, name="ajax-get-no-of-sem"),
+    path('ajax/leaderboard/<int:pk>',view=adminViews.leaderboard_ajax, name="ajax-leaderboard"),
     # college-admin urls
 
     path('csv/',adminViews.exportCsv ,name="csv-generte-demo"),
     path('' ,adminViews.Home, name="college-home"),
     path('profile/',adminViews.user_profile, name="college-admin-profile"),
+    # leaderboard
+    path('leaderboard/',adminViews.leaderboard, name="college-leaderboard"),
 
     path('courses/',adminViews.Course_list, name="college-course-list"),
     path('course/add/',adminViews.add_course,name="college-add-course"),

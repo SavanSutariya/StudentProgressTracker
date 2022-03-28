@@ -17,7 +17,6 @@ def Average(results):
     for result in results:
         total += result.paper.total_marks
         obtained += result.marks
-        print(result.paper.total_marks,result.marks)
 
     try:
         return (100*obtained)/total
@@ -39,9 +38,9 @@ def Home(request):
     avg_lst = []
     for type in types:
         result = Result.objects.filter(student=request.user.student,paper__subject__sub_type=type)
-        avg_lst.append({'type':type.name,'avg':Average(result)})
+        avg_lst.append({'type':type.name,'avg':round(Average(result), 2)})
     print(avg_lst)
-    overall_average = Average(overall)
+    overall_average = round(Average(overall), 2)
     context = {
         'types':types,
         'overall':overall_average,

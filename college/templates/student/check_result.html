@@ -1,5 +1,6 @@
 {% extends 'student/base.html' %}
 {% load static %}
+{% load shortcuts %}
 {% block site_title %}
 Studentss
 {% endblock site_title %}
@@ -70,6 +71,7 @@ Studentss
 </section>
 
 <script>
+    // vanila js
     function getPaper() {
         xhr = new XMLHttpRequest;
         var exam = document.getElementById("exam");
@@ -102,10 +104,10 @@ Studentss
                             <td>`+obj[i].marks+`/`+obj[i].total+`</td>
                             <td>
                                 <div class="progress progress-xs">
-                                    <div class="progress-bar bg-`+getColorAccordingToMarks(obj[i].marks)+`" style="width: `+getPercentage(obj[i].marks,obj[i].total)+`%"></div>
+                                    <div class="progress-bar bg-`+getColorAccordingToMarks(getPercentage(obj[i].marks,obj[i].total))+`" style="width: `+getPercentage(obj[i].marks,obj[i].total)+`%"></div>
                                 </div>
                             </td>
-                            <td><span class="badge bg-`+getColorAccordingToMarks(obj[i].marks)+`">`+getPercentage(obj[i].marks,obj[i].total)+`%</span></td>
+                            <td><span class="badge bg-`+getColorAccordingToMarks(getPercentage(obj[i].marks,obj[i].total))+`">`+getPercentage(obj[i].marks,obj[i].total)+`%</span></td>
                         </tr>
                         `
                     }

@@ -1,0 +1,156 @@
+<!-- show leaderboard according to selected semester -->
+{% extends 'college/base.html' %}
+{% load static %}
+{% block site_title %}
+Leaderboard
+{% endblock site_title %}
+{% block content %}
+<section class="content">
+    <!-- select course and semester -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Select Course and Semester</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Course</label>
+                                <select class="form-control" id="course">
+                                    <option value="">Select Course</option>
+                                    {% for course in courses_list %}
+                                    <option value="{{course.id}}">{{course.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Semester</label>
+                                <select class="form-control" id="semester">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    <table class="table table-striped table-responsive projects">
+        <thead>
+            <tr>
+                <th style="width: 1%">
+                    #
+                </th>
+                <th style="width: 20%">
+                    Student
+                </th>
+                <th style="width: 30%">
+                    Strenght/Weekness
+                </th>
+                <th>
+                    Score
+                </th>
+                <th style="width: 8%" class="text-center">
+                </th>
+            </tr>
+        </thead>
+        <tbody id="leaderboard">
+            <tr>
+                <td colspan="5">Select Course and semester</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+<script>
+    // ajax call to get semester according to course, show please select course to load semesters if course is not selected and show loading icon while retriving data
+    $('#course').change(function () {
+        var course_id = $(this).val();
+        // console.log(course_id == "");
+        if (course_id == "") {
+            $('#semester').html("<option value=''>Please select course</option>");
+        }
+        else {
+            $.ajax({
+                // url: '/college/get-semester/' + course_id,
+                url: '/college/ajax/get-semesters/' + course_id,
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#semester').html('<option value="">Loading...</option>');
+                },
+                success: function (data) {
+                    $('#semester').empty();
+                    $('#semester').append('<option value="">Select Semester</option>');
+                    $.each(data['data'], function (key, value) {
+                        $('#semester').append('<option value="' + value.id + '">' + value.number + '</option>');
+                    });
+
+                }
+            });
+        }
+    });
+
+    // ajax call to get leaderboard according to semester, show not found and show loading icon while retriving data
+
+    $('#semester').change(function () {
+        var semester_id = $(this).val();
+        if (semester_id == "") {
+            $('#leaderboard').html("<tr><td colspan='5'>Please select semester</td></tr>");
+        } else {
+            $.ajax({
+                url: '/college/ajax/leaderboard/' + semester_id,
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#leaderboard').html('<tr><td colspan="5"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></td></tr>');
+                },
+                success: function (data) {
+                    $('#leaderboard').empty();
+                    if (data['data'].length > 0) {
+                        $.each(data['data'], function (key, value) {
+                            // interval for 0.5 sec
+                            setTimeout(function () {
+                                $('#leaderboard').append('<tr>' +
+                                    '<td>' + (key + 1) + '</td>' +
+                                    '<td>' +
+                                    '<a>' +
+                                    '<img alt="Avatar" class="table-avatar" src="' + value.profile + '"> &nbsp;' +
+                                    value.name +
+                                    '</a>' +
+                                    '</td>' +
+                                    '<td>' +
+                                    '<b>' +
+                                    '(Highest/lowest scoring subject)' +
+                                    '</b>' +
+                                    '</td>' +
+                                    '<td class="project_progress">' +
+                                    '<div class="progress progress-sm">' +
+                                    '<div class="progress-bar bg-' + getColorAccordingToMarks(value.score) + '" role="progressbar" aria-valuenow="' + value.score + '" aria-valuemin="0" aria-valuemax="100" style="width: ' + value.score + '%">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<small>' +
+                                    +value.score + '%' +
+                                    '</small>' +
+                                    '</td>' +
+                                    '<td class="project-state">' +
+                                    '<span class="badge badge-' + getColorAccordingToMarks(value.score) + '">' + value.score + '%</span>' +
+                                    '</td>' +
+                                    '</tr>')
+                            }, key * 100);
+                        });
+                    } else {
+                        $('#leaderboard').html('<tr><td colspan="5">No data found</td></tr>');
+                    }
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock content %}
