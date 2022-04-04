@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.http import Http404, JsonResponse
 from django.db.models import Avg
 
+
 def Average(results):
     '''find average from marks from results'''
     obtained = 0
@@ -133,3 +134,34 @@ def suggestion(request):
             messages.error(request, "Error Occured")
             return redirect('college-student-suggestion-box')
     return render(request, 'student/suggestion.html')
+@user_passes_test(is_student,login_url='/')
+def student_result_line_chart(request):
+    student = get_object_or_404(Student,user=request.user)
+    papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
+    results = []
+    result2 = []
+    for paper in papers_list:
+        marks = Result.objects.filter(paper=paper,student=student)
+        if marks.count() > 0:
+            results.append({"exam":paper.name,"marks":round(Average(marks), 2)})
+    # list average score of student after every paper
+    avg_paper_list = []
+    for paper in papers_list:
+        marks = Result.objects.filter(paper=paper,student=student)
+        if marks.count() > 0:
+            avg_paper_list.append(paper)
+            avgs = []
+            for avg_paper in avg_paper_list:
+                marks = Result.objects.filter(paper=avg_paper,student=student)
+                if len(marks) != 0:
+                    last_updated=marks[0].last_updated
+                    avgs.append(Average(marks))
+            date_str = paper.date.strftime("%d %b %y")
+            result2.append({"date":date_str,"marks": round(sum(avgs) / len(avgs), 2)})
+    context = {
+        'results':results,
+        'averages':result2,
+        'score': round(sum(avgs) / len(avgs),2),
+        'last_updated':last_updated.strftime("%d %b %y %I:%M %p"),
+    }
+    return render(request, 'student/student_result_line_chart.html',context)

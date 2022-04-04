@@ -98,12 +98,14 @@ class Paper(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     total_marks = models.IntegerField()
+    date = models.DateField(auto_now_add=True)
     def __str__(self):
         return self.name
 
 class Result(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
+    last_updated = models.DateTimeField(auto_now=True)
     marks = models.IntegerField()
     def __str__(self):
         return self.paper.name+" : "+str(self.marks) +" : "+self.student.user.get_full_name()
