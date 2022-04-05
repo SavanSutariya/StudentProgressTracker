@@ -159,7 +159,11 @@ def student_result_line_chart(request):
                         avgs.append(Average(marks))
                 date_str = paper.date.strftime("%d %b %y")
                 result2.append({"date":date_str,"marks": round(sum(avgs) / len(avgs), 2)})
-        avg_score = round(sum(avgs) / len(avgs),2)
+        try:
+            avg_score = round(sum(avgs) / len(avgs),2)
+        except (ZeroDivisionError):
+            avg_score = 0
+        
         last_updated = last_updated.strftime("%d %b %y %I:%M %p")
     else:
         avg_score = 0
