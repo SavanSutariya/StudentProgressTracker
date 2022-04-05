@@ -137,6 +137,7 @@ def suggestion(request):
 def student_result_line_chart(request):
     student = get_object_or_404(Student,user=request.user)
     papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
+    last_updated = "No Result"
     results = []
     result2 = []
     if(papers_list.count()>0):
@@ -167,7 +168,6 @@ def student_result_line_chart(request):
         last_updated = last_updated.strftime("%d %b %y %I:%M %p")
     else:
         avg_score = 0
-        last_updated = "No Result"
     context = {
         'results':results,
         'averages':result2,
