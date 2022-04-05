@@ -10,7 +10,6 @@ from django.contrib import messages
 from django.http import Http404, JsonResponse
 from django.db.models import Avg
 
-
 def Average(results):
     '''find average from marks from results'''
     obtained = 0
