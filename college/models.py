@@ -4,7 +4,7 @@ from PIL import Image
 # Create your models here.
 class College(models.Model):
     name = models.CharField(max_length=50)
-    logo = models.ImageField(upload_to='media/college_logo')
+    logo = models.ImageField(upload_to='media/college_logo',default='https://www.freeiconspng.com/thumbs/institution-icon/institution-icon-16.jpg')
 
     def __str__(self):
         return self.name
@@ -29,7 +29,7 @@ class CustomUser(AbstractUser):
     USER = (('1',"CollegeAdmin"),('2',"Faculty"),('3',"Student") )
     userType = models.CharField(choices=USER,default=1, max_length=50)
     profile_pic = models.ImageField(upload_to='media/profile_pic')
-    college = models.ForeignKey(College, on_delete=models.CASCADE, null=True)
+    college = models.ForeignKey(College, on_delete=models.CASCADE,)
 
 class Faculty(models.Model):
     user = models.OneToOneField(CustomUser , on_delete=models.CASCADE)
