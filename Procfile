@@ -1,1 +1,1 @@
-web: gunicorn college_project_3.wsgi
+web: gunicorn clg_project_3.wsgi
