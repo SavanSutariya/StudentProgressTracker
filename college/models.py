@@ -5,7 +5,7 @@ from PIL import Image
 # Create your models here.
 class College(models.Model):
     name = models.CharField(max_length=50)
-    logo = models.ImageField(upload_to='media/college_logo',default='https://www.freeiconspng.com/thumbs/institution-icon/institution-icon-16.jpg')
+    logo = models.ImageField(upload_to='media/college_logo',default='media/college_logo/AdminLTELogo.png')
 
     def __str__(self):
         return self.name

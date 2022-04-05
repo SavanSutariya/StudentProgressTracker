@@ -2,9 +2,17 @@
 {% load static %}
 {% load shortcuts %}
 {% block site_title %}
-Studentss
+Chart
 {% endblock site_title %}
 {% block content %}
+{% if last_updated == "No Result" %}
+<div class="jumbotron">
+    <h1 class="display-4">No Results</h1>
+    <p class="lead">There are no records available yet<strong> Current score : {{score}}</strong></p>
+    <hr class="my-4">
+    <p>Whenever your First result gets declared you will get visual representation of your performance!</p>
+  </div>
+{% else %}
 <section class="content">
     <div class="row">
         <div class="col-md-6">
@@ -135,4 +143,5 @@ Studentss
     });
 });
 </script>
+{% endif %}
 {% endblock content %}
