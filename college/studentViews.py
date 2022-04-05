@@ -149,9 +149,9 @@ def student_result_line_chart(request):
         avg_paper_list = []
         for paper in papers_list:
             marks = Result.objects.filter(paper=paper,student=student)
+            avgs = []
             if marks.count() > 0:
                 avg_paper_list.append(paper)
-                avgs = []
                 for avg_paper in avg_paper_list:
                     marks = Result.objects.filter(paper=avg_paper,student=student)
                     if len(marks) != 0:
