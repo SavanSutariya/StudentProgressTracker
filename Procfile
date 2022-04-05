@@ -1,0 +1,1 @@
+web: gunicorn college_project_3.wsgi
