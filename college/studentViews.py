@@ -32,19 +32,57 @@ def is_student(user):
 @user_passes_test(is_student,login_url='/')
 def Home(request):
     '''Home Page for student'''
+    student = get_object_or_404(Student,user=request.user)
     types = SubjectType.objects.all()
-    overall = Result.objects.filter(student=request.user.student)
+    overall = Result.objects.filter(student=student)
     types = SubjectType.objects.all()
     avg_lst = []
     for type in types:
-        result = Result.objects.filter(student=request.user.student,paper__subject__sub_type=type)
+        result = Result.objects.filter(student=student,paper__subject__sub_type=type)
         avg_lst.append({'type':type.name,'avg':round(Average(result), 2)})
-    print(avg_lst)
+    
     overall_average = round(Average(overall), 2)
+
+    # charts 
+    papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
+    last_updated = "No Result"
+    results = []
+    result2 = []
+    if(papers_list.count()>0):
+
+        for paper in papers_list:
+            marks = Result.objects.filter(paper=paper,student=student)
+            if marks.count() > 0:
+                results.append({"exam":paper.name,"marks":round(Average(marks), 2)})
+        # list average score of student after every paper
+        avg_paper_list = []
+        for paper in papers_list:
+            marks = Result.objects.filter(paper=paper,student=student)
+            avgs = []
+            if marks.count() > 0:
+                avg_paper_list.append(paper)
+                for avg_paper in avg_paper_list:
+                    marks = Result.objects.filter(paper=avg_paper,student=student)
+                    if len(marks) != 0:
+                        last_updated=marks[0].last_updated
+                        last_updated = last_updated.strftime("%d %b %y %I:%M %p")
+                        avgs.append(Average(marks))
+                date_str = paper.date.strftime("%d %b %y")
+                result2.append({"date":date_str,"marks": round(sum(avgs) / len(avgs), 2)})
+        try:
+            avg_score = round(sum(avgs) / len(avgs),2)
+        except (ZeroDivisionError):
+            avg_score = 0
+    else:
+        avg_score = 0
     context = {
         'types':types,
         'overall':overall_average,
-        'avg_lst':avg_lst
+        'avg_lst':avg_lst,
+        'results':results,
+        'averages':result2,
+        'score': avg_score,
+        'last_updated': last_updated,
     }
     return render(request, 'student/student_home.html',context)
     
@@ -74,7 +112,6 @@ def user_profile(request):
         messages.success(request, "Profile Updated Successfully")
         return redirect('college-student-profile')
     return render(request, 'student/user_profile.html')
-
 @user_passes_test(is_student,login_url='/') 
 def check_result(request): 
     # student = get_object_or_404(Student,user=request.user)
@@ -133,44 +170,3 @@ def suggestion(request):
             messages.error(request, "Error Occured")
             return redirect('college-student-suggestion-box')
     return render(request, 'student/suggestion.html')
-@user_passes_test(is_student,login_url='/')
-def student_result_line_chart(request):
-    student = get_object_or_404(Student,user=request.user)
-    papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
-    last_updated = "No Result"
-    results = []
-    result2 = []
-    if(papers_list.count()>0):
-
-        for paper in papers_list:
-            marks = Result.objects.filter(paper=paper,student=student)
-            if marks.count() > 0:
-                results.append({"exam":paper.name,"marks":round(Average(marks), 2)})
-        # list average score of student after every paper
-        avg_paper_list = []
-        for paper in papers_list:
-            marks = Result.objects.filter(paper=paper,student=student)
-            avgs = []
-            if marks.count() > 0:
-                avg_paper_list.append(paper)
-                for avg_paper in avg_paper_list:
-                    marks = Result.objects.filter(paper=avg_paper,student=student)
-                    if len(marks) != 0:
-                        last_updated=marks[0].last_updated
-                        last_updated = last_updated.strftime("%d %b %y %I:%M %p")
-                        avgs.append(Average(marks))
-                date_str = paper.date.strftime("%d %b %y")
-                result2.append({"date":date_str,"marks": round(sum(avgs) / len(avgs), 2)})
-        try:
-            avg_score = round(sum(avgs) / len(avgs),2)
-        except (ZeroDivisionError):
-            avg_score = 0
-    else:
-        avg_score = 0
-    context = {
-        'results':results,
-        'averages':result2,
-        'score': avg_score,
-        'last_updated': last_updated,
-    }
-    return render(request, 'student/student_result_line_chart.html',context)
