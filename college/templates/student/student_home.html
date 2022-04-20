@@ -22,11 +22,11 @@ Papers
                 </div>
 
                 <div class="card-body">
-                    <label>Overall ({{overall}}<sub>%</sub>)</label>
+                    <label>Overall ({{score}}<sub>%</sub>)</label>
                     <div class="progress mb-3">
-                        <div class="progress-bar bg-{{ overall|get_class_according_to_marks }}" role="progressbar"
-                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{overall}}%">
-                            <span class="sr-only">{{overall}}% Complete (success)</span>
+                        <div class="progress-bar bg-{{ score|get_class_according_to_marks }}" role="progressbar"
+                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{score}}%">
+                            <span class="sr-only">{{score}}% Complete (success)</span>
                         </div>
                     </div>
                     {% for type in avg_lst %}

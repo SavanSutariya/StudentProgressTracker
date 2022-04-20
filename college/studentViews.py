@@ -34,14 +34,12 @@ def Home(request):
     '''Home Page for student'''
     student = get_object_or_404(Student,user=request.user)
     types = SubjectType.objects.all()
-    overall = Result.objects.filter(student=student)
-    types = SubjectType.objects.all()
     avg_lst = []
     for type in types:
         result = Result.objects.filter(student=student,paper__subject__sub_type=type)
+        print(result)
         avg_lst.append({'type':type.name,'avg':round(Average(result), 2)})
 
-    overall_average = round(Average(overall), 2)
 
     # charts 
     papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
@@ -79,7 +77,6 @@ def Home(request):
         avg_score = 0
     context = {
         'types':types,
-        'overall':overall_average,
         'avg_lst':avg_lst,
         'results':results,
         'averages':result2,
