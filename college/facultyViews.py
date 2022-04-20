@@ -1,6 +1,9 @@
+import re
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 import os
+
+from college.adminViews import faculties_list
 from .models import *
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
@@ -118,3 +121,6 @@ def save_marks(request):
         else:
             messages.warning(request,'Field must not be Empty')
         return redirect('faculty-paper-marks',paper.id)
+
+
+

@@ -40,11 +40,12 @@ def Home(request):
     for type in types:
         result = Result.objects.filter(student=student,paper__subject__sub_type=type)
         avg_lst.append({'type':type.name,'avg':round(Average(result), 2)})
-    
+
     overall_average = round(Average(overall), 2)
 
     # charts 
     papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
+    
     last_updated = "No Result"
     results = []
     result2 = []
@@ -61,6 +62,7 @@ def Home(request):
             avgs = []
             if marks.count() > 0:
                 avg_paper_list.append(paper)
+                
                 for avg_paper in avg_paper_list:
                     marks = Result.objects.filter(paper=avg_paper,student=student)
                     if len(marks) != 0:
@@ -170,3 +172,4 @@ def suggestion(request):
             messages.error(request, "Error Occured")
             return redirect('college-student-suggestion-box')
     return render(request, 'student/suggestion.html')
+
