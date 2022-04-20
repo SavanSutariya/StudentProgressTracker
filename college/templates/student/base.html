@@ -160,7 +160,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="{% url 'student-home' %}" class="nav-link {% active_link 'student-home' %}">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -170,7 +170,15 @@
                             </a>
 
                         </li>
-                        
+                        <li class="nav-item">
+                            <a href="{% url 'college-student-leaderboard' %}" class="nav-link {% active_link 'college-student-leaderboard' %}">
+                                <i class="nav-icon fas fa-poll"></i>
+                                <p>
+                                    Leaderboard
+                                </p>
+                            </a>
+
+                        </li>
                         <li class="nav-item {% active_link 'college-student-result' 'menu-open' %}">
                             <a class="nav-link">
                                 <i class="fas fa-envelope-open-text"></i>
@@ -227,11 +235,6 @@
             </div>
         </footer>
 
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
     <!-- Shortcuts -->
