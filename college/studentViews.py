@@ -171,6 +171,7 @@ def get_papers_ajax(request,pk):
     papers = Paper.objects.filter(exam = pk)
     print(papers) 
     student = get_object_or_404(Student,user=request.user)
+    print(papers)
     data = []
     for paper in papers:
         try:
