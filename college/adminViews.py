@@ -1,3 +1,4 @@
+from unittest import result
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from .models import *
@@ -765,6 +766,7 @@ def delete_suggestion(request,pk):
 @user_passes_test(is_college_admin, login_url='/')
 def leaderboard(request):
     courses_list = Course.objects.filter(college=request.user.college)
+    
     context = {
         'courses_list':courses_list
     }
@@ -786,5 +788,26 @@ def leaderboard_ajax(request,pk):
             'stud_id':student.id,
             'score':overall_average
         })
+        print(data)
         data.sort(key=lambda x: x['score'], reverse=True)
+        print(data)
     return JsonResponse({'data':data})
+
+@user_passes_test(is_college_admin, login_url='/')
+def student_score(request,pk):
+    student = get_object_or_404(Student,pk=pk)
+    paper_list = Paper.objects.filter(subject__semester = student.semester)
+    results = []
+    result2 =[]
+    for paper in paper_list:
+            marks = Result.objects.filter(paper=paper,student=student)
+            if marks.count() > 0:
+                results.append({"exam":paper.name,"marks":round(Average(marks), 2)})
+    
+    context = {
+        'results' : results
+    }
+    
+    
+
+    return render(request,'college/student_score.html',context)

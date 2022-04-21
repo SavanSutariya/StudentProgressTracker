@@ -12,6 +12,8 @@ urlpatterns = [
     path('profile/',adminViews.user_profile, name="college-admin-profile"),
     # leaderboard
     path('leaderboard/',adminViews.leaderboard, name="college-leaderboard"),
+    #particular student
+    path('students/score/<int:pk>',adminViews.student_score,name="college-student-score"),
 
     path('courses/',adminViews.Course_list, name="college-course-list"),
     path('course/add/',adminViews.add_course,name="college-add-course"),

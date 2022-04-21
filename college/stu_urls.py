@@ -8,7 +8,6 @@ urlpatterns = [
     path('ajax/get-papers/<int:pk>',view=studentViews.get_papers_ajax, name="ajax-get-no-of-papers"),
     path('ajax/get-marks/<int:pk>',view=studentViews.get_marks_ajax, name="ajax-get-no-of-marks"),
     path('suggestion/',studentViews.suggestion,name="college-student-suggestion-box"),
-    
 
 ]
 

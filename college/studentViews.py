@@ -63,6 +63,7 @@ def Home(request):
                 
                 for avg_paper in avg_paper_list:
                     marks = Result.objects.filter(paper=avg_paper,student=student)
+                    print(marks)
                     if len(marks) != 0:
                         last_updated=marks[0].last_updated
                         last_updated = last_updated.strftime("%d %b %y %I:%M %p")

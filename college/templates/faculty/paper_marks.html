@@ -67,13 +67,16 @@ Papers
                                 <input type="number" name="student" hidden value="{{student.id}}">
                                 <input value="{{ student.id|get_result:paper.id }}" class="form-control" name="marks" type="number" width="1" max="{{paper.total_marks}}">
                             </td>
+                            {% endfor %}
+                            
                             <td>
                                 <button class="btn btn-primary" type="submit">Save</button>
                                 
                             </td>
+                        
                         </form>
                     </tr>
-                    {% endfor %}
+                    
                 </tbody>
             </table>
         </div>
