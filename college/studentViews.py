@@ -37,18 +37,10 @@ def Home(request):
     student = get_object_or_404(Student,user=request.user)
     types = SubjectType.objects.all()
     avg_lst = []
-<<<<<<< HEAD
-    for type in types:
-        result = Result.objects.filter(student=student,paper__subject__sub_type=type)
-        print(result)
-        avg_lst.append({'type':type.name,'avg':round(Average(result), 2)})
 
-
-=======
     for t in types:
         result = get_average_by_types(student,t)
         avg_lst.append({'type':t.name,'avg':result})
->>>>>>> f52d32f7864b0a93008b8da65e4c2adeb27b8e62
     # charts 
     papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
     
@@ -167,9 +159,7 @@ def suggestion(request):
             messages.error(request, "Error Occured")
             return redirect('college-student-suggestion-box')
     return render(request, 'student/suggestion.html')
-<<<<<<< HEAD
 
-=======
 @user_passes_test(is_student,login_url='/') 
 def get_papers_ajax(request,pk):
     papers = Paper.objects.filter(exam=pk)
@@ -188,4 +178,4 @@ def get_marks_ajax(request,pk):
     for marks in marks_list:
         data.append({"paper":marks.paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
     return JsonResponse({"data" : data})
->>>>>>> f52d32f7864b0a93008b8da65e4c2adeb27b8e62
+

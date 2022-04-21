@@ -767,11 +767,9 @@ def delete_suggestion(request,pk):
 @user_passes_test(is_college_admin, login_url='/')
 def leaderboard(request):
     courses_list = Course.objects.filter(college=request.user.college)
-<<<<<<< HEAD
-    
-=======
+
     types = SubjectType.objects.all()
->>>>>>> f52d32f7864b0a93008b8da65e4c2adeb27b8e62
+
     context = {
         'courses_list':courses_list,
         'sub_types':types
