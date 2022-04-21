@@ -163,10 +163,14 @@ def suggestion(request):
 def get_papers_ajax(request,pk):
     papers = Paper.objects.filter(exam=pk)
     student = get_object_or_404(Student,user=request.user)
+    print(papers)
     data = []
     for paper in papers:
-        marks = Result.objects.get(paper=paper,student=student)
-        data.append({"id":paper.id,"paper":paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
+        try:
+            marks = Result.objects.get(paper=paper,student=student)
+            data.append({"id":paper.id,"paper":paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})            
+        except:
+            pass
     return JsonResponse({"data":data})
 @user_passes_test(is_student,login_url='/') 
 def get_marks_ajax(request,pk):

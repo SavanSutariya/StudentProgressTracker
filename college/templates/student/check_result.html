@@ -89,7 +89,7 @@ Result
                 if (xhr.readyState == 4) {
                     js = xhr.responseText;
                     const obj = JSON.parse(js)["data"];
-
+                    console.log(obj);
                     var opt = "";
                     var tbl = "";
                     opt += "<option value='NULL'>Select Paper</option>";
