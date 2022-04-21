@@ -1,3 +1,4 @@
+from distutils.archive_util import make_archive
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 import os
@@ -129,6 +130,7 @@ def check_result(request):
     # }
     student = get_object_or_404(Student,user=request.user)
     exams_list = Exam.objects.filter(semester=student.semester)
+    print(exams_list)
     context = {
         'exams_list': exams_list,
     }
@@ -166,20 +168,15 @@ def suggestion(request):
 
 @user_passes_test(is_student,login_url='/') 
 def get_papers_ajax(request,pk):
-    papers = Paper.objects.filter(exam=pk)
+    papers = Paper.objects.filter(exam = pk)
+    print(papers) 
     student = get_object_or_404(Student,user=request.user)
     data = []
     for paper in papers:
-        marks = Result.objects.get(paper=paper,student=student)
-        data.append({"id":paper.id,"paper":paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
+        try:
+            marks = Result.objects.get(paper=paper,student=student)
+            data.append({"id":paper.id,"paper":paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
+        except:
+            pass
     return JsonResponse({"data":data})
-@user_passes_test(is_student,login_url='/') 
-def get_marks_ajax(request,pk):
-    student = get_object_or_404(Student,user=request.user)
-    marks_list = Result.objects.filter(paper=pk,student=student)
-  
-    data = [] 
-    for marks in marks_list:
-        data.append({"paper":marks.paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
-    return JsonResponse({"data" : data})
 
