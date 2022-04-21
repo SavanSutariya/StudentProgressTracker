@@ -42,7 +42,8 @@ def get_semesters_ajax(request,pk):
     '''returns all semesters in json format'''
     
     semesters = Semester.objects.filter(course=pk)
-    data = []
+    
+    data = []   
     for semester in semesters:
         data.append({"id":semester.id,"number"  :semester.number})
     return JsonResponse({"data":data})
@@ -767,9 +768,7 @@ def delete_suggestion(request,pk):
 @user_passes_test(is_college_admin, login_url='/')
 def leaderboard(request):
     courses_list = Course.objects.filter(college=request.user.college)
-
     types = SubjectType.objects.all()
-
     context = {
         'courses_list':courses_list,
         'sub_types':types
