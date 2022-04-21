@@ -1,25 +1,19 @@
-from audioop import avg
-from multiprocessing import context
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 import os
-from college.adminViews import exams_list, students_list
 from .models import *
-from django.core.exceptions import PermissionDenied
 from django.contrib import messages
-from django.http import Http404, JsonResponse
-from django.db.models import Avg
+from django.http import JsonResponse
 
 def Average(results):
     '''find average from marks from results'''
-    obtained = 0
     total = 0
+    count = 0
     for result in results:
-        total += result.paper.total_marks
-        obtained += result.marks
-
+        total += (100*result.marks)/result.paper.total_marks
+        count += 1
     try:
-        return (100*obtained)/total
+        return total/count
     except (ZeroDivisionError):
         return 0
 def is_student(user):
@@ -29,18 +23,32 @@ def is_student(user):
     else:
         return False
 
+def get_average_by_types(student,typ):
+    '''returns list of papers of a particular type'''
+    if(typ == 'overall'):
+        results = Result.objects.filter(student=student)
+    else:
+        results = Result.objects.filter(student=student,paper__subject__sub_type=typ)
+
+    return Average(results)
 @user_passes_test(is_student,login_url='/')
 def Home(request):
     '''Home Page for student'''
     student = get_object_or_404(Student,user=request.user)
     types = SubjectType.objects.all()
     avg_lst = []
+<<<<<<< HEAD
     for type in types:
         result = Result.objects.filter(student=student,paper__subject__sub_type=type)
         print(result)
         avg_lst.append({'type':type.name,'avg':round(Average(result), 2)})
 
 
+=======
+    for t in types:
+        result = get_average_by_types(student,t)
+        avg_lst.append({'type':t.name,'avg':result})
+>>>>>>> f52d32f7864b0a93008b8da65e4c2adeb27b8e62
     # charts 
     papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
     
@@ -54,9 +62,11 @@ def Home(request):
             if marks.count() > 0:
                 results.append({"exam":paper.name,"marks":round(Average(marks), 2)})
         # list average score of student after every paper
+        score = []
         avg_paper_list = []
         for paper in papers_list:
             marks = Result.objects.filter(paper=paper,student=student)
+            print(marks," = ",paper)
             avgs = []
             if marks.count() > 0:
                 avg_paper_list.append(paper)
@@ -70,10 +80,12 @@ def Home(request):
                         avgs.append(Average(marks))
                 date_str = paper.date.strftime("%d %b %y")
                 result2.append({"date":date_str,"marks": round(sum(avgs) / len(avgs), 2)})
+            if len(avgs)!=0:
+                score = avgs
         try:
-            avg_score = round(sum(avgs) / len(avgs),2)
+            avg_score = round(sum(score) / len(score),2)
         except (ZeroDivisionError):
-            avg_score = 0
+            avg_score = 0   
     else:
         avg_score = 0
     context = {
@@ -130,23 +142,8 @@ def check_result(request):
     }
     return render(request, 'student/check_result.html',context)
 @user_passes_test(is_student,login_url='/') 
-def get_papers_ajax(request,pk):
-    papers = Paper.objects.filter(exam=pk)
-    student = get_object_or_404(Student,user=request.user)
-    data = []
-    for paper in papers:
-        marks = Result.objects.get(paper=paper,student=student)
-        data.append({"id":paper.id,"paper":paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
-    return JsonResponse({"data":data})
-@user_passes_test(is_student,login_url='/') 
-def get_marks_ajax(request,pk):
-    student = get_object_or_404(Student,user=request.user)
-    marks_list = Result.objects.filter(paper=pk,student=student)
-  
-    data = [] 
-    for marks in marks_list:
-        data.append({"paper":marks.paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
-    return JsonResponse({"data" : data})
+def leaderboard(request):
+    return render(request, 'student/leaderboard.html')
 @user_passes_test(is_student,login_url='/') 
 def suggestion(request):
     if request.method == "POST":
@@ -170,4 +167,25 @@ def suggestion(request):
             messages.error(request, "Error Occured")
             return redirect('college-student-suggestion-box')
     return render(request, 'student/suggestion.html')
+<<<<<<< HEAD
 
+=======
+@user_passes_test(is_student,login_url='/') 
+def get_papers_ajax(request,pk):
+    papers = Paper.objects.filter(exam=pk)
+    student = get_object_or_404(Student,user=request.user)
+    data = []
+    for paper in papers:
+        marks = Result.objects.get(paper=paper,student=student)
+        data.append({"id":paper.id,"paper":paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
+    return JsonResponse({"data":data})
+@user_passes_test(is_student,login_url='/') 
+def get_marks_ajax(request,pk):
+    student = get_object_or_404(Student,user=request.user)
+    marks_list = Result.objects.filter(paper=pk,student=student)
+  
+    data = [] 
+    for marks in marks_list:
+        data.append({"paper":marks.paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
+    return JsonResponse({"data" : data})
+>>>>>>> f52d32f7864b0a93008b8da65e4c2adeb27b8e62

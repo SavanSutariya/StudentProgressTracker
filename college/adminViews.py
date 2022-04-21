@@ -2,9 +2,10 @@ from unittest import result
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from .models import *
+from .studentViews import get_average_by_types
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
-from django.http import Http404,JsonResponse
+from django.http import JsonResponse
 import os
 import csv
 import re
@@ -766,9 +767,14 @@ def delete_suggestion(request,pk):
 @user_passes_test(is_college_admin, login_url='/')
 def leaderboard(request):
     courses_list = Course.objects.filter(college=request.user.college)
+<<<<<<< HEAD
     
+=======
+    types = SubjectType.objects.all()
+>>>>>>> f52d32f7864b0a93008b8da65e4c2adeb27b8e62
     context = {
-        'courses_list':courses_list
+        'courses_list':courses_list,
+        'sub_types':types
     }
     return render(request,'college/leaderboard.html',context)
 
@@ -780,13 +786,22 @@ def leaderboard_ajax(request,pk):
     # students = Student.objects.all()
     data = []
     for student in students:
-        overall = Result.objects.filter(student=student)
-        overall_average = round(Average(overall), 2)
+        # check if type in get:
+        if(request.GET.get('type') != None):
+            try:
+                # if type is specified
+                score = round(get_average_by_types(student,int(request.GET.get('type'))),2)
+            except (ValueError):
+                # executes when type is non integer e.g. 'overall' or user is doing something suspecious
+                score = round(get_average_by_types(student,'overall'),2)
+        else:
+            # executes when there is no get parameter named 'type'
+            score = round(get_average_by_types(student,'overall'),2)
         data.append({
             'profile':student.user.profile_pic.url,
             'name':student.user.get_full_name(),
             'stud_id':student.id,
-            'score':overall_average
+            'score':score
         })
         print(data)
         data.sort(key=lambda x: x['score'], reverse=True)
