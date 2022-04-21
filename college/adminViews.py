@@ -777,7 +777,6 @@ def leaderboard(request):
     return render(request,'college/leaderboard.html',context)
 
 # students average score ajax
-@user_passes_test(is_college_admin, login_url='/')
 def leaderboard_ajax(request,pk):
     semester = get_object_or_404(Semester, pk=pk)
     students = Student.objects.filter(semester=semester)

@@ -135,7 +135,11 @@ def check_result(request):
     return render(request, 'student/check_result.html',context)
 @user_passes_test(is_student,login_url='/') 
 def leaderboard(request):
-    return render(request, 'student/leaderboard.html')
+    types = SubjectType.objects.all()
+    context = {
+        'sub_types':types,
+    }
+    return render(request, 'student/leaderboard.html',context)
 @user_passes_test(is_student,login_url='/') 
 def suggestion(request):
     if request.method == "POST":

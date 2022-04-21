@@ -2,7 +2,7 @@
 {% load static %}
 {% load shortcuts %}
 {% block site_title %}
-Papers
+{{user.get_full_name}}
 {% endblock site_title %}
 {% block content %}
 <section class="content">
