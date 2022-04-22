@@ -112,7 +112,9 @@ def student_details(request, username):
         'student': student,
         'scores': scores,
         'line_chart': line_chart,
-        'results': results
+        'results': results,
+        
+       
     }
     return render(request, 'faculty/student_details.html', context)
 

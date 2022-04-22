@@ -300,7 +300,8 @@ def student_details(request, username):
         'student': student,
         'scores': scores,
         'line_chart': line_chart,
-        'results': results
+        'results': results,
+        
     }
     return render(request, 'college/student_details.html', context)
 @user_passes_test(is_college_admin, login_url='/')
