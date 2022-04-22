@@ -7,12 +7,12 @@
 {% block content %}
 <section class="content">
     {% if last_updated == "No Result" %}
-        <div class="jumbotron col-md-12">
-            <h1 class="display-4">No Results</h1>
-            <p class="lead">There are no records available yet<strong> Current score : {{score}}</strong></p>
-            <hr class="my-4">
-            <p>Whenever your First result gets declared you will get visual representation of your performance!</p>
-        </div>
+    <div class="jumbotron col-md-12">
+        <h1 class="display-4">No Results</h1>
+        <p class="lead">There are no records available yet<strong> Current score : {{score}}</strong></p>
+        <hr class="my-4">
+        <p>Whenever your First result gets declared you will get visual representation of your performance!</p>
+    </div>
     {% else %}
     <div class="row">
         <div class="col-md-12">
@@ -50,7 +50,7 @@
 
                 <!-- /.card-body -->
             </div>
-        </div>        
+        </div>
         <div class="col-md-6">
             <div class="card card-info">
                 <div class="card-header">
@@ -108,7 +108,7 @@
             var myChart1 = new Chart(ctx1, {
                 type: 'bar',
                 data: {
-                    labels: [{% for data in results %}'{{data.exam}}',{% endfor %}], //loop through queryset, 
+                    labels: [{% for data in results %}'{{data.paper}}',{% endfor %}], //loop through queryset, 
             datasets: [{
                 label: 'marks',
                 data: [{%for data in results %}{{ data.marks }}, {% endfor %}],
@@ -147,7 +147,7 @@
             }
         }
         });
-    
+
         // chart 2
         var ctx2 = document.getElementById('myChart2').getContext('2d');
         var myChart2 = new Chart(ctx2, {
@@ -163,13 +163,13 @@
                     },
         options: {
             maintainAspectRatio: false,
-    
+
                 responsive: true,
                     legend: {
                 display: false
             },
             scales: {
-    
+
                 xAxes: [{
                     gridLines: {
                         display: false,

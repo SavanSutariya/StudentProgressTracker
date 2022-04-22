@@ -10,5 +10,3 @@ urlpatterns = [
     path('suggestion/',studentViews.suggestion,name="college-student-suggestion-box"),
 
 ]
-
-
