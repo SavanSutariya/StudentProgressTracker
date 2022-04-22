@@ -597,7 +597,8 @@ def delete_course(request,pk):
 @user_passes_test(is_college_admin, login_url='/')
 def delete_faculty(request,pk):
     faculty = get_object_or_404(Faculty, pk=pk)
-    if (faculty.user.college != request.user.college):
+    if (faculty.user.coll
+    ege != request.user.college):
         raise PermissionDenied
     else:
         if(request.method == "POST"):
