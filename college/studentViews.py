@@ -1,3 +1,4 @@
+from distutils.archive_util import make_archive
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 import os
@@ -25,12 +26,44 @@ def is_student(user):
 
 def get_average_by_types(student,typ):
     '''returns list of papers of a particular type'''
-    if(typ == 'overall'):
+    if(str(typ).lower() == 'overall'):
         results = Result.objects.filter(student=student)
     else:
         results = Result.objects.filter(student=student,paper__subject__sub_type=typ)
 
     return Average(results)
+score = []
+last_updated = "No Result"
+def get_score_history(student,papers_list):
+    global score
+    global last_updated
+    results = []
+    avg_paper_list = []
+    for paper in papers_list:
+            marks = Result.objects.filter(paper=paper,student=student)
+            avgs = []
+            if marks.count() > 0:
+                avg_paper_list.append(paper)
+                
+                for avg_paper in avg_paper_list:
+                    marks = Result.objects.filter(paper=avg_paper,student=student)
+                    
+                    if len(marks) != 0:
+                        last_updated=marks[0].last_updated
+                        last_updated = last_updated.strftime("%d %b %y %I:%M %p")
+                        avgs.append(Average(marks))
+                date_str = paper.date.strftime("%d %b %y")
+                results.append({"date":date_str,"marks": round(sum(avgs) / len(avgs), 2)})
+            if len(avgs)!=0:
+                score = avgs
+    return results
+def get_bar_results(student,papers_list):
+    results = []
+    for paper in papers_list:
+        marks = Result.objects.filter(paper=paper,student=student)
+        if marks.count() > 0:
+            results.append({"paper":paper.name,"marks":marks[0].marks})
+    return results
 @user_passes_test(is_student,login_url='/')
 def Home(request):
     '''Home Page for student'''
@@ -42,45 +75,24 @@ def Home(request):
         avg_lst.append({'type':t.name,'avg':result})
     # charts 
     papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
-    last_updated = "No Result"
-    results = []
-    result2 = []
+    
     if(papers_list.count()>0):
 
-        for paper in papers_list:
-            marks = Result.objects.filter(paper=paper,student=student)
-            if marks.count() > 0:
-                results.append({"exam":paper.name,"marks":round(Average(marks), 2)})
-        # list average score of student after every paper
-        score = []
-        avg_paper_list = []
-        for paper in papers_list:
-            marks = Result.objects.filter(paper=paper,student=student)
-            print(marks," = ",paper)
-            avgs = []
-            if marks.count() > 0:
-                avg_paper_list.append(paper)
-                for avg_paper in avg_paper_list:
-                    marks = Result.objects.filter(paper=avg_paper,student=student)
-                    if len(marks) != 0:
-                        last_updated=marks[0].last_updated
-                        last_updated = last_updated.strftime("%d %b %y %I:%M %p")
-                        avgs.append(Average(marks))
-                date_str = paper.date.strftime("%d %b %y")
-                result2.append({"date":date_str,"marks": round(sum(avgs) / len(avgs), 2)})
-            if len(avgs)!=0:
-                score = avgs
+        results = get_bar_results(student,papers_list)
+        results2 = get_score_history(student,papers_list)
         try:
             avg_score = round(sum(score) / len(score),2)
         except (ZeroDivisionError):
+            print("No Result")
             avg_score = 0   
     else:
         avg_score = 0
+    print(results)
     context = {
         'types':types,
         'avg_lst':avg_lst,
         'results':results,
-        'averages':result2,
+        'averages':results2,
         'score': avg_score,
         'last_updated': last_updated,
     }
@@ -125,6 +137,7 @@ def check_result(request):
     # }
     student = get_object_or_404(Student,user=request.user)
     exams_list = Exam.objects.filter(semester=student.semester)
+    print(exams_list)
     context = {
         'exams_list': exams_list,
     }
@@ -159,21 +172,19 @@ def suggestion(request):
             messages.error(request, "Error Occured")
             return redirect('college-student-suggestion-box')
     return render(request, 'student/suggestion.html')
+
 @user_passes_test(is_student,login_url='/') 
 def get_papers_ajax(request,pk):
-    papers = Paper.objects.filter(exam=pk)
+    papers = Paper.objects.filter(exam = pk)
+    print(papers) 
     student = get_object_or_404(Student,user=request.user)
+    print(papers)
     data = []
     for paper in papers:
-        marks = Result.objects.get(paper=paper,student=student)
-        data.append({"id":paper.id,"paper":paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
+        try:
+            marks = Result.objects.get(paper=paper,student=student)
+            data.append({"id":paper.id,"paper":paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
+        except:
+            pass
     return JsonResponse({"data":data})
-@user_passes_test(is_student,login_url='/') 
-def get_marks_ajax(request,pk):
-    student = get_object_or_404(Student,user=request.user)
-    marks_list = Result.objects.filter(paper=pk,student=student)
-  
-    data = [] 
-    for marks in marks_list:
-        data.append({"paper":marks.paper.name,"subject":marks.paper.subject.name,"marks":marks.marks,"total":marks.paper.total_marks})
-    return JsonResponse({"data" : data})
+

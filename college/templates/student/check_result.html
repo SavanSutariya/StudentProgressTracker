@@ -31,12 +31,6 @@ Result
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group col-md-6">
-                <label> &nbsp; Select Paper</label>
-                <select type="" name="paper_name" onchange="getMarks()" id="paper" class="form-control" required>
-                    <option value="NULL">Select Paper</option>
-                </select>
-            </div>
         </div>
         <div class="card">
             <div class="card-header">
@@ -73,6 +67,7 @@ Result
 <script>
     // vanila js
     function getPaper() {
+        
         xhr = new XMLHttpRequest;
         var exam = document.getElementById("exam");
         var paper = document.getElementById("paper");
@@ -89,7 +84,7 @@ Result
                 if (xhr.readyState == 4) {
                     js = xhr.responseText;
                     const obj = JSON.parse(js)["data"];
-
+                    console.log(obj);
                     var opt = "";
                     var tbl = "";
                     opt += "<option value='NULL'>Select Paper</option>";
@@ -111,39 +106,13 @@ Result
                         </tr>
                         `
                     }
-                    paper.innerHTML = opt;   
+                       
                     table.innerHTML = tbl;
                 }
             }
             xhr.send();
         }
     }
-    function getMarks() {
-        xhr = new XMLHttpRequest;
-        var paper = document.getElementById("paper");
-        var marks = document.getElementById("marks");
-        if (paper.value == "NULL") {
-            marks.innerHTML = "";
-        }
-        else {
-            xhr.open("GET", "/student/ajax/get-marks/" + paper.value);
-
-            xhr.onreadystatechange = function () {
-
-                if (xhr.readyState == 4) {
-                    js = xhr.responseText;
-                    const obj = JSON.parse(js)["data"];
-                    console.log(obj);
-                    var html = "";
-                    for (var i = 0; i < obj.length; i++) {
-                        html += "Paper : " + obj[i].paper + "(Subject : " + obj[i].subject + " )</br>Marks obtained : " + obj[i].marks + "</br>out of : " + obj[i].total + "</br>";
-                    }
-                    marks.innerHTML = html;
-                }
-            }
-            xhr.send();
-        }
-    }
-
+   
 </script>
 {% endblock content %}

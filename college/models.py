@@ -36,6 +36,7 @@ class Faculty(models.Model):
     user = models.OneToOneField(CustomUser , on_delete=models.CASCADE)
     address = models.TextField()
     gender = models.CharField(max_length=7, null=False)
+    fcm_token = models.TextField(default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
@@ -52,6 +53,7 @@ class Subject(models.Model):
     sub_type = models.ForeignKey(SubjectType, on_delete=models.CASCADE)
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     faculty = models.ForeignKey(Faculty , on_delete=models.CASCADE)
+
     def __str__(self):
         return self.name
 
@@ -72,6 +74,7 @@ class Student(models.Model):
     address = models.TextField()
     gender = models.CharField(max_length=7, null=False)
     dob = models.DateField(null=False)
+    fcm_token = models.TextField(default="")
     session_year = models.ForeignKey(SessionYear , on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

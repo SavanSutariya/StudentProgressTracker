@@ -1,7 +1,8 @@
+from unittest import result
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from .models import *
-from .studentViews import get_average_by_types
+from .studentViews import get_average_by_types,get_score_history,get_bar_results
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.http import JsonResponse
@@ -41,7 +42,8 @@ def get_semesters_ajax(request,pk):
     '''returns all semesters in json format'''
     
     semesters = Semester.objects.filter(course=pk)
-    data = []
+    
+    data = []   
     for semester in semesters:
         data.append({"id":semester.id,"number"  :semester.number})
     return JsonResponse({"data":data})
@@ -260,6 +262,45 @@ def students_list(request):
     }
     return render(request, 'college/college_students_list.html', context)
 
+# get rank from leaderboard of a particular student
+def get_rank(student,score,typ):
+    students = Student.objects.filter(semester=student.semester)
+    if score <1:
+        return "-"
+    rank = 1
+    for s in students:
+        if(s.id != student.id):
+            if(score < get_average_by_types(s,typ)):
+                print("Score : ",get_average_by_types(s,typ)," - ",score)
+                rank += 1
+    return rank
+
+@user_passes_test(is_college_admin, login_url='/')
+def student_details(request, username):
+    student = Student.objects.get(user__username=username)
+    scores = []
+    score = get_average_by_types(student,"overall")
+    scores.append({'type':"Overall",'score':round(score,2),'rank':get_rank(student,score,"overall")})
+    #  get all types of marks average and rank
+    for typ in SubjectType.objects.all():
+        score = get_average_by_types(student,typ.id)
+        scores.append({'type':typ.name,'score':round(score,2),'rank':get_rank(student,score,typ.id)})
+    # check if the student is same college
+    if student.user.college != request.user.college:
+        raise PermissionDenied
+    
+    papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
+    if(papers_list.count()>0):
+        line_chart = get_score_history(student,papers_list)
+        results = get_bar_results(student,papers_list)
+        
+    context = {
+        'student': student,
+        'scores': scores,
+        'line_chart': line_chart,
+        'results': results
+    }
+    return render(request, 'college/student_details.html', context)
 @user_passes_test(is_college_admin, login_url='/')
 def faculties_list(request):
 
@@ -797,5 +838,7 @@ def leaderboard_ajax(request,pk):
             'stud_id':student.id,
             'score':score
         })
+        print(data)
         data.sort(key=lambda x: x['score'], reverse=True)
+        print(data)
     return JsonResponse({'data':data})

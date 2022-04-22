@@ -1,4 +1,4 @@
-{% extends 'student/base.html' %}
+{% extends 'college/base.html' %}
 {% load static %}
 {% load shortcuts %}
 {% block site_title %}
@@ -53,7 +53,7 @@ Chart
                 </div>
                 <div class="card-body">
                     <div class="chart">
-                        <div class = "float-right"><span class="btn btn-outline-{{ score|get_class_according_to_marks }} mr-2">{{score}}</span><small>Last updated : {{last_updated}}</small></div>
+                        <div class = "float-right"><span class="btn btn-outline-{{ score }} mr-2">{{score}}</span><small>Last updated : {{last_updated}}</small></div>
                         <canvas id="myChart2"
                             style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                     </div>

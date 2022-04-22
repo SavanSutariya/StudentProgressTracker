@@ -1,10 +1,15 @@
+import re
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 import os
+from django.contrib.auth.decorators import user_passes_test
+from college.adminViews import faculties_list
 from .models import *
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.http import Http404
+from django.http import JsonResponse
+
 
 def is_faculty(user):
     '''checks if authenticated and is a Faculty'''
@@ -12,6 +17,14 @@ def is_faculty(user):
         return user.userType == '2'
     else:
         return False
+
+def get_average_by_types(student,typ):
+    '''returns list of papers of a particular type'''
+    if(typ == 'overall'):
+        results = Result.objects.filter(student=student)
+    else:
+        results = Result.objects.filter(student=student,paper__subject__sub_type=typ)
+
 
 @user_passes_test(is_faculty,login_url='/')
 def Home(request):
@@ -118,3 +131,41 @@ def save_marks(request):
         else:
             messages.warning(request,'Field must not be Empty')
         return redirect('faculty-paper-marks',paper.id)
+
+@user_passes_test(is_faculty, login_url='/')
+def leaderboard(request):
+    courses_list = Course.objects.filter(college=request.user.college)
+    types = SubjectType.objects.all()
+    context = {
+        'courses_list':courses_list,
+        'sub_types':types
+    }
+    return render(request,'faculty/leaderboard.html',context)
+
+def leaderboard_ajax(request,pk):
+    semester = get_object_or_404(Semester, pk=pk)
+    students = Student.objects.filter(semester=semester)
+    # students = Student.objects.all()
+    data = []
+    for student in students:
+        # check if type in get:
+        if(request.GET.get('type') != None):
+            try:
+                # if type is specified
+                score = round(get_average_by_types(student,int(request.GET.get('type'))),2)
+            except (ValueError):
+                # executes when type is non integer e.g. 'overall' or user is doing something suspecious
+                score = round(get_average_by_types(student,'overall'),2)
+        else:
+            # executes when there is no get parameter named 'type'
+            score = round(get_average_by_types(student,'overall'),2)
+        data.append({
+            'profile':student.user.profile_pic.url,
+            'name':student.user.get_full_name(),
+            'stud_id':student.id,
+            'score':score
+        })
+        print(data)
+        data.sort(key=lambda x: x['score'], reverse=True)
+        print(data)
+    return JsonResponse({'data':data})
