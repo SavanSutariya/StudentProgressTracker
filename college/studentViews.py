@@ -8,6 +8,7 @@ from django.http import JsonResponse
 
 def Average(results):
     '''find average from marks from results'''
+    
     total = 0
     count = 0
     for result in results:
@@ -59,14 +60,11 @@ def Home(request):
         avg_paper_list = []
         for paper in papers_list:
             marks = Result.objects.filter(paper=paper,student=student)
-            print(marks," = ",paper)
             avgs = []
             if marks.count() > 0:
-                avg_paper_list.append(paper)
-                
+                avg_paper_list.append(paper)   
                 for avg_paper in avg_paper_list:
                     marks = Result.objects.filter(paper=avg_paper,student=student)
-                    print(marks)
                     if len(marks) != 0:
                         last_updated=marks[0].last_updated
                         last_updated = last_updated.strftime("%d %b %y %I:%M %p")
@@ -81,6 +79,7 @@ def Home(request):
             avg_score = 0   
     else:
         avg_score = 0
+        
     context = {
         'types':types,
         'avg_lst':avg_lst,
@@ -181,3 +180,4 @@ def get_papers_ajax(request,pk):
             pass
     return JsonResponse({"data":data})
 
+ 

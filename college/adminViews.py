@@ -1,3 +1,4 @@
+from datetime import date
 from unittest import result
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
@@ -807,18 +808,44 @@ def leaderboard_ajax(request,pk):
 @user_passes_test(is_college_admin, login_url='/')
 def student_score(request,pk):
     student = get_object_or_404(Student,pk=pk)
-    paper_list = Paper.objects.filter(subject__semester = student.semester)
+    papers_list = Paper.objects.filter(subject__semester = student.semester)
     results = []
     result2 =[]
-    for paper in paper_list:
+    if(papers_list.count()>0):
+
+        for paper in papers_list:
             marks = Result.objects.filter(paper=paper,student=student)
             if marks.count() > 0:
                 results.append({"exam":paper.name,"marks":round(Average(marks), 2)})
-    
+        # list average score of student after every paper
+        score = []
+        avg_paper_list = []
+        for paper in papers_list:
+            marks = Result.objects.filter(paper=paper,student=student)
+            avgs = []
+            if marks.count() > 0:
+                avg_paper_list.append(paper)   
+                for avg_paper in avg_paper_list:
+                    marks = Result.objects.filter(paper=avg_paper,student=student)
+                    if len(marks) != 0:
+                        last_updated=marks[0].last_updated
+                        last_updated = last_updated.strftime("%d %b %y %I:%M %p")
+                        avgs.append(Average(marks))
+                date_str = paper.date.strftime("%d %b %y")
+                result2.append({"date":date_str,"marks": round(sum(avgs) / len(avgs), 2)})
+            if len(avgs)!=0:
+                score = avgs
+        try:
+            avg_score = round(sum(score) / len(score),2)
+        except (ZeroDivisionError):
+            avg_score = 0   
+    else:
+        avg_score = 0
     context = {
-        'results' : results
+        'results':results,
+        'averages':result2,
+        'score': avg_score,
+        'last_updated': last_updated,
     }
     
-    
-
     return render(request,'college/student_score.html',context)
