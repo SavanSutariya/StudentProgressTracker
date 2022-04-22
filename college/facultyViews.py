@@ -2,6 +2,7 @@ import re
 from django.shortcuts import HttpResponse, redirect, render,get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 import os
+from .studentViews import get_average_by_types,get_score_history,get_bar_results
 from django.contrib.auth.decorators import user_passes_test
 from college.adminViews import faculties_list
 from .models import *
@@ -18,12 +19,18 @@ def is_faculty(user):
     else:
         return False
 
-def get_average_by_types(student,typ):
-    '''returns list of papers of a particular type'''
-    if(typ == 'overall'):
-        results = Result.objects.filter(student=student)
-    else:
-        results = Result.objects.filter(student=student,paper__subject__sub_type=typ)
+def get_rank(student,score,typ):
+    students = Student.objects.filter(semester=student.semester)
+    if score <1:
+        return "-"
+    rank = 1
+    for s in students:
+        if(s.id != student.id):
+            if(score < get_average_by_types(s,typ)):
+                print("Score : ",get_average_by_types(s,typ)," - ",score)
+                rank += 1
+    return rank
+    
 
 @user_passes_test(is_faculty,login_url='/')
 def Home(request):
@@ -82,6 +89,32 @@ def paper_marks(request,pk):
     }
     return render(request, 'faculty/paper_marks.html',context)
 
+
+def student_details(request, username):
+    student = Student.objects.get(user__username=username)
+    scores = []
+    score = get_average_by_types(student,"overall")
+    scores.append({'type':"Overall",'score':round(score,2),'rank':get_rank(student,score,"overall")})
+    #  get all types of marks average and rank
+    for typ in SubjectType.objects.all():
+        score = get_average_by_types(student,typ.id)
+        scores.append({'type':typ.name,'score':round(score,2),'rank':get_rank(student,score,typ.id)})
+    # check if the student is same college
+    if student.user.college != request.user.college:
+        raise PermissionDenied
+    
+    papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
+    if(papers_list.count()>0):
+        line_chart = get_score_history(student,papers_list)
+        results = get_bar_results(student,papers_list)
+        
+    context = {
+        'student': student,
+        'scores': scores,
+        'line_chart': line_chart,
+        'results': results
+    }
+    return render(request, 'faculty/student_details.html', context)
 
 @user_passes_test(is_faculty, login_url='/')
 def user_profile(request):

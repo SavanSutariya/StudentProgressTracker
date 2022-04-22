@@ -47,10 +47,6 @@ def get_score_history(student,papers_list):
                 avg_paper_list.append(paper)   
                 for avg_paper in avg_paper_list:
                     marks = Result.objects.filter(paper=avg_paper,student=student)
-<<<<<<< HEAD
-=======
-                    
->>>>>>> 5c2ba4900e8ae05701b0c5948389987a2c657d99
                     if len(marks) != 0:
                         last_updated=marks[0].last_updated
                         last_updated = last_updated.strftime("%d %b %y %I:%M %p")

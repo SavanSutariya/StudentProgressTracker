@@ -1,95 +1,258 @@
-{% extends 'college/base.html' %}
+{% extends 'faculty/base.html' %}
 {% load static %}
+{% load shortcuts %}
 {% block site_title %}
-Studentss
+{{student.user.get_full_name}}
 {% endblock site_title %}
 {% block content %}
 <section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Profile Image -->
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <img class="profile-user-img img-fluid img-circle" src="{{student.user.profile_pic.url}}"
+                                alt="User profile picture">
+                        </div>
 
-    <!-- Default box -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Courses</h3>
+                        <h3 class="profile-username text-center">{{student.user.get_full_name}}</h3>
 
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                    <i class="fas fa-times"></i>
-                </button>
+                        <p class="text-muted text-center">{{student.user.username}}</p>
+
+                        <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item text-{{ scores.0.score|get_class_according_to_marks }}">
+                                <b>Score</b> <span class="float-right">{{scores.0.score}}</span>
+                            </li>
+                            <li
+                                class="list-group-item {% if scores.0.rank == 1 %}text-success {% elif scores.0.rank == 2 %}text-warning {% elif scores.0.rank == 3 %}text-info {% elif score.0.rank == '-' %}text-dark{% endif %}">
+                                <b>Overall Position</b> <span class="float-right">{{scores.0.rank}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+                <!-- About Me Box -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">About Me</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+
+                        <strong><i class="fas fa-book mr-1"></i>Institute</strong>
+                        <p class="text-muted">
+                            {{student.user.college.name}}
+                        </p>
+
+                        <hr>
+                        <strong><i class="fas fa-book mr-1"></i>Course</strong>
+                        <p class="text-muted">
+                            {{student.semester.course.name}}
+                            Sem : {{student.semester.number}}
+                            ({{student.session_year.session_start}}-{{student.session_year.session_end}})
+                        </p>
+
+
+                        <hr>
+                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Address</strong>
+
+                        <p class="text-muted">{{student.address}}</p>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
             </div>
-        </div>
-        <div class="card-body p-0">
-            <table class="table table-striped projects">
-                <thead>
-                    <tr>
-                        <th style="width: 1%">
-                            #
-                        </th>
-                        <th style="width: 1%">
-                        </th>
-                        <th style="width: 10%">
-                            Student Name
-                        </th>
-                        <th style="width: 5%">
-                            username
-                        </th>
-                        <th style="width: 20%" class="project-actions text-right">
-                            <a class="btn btn-primary btn-sm" href="{% url 'college-add-student' %}">
-                                <i class="fas fa-plus">
-                                </i>
-                                New
-                            </a>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for student in students_list %}
-                    <tr>
-                        <td>
-                            {{forloop.counter}}
-                        </td>
-                        <td>
-                            <img alt="Avatar" class="table-avatar" width="100" src="{{student.user.profile_pic.url}}">
-                        </td>
-                        <td>
-                            <a href="{% url 'college-student-details' student.user.username %}">
-                                {{student.user.get_full_name}}
-                            </a>
-                            <br />
-                            <small>
-                                {{student.user.email}}
-                            </small>
-                        </td>
-                        <td>
-                            {{student.user.username}}
-                        </td>
-                        <td class="project-actions text-right">
-                            <!--<a class="btn btn-primary btn-sm" href="#">
-                                <i class="fas fa-folder">
-                                </i>
-                                View
-                            </a>-->
-                            <a class="btn btn-info btn-sm" href="{% url 'college-update-student' student.id %}">
-                                <i class="fas fa-pencil-alt">
-                                </i>
-                                Edit
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="{% url 'college-delete-student' student.id %}">
-                                <i class="fas fa-trash">
-                                </i>
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Chart</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Results</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Position</a>
+                            </li>
+                        </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="activity">
+                                <div class="card card-primary">
+                                    <div class="card-header">
+                                        <h3 class="card-title">My Score</h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                                <i class="fas fa-expand"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart">
+                                            <div class="float-right"><span
+                                                    class="btn btn-outline-{{ scores.0.score|get_class_according_to_marks }} mr-2">{{scores.0.score}}</span><small>Last
+                                                    updated : {{last_updated}}</small></div>
+                                            <canvas id="myChart2"
+                                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="timeline">
+                                <!-- The timeline -->
+                                <div class="card card-info">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Results Chart</h3>
 
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                                <i class="fas fa-expand"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart">
+                                            <canvas id="myChart1"
+                                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+
+                            <div class="tab-pane" id="settings">
+                                {% for score in scores %}
+                                <div class="info-box bg-gradient-{{ score.score|get_class_according_to_marks }}">
+                                    <span class="info-box-icon">{{score.type|slice:1}}</span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text"><b>{{score.type}}</b></span>
+                                        <span class="info-box-number">Rank : #{{score.rank}}</span>
+
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: {{score.score}}%"></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            {{score.score}}
+                                        </span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                    <!-- /.info-box -->
+                                </div>
+                                {% endfor %}
+                                
+                                <!-- /.info-box -->
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div><!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
 </section>
+<script>
+    // jquery function
+    $(document).ready(function () {
+        var ctx1 = document.getElementById('myChart1').getContext('2d');
+        var myChart1 = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: [{% for data in results %}'{{data.paper}}',{% endfor %}], //loop through queryset, 
+        datasets: [{
+            label: 'marks',
+            data: [{%for data in results %}{{ data.marks }}, {% endfor %}],
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(255, 159, 64, 0.6)'
+    ],
+        // borderColor: '#87CEEB',
+        borderWidth: 3
+                    }]
+                },
+        options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        legend: {
+            display: false
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display: false,
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                },
+                gridLines: {
+                    display: false,
+                }
+            }]
+        }
+    }
+    });
+
+    // chart 2
+    var ctx2 = document.getElementById('myChart2').getContext('2d');
+    var myChart2 = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: [{% for data in line_chart %}'{{data.date}}',{% endfor %}], //loop through queryset, 
+    datasets: [{
+        label: 'marks',
+        data: [{%for data in line_chart %}{{ data.marks }}, {% endfor %}],
+        borderColor: '#87CEEB',
+            borderWidth: 3
+                    }]
+                },
+    options: {
+        maintainAspectRatio: false,
+
+            responsive: true,
+                legend: {
+            display: false
+        },
+        scales: {
+
+            xAxes: [{
+                gridLines: {
+                    display: false,
+                }
+            }],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    },
+                    gridLines: {
+                        display: false,
+                    }
+                }]
+        }
+    }
+    });
+});
+</script>
 {% endblock content %}
