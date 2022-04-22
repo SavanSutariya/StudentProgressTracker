@@ -26,66 +26,73 @@ def is_student(user):
 
 def get_average_by_types(student,typ):
     '''returns list of papers of a particular type'''
-    if(typ == 'overall'):
+    if(str(typ).lower() == 'overall'):
         results = Result.objects.filter(student=student)
     else:
         results = Result.objects.filter(student=student,paper__subject__sub_type=typ)
 
     return Average(results)
-@user_passes_test(is_student,login_url='/')
-def Home(request):
-    '''Home Page for student'''
-    student = get_object_or_404(Student,user=request.user)
-    types = SubjectType.objects.all()
-    avg_lst = []
-
-    for t in types:
-        result = get_average_by_types(student,t)
-        avg_lst.append({'type':t.name,'avg':result})
-    # charts 
-    papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
-    
-    last_updated = "No Result"
+score = []
+last_updated = "No Result"
+def get_score_history(student,papers_list):
+    global score
+    global last_updated
     results = []
-    result2 = []
-    if(papers_list.count()>0):
-
-        for paper in papers_list:
+    avg_paper_list = []
+    for paper in papers_list:
             marks = Result.objects.filter(paper=paper,student=student)
-            if marks.count() > 0:
-                results.append({"exam":paper.name,"marks":round(Average(marks), 2)})
-        # list average score of student after every paper
-        score = []
-        avg_paper_list = []
-        for paper in papers_list:
-            marks = Result.objects.filter(paper=paper,student=student)
-            print(marks," = ",paper)
             avgs = []
             if marks.count() > 0:
                 avg_paper_list.append(paper)
                 
                 for avg_paper in avg_paper_list:
                     marks = Result.objects.filter(paper=avg_paper,student=student)
-                    print(marks)
+                    
                     if len(marks) != 0:
                         last_updated=marks[0].last_updated
                         last_updated = last_updated.strftime("%d %b %y %I:%M %p")
                         avgs.append(Average(marks))
                 date_str = paper.date.strftime("%d %b %y")
-                result2.append({"date":date_str,"marks": round(sum(avgs) / len(avgs), 2)})
+                results.append({"date":date_str,"marks": round(sum(avgs) / len(avgs), 2)})
             if len(avgs)!=0:
                 score = avgs
+    return results
+def get_bar_results(student,papers_list):
+    results = []
+    for paper in papers_list:
+        marks = Result.objects.filter(paper=paper,student=student)
+        if marks.count() > 0:
+            results.append({"paper":paper.name,"marks":marks[0].marks})
+    return results
+@user_passes_test(is_student,login_url='/')
+def Home(request):
+    '''Home Page for student'''
+    student = get_object_or_404(Student,user=request.user)
+    types = SubjectType.objects.all()
+    avg_lst = []
+    for t in types:
+        result = get_average_by_types(student,t)
+        avg_lst.append({'type':t.name,'avg':result})
+    # charts 
+    papers_list = Paper.objects.filter(subject__semester=student.semester).order_by('id')
+    
+    if(papers_list.count()>0):
+
+        results = get_bar_results(student,papers_list)
+        results2 = get_score_history(student,papers_list)
         try:
             avg_score = round(sum(score) / len(score),2)
         except (ZeroDivisionError):
+            print("No Result")
             avg_score = 0   
     else:
         avg_score = 0
+    print(results)
     context = {
         'types':types,
         'avg_lst':avg_lst,
         'results':results,
-        'averages':result2,
+        'averages':results2,
         'score': avg_score,
         'last_updated': last_updated,
     }

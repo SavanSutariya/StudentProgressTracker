@@ -12,9 +12,6 @@ urlpatterns = [
     path('profile/',adminViews.user_profile, name="college-admin-profile"),
     # leaderboard
     path('leaderboard/',adminViews.leaderboard, name="college-leaderboard"),
-    #particular student
-    path('students/score/<int:pk>',adminViews.student_score,name="college-student-score"),
-
     path('courses/',adminViews.Course_list, name="college-course-list"),
     path('course/add/',adminViews.add_course,name="college-add-course"),
     path('course/update/<int:pk>',adminViews.update_course,name="college-update-course"),
@@ -25,6 +22,7 @@ urlpatterns = [
     path('course/updatesubject/<int:pk>',adminViews.update_subject,name="college-update-subject"),
     path('course/deletesubject/<int:pk>',adminViews.delete_subject,name="college-delete-subject"),
 
+    path('student/<str:username>',adminViews.student_details,name="college-student-details"),
     path('students/',adminViews.students_list,name="college-students-list"),
     path('students/add/',adminViews.add_student,name="college-add-student"),
     path('students/update/<int:pk>',adminViews.update_student,name="college-update-student"),
