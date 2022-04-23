@@ -9,5 +9,6 @@ urlpatterns = [
     path('profile/',facultyViews.user_profile, name="college-faculty-profile"),
     path('leaderboard/',facultyViews.leaderboard, name="college-student-leaderboard"),
     path('faculty/ajax/leaderboard/',facultyViews.leaderboard_ajax ,name="leaderboard_ajax"),
+    
    
 ]

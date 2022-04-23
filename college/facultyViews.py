@@ -25,7 +25,6 @@ def get_average_by_types(student,typ):
     else:
         results = Result.objects.filter(student=student,paper__subject__sub_type=typ)
 
-
 @user_passes_test(is_faculty,login_url='/')
 def Home(request):
     '''Home Page for Faculty'''
